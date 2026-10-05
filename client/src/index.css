@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --canvas: #fffaf0;
+    --surface-soft: #faf5e8;
+    --surface-card: #f5f0e0;
+    --surface-strong: #ebe6d6;
+    --surface-dark: #0a1a1a;
+    --surface-dark-elevated: #1a2a2a;
+    --primary: #0a0a0a;
+    --primary-active: #1f1f1f;
+    --ink: #0a0a0a;
+    --body: #3a3a3a;
+    --body-strong: #1a1a1a;
+    --muted: #6a6a6a;
+    --muted-soft: #9a9a9a;
+    --hairline: #e5e5e5;
+    --hairline-soft: #f0f0f0;
+    --brand-pink: #ff4d8b;
+    --brand-teal: #1a3a3a;
+    --brand-lavender: #b8a4ed;
+    --brand-peach: #ffb084;
+    --brand-ochre: #e8b94a;
+    --brand-mint: #a4d4c5;
+    --brand-coral: #ff6b5a;
+  }
+
+  .dark {
+    --canvas: #090d16;
+    --surface-soft: #111827;
+    --surface-card: #151f32;
+    --surface-strong: #1e293b;
+    --surface-dark: #040810;
+    --surface-dark-elevated: #0f172a;
+    --primary: #ffffff;
+    --primary-active: #f1f5f9;
+    --ink: #f8fafc;
+    --body: #cbd5e1;
+    --body-strong: #f1f5f9;
+    --muted: #94a3b8;
+    --muted-soft: #64748b;
+    --hairline: #1e293b;
+    --hairline-soft: #273549;
+  }
+
+  body {
+    background-color: #fffaf0;
+    color: #0a0a0a;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing: -0.01em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .dark body, body.dark {
+    background-color: #090d16;
+    color: #f8fafc;
+  }
+
+  .font-display {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+}
+
+/* Custom dark mode utility overrides to gracefully support dark mode across all screens */
+.dark .bg-\[\#fffaf0\] {
+  background-color: #090d16 !important;
+}
+
+.dark .bg-\[\#ffffff\] {
+  background-color: #0f172a !important;
+}
+
+.dark .bg-\[\#faf5e8\] {
+  background-color: #172033 !important;
+}
+
+.dark .bg-\[\#f5f0e0\] {
+  background-color: #1a253c !important;
+}
+
+.dark .bg-\[\#faf5e8\]\/70 {
+  background-color: rgba(23, 32, 51, 0.7) !important;
+}
+
+.dark .bg-\[\#faf5e8\]\/40 {
+  background-color: rgba(23, 32, 51, 0.4) !important;
+}
+
+.dark .border-\[\#e5e5e5\] {
+  border-color: #1e293b !important;
+}
+
+.dark .border-\[\#f0f0f0\] {
+  border-color: #1e293b !important;
+}
+
+.dark .border-\[\#f0ede6\] {
+  border-color: #1e293b !important;
+}
+
+.dark .text-\[\#0a0a0a\] {
+  color: #f8fafc !important;
+}
+
+.dark .text-\[\#2a2a2a\] {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-\[\#3a3a3a\] {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-\[\#4a4a4a\] {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-\[\#5a5a5a\] {
+  color: #94a3b8 !important;
+}
+
+.dark .text-\[\#6a6a6a\] {
+  color: #94a3b8 !important;
+}
+
+.dark .text-\[\#7a7a7a\] {
+  color: #94a3b8 !important;
+}
+
+.dark .hover\:bg-\[\#faf5e8\]:hover {
+  background-color: #1e293b !important;
+}
+
+.dark .hover\:bg-\[\#f5f0e0\]:hover {
+  background-color: #1e293b !important;
+}
+
+.dark .hover\:bg-\[\#f5f0e0\]\/50:hover {
+  background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+.dark .divide-\[\#e5e5e5\] > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1e293b !important;
+}
+
+/* Sleek scrollbar utility for clean responsive nav */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

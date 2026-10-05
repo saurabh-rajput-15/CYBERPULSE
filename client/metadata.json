@@ -1,0 +1,6 @@
+{
+  "name": "CyberPulse",
+  "description": "FAIR-based cyber risk quantification engine translating threat signals into financial loss exposure and optimized security budget allocation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
