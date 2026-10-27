@@ -8,7 +8,7 @@ import {
   RiskScenario
 } from '../types';
 
-export type AppTab = 'overview' | 'scenario' | 'feed' | 'budget' | 'real-data' | 'zk-pace' | 'prd' | 'scraper';
+export type AppTab = 'overview' | 'scenario' | 'feed' | 'budget' | 'real-data' | 'zk-pace' | 'prd' | 'scraper' | 'awareness';
 export type Sector = 'fintech' | 'healthcare';
 
 interface Toast {
@@ -28,7 +28,7 @@ interface RiskContextType {
   sector: Sector;
   toggleSector: (newSector: Sector) => void;
   isCustomOrg: boolean;
-  saveOrganization: (updatedOrg: Partial<OrganizationProfile> & { scaleScenarios?: boolean }) => Promise<void>;
+  saveOrganization: (updatedOrg: Partial<OrganizationProfile> & { scaleScenarios?: boolean }, overrideSector?: Sector) => Promise<void>;
   resetOrganization: () => Promise<void>;
 
   // Data & Results
@@ -228,20 +228,24 @@ export const RiskProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   // Organization save
-  const saveOrganization = async (updatedOrg: Partial<OrganizationProfile> & { scaleScenarios?: boolean }) => {
+  const saveOrganization = async (updatedOrg: Partial<OrganizationProfile> & { scaleScenarios?: boolean }, overrideSector?: Sector) => {
+    const targetSector = overrideSector || sector;
     try {
       const res = await fetch('/api/organization', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...updatedOrg, sector })
+        body: JSON.stringify({ ...updatedOrg, sector: targetSector })
       });
       if (!res.ok) throw new Error('Failed to update organization profile');
       localStorage.setItem('cyberpulse_custom_org', 'true');
       setIsCustomOrg(true);
+      if (overrideSector && overrideSector !== sector) {
+        setSector(overrideSector);
+      }
       await Promise.all([
-        fetchExposure(sector),
-        fetchForecast(sector),
-        fetchRecommendation(currentBudget, sector)
+        fetchExposure(targetSector),
+        fetchForecast(targetSector),
+        fetchRecommendation(currentBudget, targetSector)
       ]);
       showToast(
         `Target organization calibrated to "${updatedOrg.name}". FAIR models scaled.`,

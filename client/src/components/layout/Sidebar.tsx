@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   LayoutDashboard,
   AlertTriangle,
@@ -16,8 +16,11 @@ import {
   Sparkles,
   Lock,
   ChevronRight,
-  Bug
+  ChevronDown,
+  Bug,
+  ActivitySquare
 } from 'lucide-react';
+import { PRESETS, OrgPreset } from '../OrganizationConfigModal';
 import { useRisk } from '../../hooks/useRisk';
 import { useTheme } from '../../context/ThemeContext';
 import { AppTab } from '../../context/RiskContext';
@@ -40,21 +43,20 @@ const NAV_GROUPS: { groupTitle: string; items: NavItem[] }[] = [
     groupTitle: 'RISK & TELEMETRY',
     items: [
       { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-      { id: 'scenario', label: 'Scenarios', icon: AlertTriangle, badge: '4 Active' },
-      { id: 'feed', label: 'Threat Feed', icon: Globe, badge: 'Live', badgeType: 'live' }
+      { id: 'scenario', label: 'Risk Scenarios', icon: AlertTriangle, badge: '4 Active' }
     ]
   },
   {
-    groupTitle: 'QUANTITATIVE ALLOCATION',
+    groupTitle: 'QUANTITATIVE OPTIMIZATION',
     items: [
       { id: 'budget', label: 'Budget Optimizer', icon: Sliders },
-      { id: 'real-data', label: 'Real Breach Data', icon: Database, badge: '1,902' }
+      { id: 'real-data', label: 'Real Data Catalog', icon: Database, badge: '383K+', badgeType: 'accent' }
     ]
   },
   {
-    groupTitle: 'INTELLIGENCE COLLECTION',
+    groupTitle: 'THREAT INTELLIGENCE',
     items: [
-      { id: 'scraper', label: 'Data Scraper', icon: Bug, badge: 'New', badgeType: 'new' }
+      { id: 'feed', label: 'Threat Intelligence Hub', icon: Globe, badge: 'Live & Scraper', badgeType: 'live' }
     ]
   },
   {
@@ -78,11 +80,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
     setIsDataLineageOpen,
     setIsBoardBriefOpen,
     catalogCount,
-    feedLatencyMs
+    feedLatencyMs,
+    saveOrganization
   } = useRisk();
 
   const { theme, toggleTheme } = useTheme();
   const org = exposureData?.organization;
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handlePresetSelect = (preset: OrgPreset) => {
+    const baseSector = preset.id === 'hospital-network' ? 'healthcare' : 'fintech';
+    toggleSector(baseSector);
+    saveOrganization({
+      name: preset.name,
+      industry: preset.industry,
+      annualRevenueINR: preset.annualRevenueINR,
+      assetsMonitored: preset.assetsMonitored,
+      criticalDatabases: preset.criticalDatabases,
+      cloudWorkloads: preset.cloudWorkloads,
+      complianceFramework: preset.complianceFramework,
+      scaleScenarios: true
+    }, baseSector);
+    setIsDropdownOpen(false);
+  };
 
   const handleNavClick = (tabId: AppTab) => {
     setActiveTab(tabId);
@@ -100,14 +132,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
           <div>
             <div className="flex items-center space-x-2">
               <span className="text-base font-semibold tracking-[-0.03em] text-[#0a0a0a] dark:text-[#f8fafc] font-display">
-                ZK-<span className="text-[#ff4d8b]">PACE</span>
+                Cyber<span className="text-[#ff4d8b]">Pulse</span>
               </span>
               <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-[#faf5e8] dark:bg-[#172033] text-[#6a6a6a] dark:text-[#94a3b8] border border-[#e5e5e5] dark:border-[#1e293b]">
-                v1.2
+                ZK-PACE
               </span>
             </div>
             <p className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8] font-normal leading-tight mt-0.5">
-              Zero-Knowledge Cyber Risk Engine
+              Quantitative Cyber-Risk Platform
             </p>
           </div>
         </div>
@@ -115,7 +147,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
         {/* Mobile close button */}
         <button
           onClick={onCloseMobile}
-          className="lg:hidden p-1.5 rounded-lg text-[#6a6a6a] hover:text-[#0a0a0a] hover:bg-[#faf5e8] dark:hover:bg-[#172033]"
+          className="lg:hidden p-1.5 rounded-lg text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#faf5e8] dark:hover:bg-[#172033]"
           aria-label="Close navigation"
         >
           <X className="w-5 h-5" />
@@ -144,28 +176,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
           </button>
         </div>
 
-        {/* Sector Segmented Switcher */}
-        <div className="grid grid-cols-2 gap-1 mt-2.5 p-0.5 rounded-lg bg-[#ffffff] dark:bg-[#0a0f19] border border-[#e5e5e5] dark:border-[#1e293b]">
+        {/* Sector Segmented Switcher Dropdown */}
+        <div className="mt-2.5 relative" ref={dropdownRef}>
           <button
-            onClick={() => toggleSector('fintech')}
-            className={`py-1 text-[11px] font-medium rounded-md transition-all cursor-pointer ${
-              sector === 'fintech'
-                ? 'bg-[#1a3a3a] text-white shadow-xs'
-                : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a]'
-            }`}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full flex items-center justify-between p-2 rounded-lg bg-[#ffffff] dark:bg-[#0a0f19] border border-[#e5e5e5] dark:border-[#1e293b] hover:bg-[#faf5e8] dark:hover:bg-[#172033] transition-colors cursor-pointer"
           >
-            FinTech
+            <span className="text-[11px] font-medium text-[#3a3a3a] dark:text-[#cbd5e1] truncate mr-2">
+              {org?.industry || 'Select Industry'}
+            </span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#6a6a6a] dark:text-[#94a3b8] shrink-0" />
           </button>
-          <button
-            onClick={() => toggleSector('healthcare')}
-            className={`py-1 text-[11px] font-medium rounded-md transition-all cursor-pointer ${
-              sector === 'healthcare'
-                ? 'bg-[#1a3a3a] text-white shadow-xs'
-                : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a]'
-            }`}
-          >
-            Healthcare
-          </button>
+          
+          {isDropdownOpen && (
+            <div className="absolute left-0 right-0 top-full mt-1 bg-white dark:bg-[#0f1623] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl shadow-xl overflow-hidden z-50">
+              <div className="py-1 max-h-48 overflow-y-auto custom-scrollbar">
+                {PRESETS.map((preset) => (
+                  <button
+                    key={preset.id}
+                    onClick={() => handlePresetSelect(preset)}
+                    className={`w-full text-left px-3 py-2 text-[11px] transition-colors cursor-pointer hover:bg-[#faf5e8] dark:hover:bg-[#172033] ${
+                      org?.name === preset.name ? 'bg-[#faf5e8] dark:bg-[#172033] font-semibold text-[#0a0a0a] dark:text-white' : 'text-[#3a3a3a] dark:text-[#cbd5e1]'
+                    }`}
+                  >
+                    <div className="truncate">{preset.label}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -179,7 +218,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
             <div className="space-y-0.5 pt-1">
               {group.items.map((item) => {
                 const IconComponent = item.icon;
-                const isActive = activeTab === item.id;
+                const isActive =
+                  activeTab === item.id ||
+                  (item.id === 'feed' && (activeTab === 'awareness' || activeTab === 'scraper'));
                 return (
                   <button
                     key={item.id}
@@ -233,7 +274,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
           <button
             onClick={() => setIsDataLineageOpen(true)}
             title="Inspect Data Lineage & Proof Chain"
-            className="flex-1 flex items-center justify-center space-x-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg bg-[#faf5e8] dark:bg-[#172033] hover:bg-[#f5f0e0] text-[#0a0a0a] dark:text-[#f8fafc] border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
+            className="flex-1 flex items-center justify-center space-x-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg bg-[#faf5e8] dark:bg-[#172033] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#f8fafc] border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
           >
             <Database className="w-3.5 h-3.5 text-[#1a3a3a] dark:text-[#ffb084]" />
             <span>Lineage</span>
@@ -242,7 +283,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
           <button
             onClick={toggleTheme}
             title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
-            className="flex items-center justify-center space-x-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[#faf5e8] dark:bg-[#172033] hover:bg-[#f5f0e0] text-[#0a0a0a] dark:text-[#f8fafc] border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
+            className="flex items-center justify-center space-x-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[#faf5e8] dark:bg-[#172033] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#f8fafc] border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
           >
             {theme === 'light' ? (
               <>
@@ -261,7 +302,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpenMobile, onCloseMobile })
         {/* Board Brief Export Action */}
         <button
           onClick={() => setIsBoardBriefOpen(true)}
-          className="w-full flex items-center justify-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg bg-[#0a0a0a] text-white hover:bg-[#1f1f1f] dark:bg-[#f8fafc] dark:text-[#0a0a0a] shadow-xs transition-all cursor-pointer"
+          className="w-full flex items-center justify-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg bg-[#0a0a0a] text-white hover:bg-[#1f1f1f] dark:bg-[#f8fafc] dark:text-[#0a0a0a] dark:text-[#ffffff] shadow-xs transition-all cursor-pointer"
         >
           <FileText className="w-3.5 h-3.5 text-[#ffb084] dark:text-[#ff4d8b]" />
           <span>Export Board Brief</span>

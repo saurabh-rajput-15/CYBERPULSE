@@ -10,12 +10,12 @@ interface BadgeProps {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  neutral: 'bg-[#faf5e8] text-[#0a0a0a] border border-[#e5e5e5]',
+  neutral: 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b]',
   teal: 'bg-[#1a3a3a]/10 text-[#1a3a3a] border border-[#1a3a3a]/20',
   pink: 'bg-[#ff4d8b]/15 text-[#ff4d8b] border border-[#ff4d8b]/30',
-  peach: 'bg-[#ffb084]/20 text-[#0a0a0a] border border-[#ffb084]/40',
-  ochre: 'bg-[#e8b94a]/20 text-[#0a0a0a] border border-[#e8b94a]/40',
-  outline: 'bg-transparent text-[#6a6a6a] border border-[#e5e5e5]'
+  peach: 'bg-[#ffb084]/20 text-[#0a0a0a] dark:text-[#ffffff] border border-[#ffb084]/40',
+  ochre: 'bg-[#e8b94a]/20 text-[#0a0a0a] dark:text-[#ffffff] border border-[#e8b94a]/40',
+  outline: 'bg-transparent text-[#6a6a6a] dark:text-[#94a3b8] border border-[#e5e5e5] dark:border-[#1e293b]'
 };
 
 export const Badge: React.FC<BadgeProps> = ({

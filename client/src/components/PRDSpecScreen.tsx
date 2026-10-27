@@ -124,7 +124,7 @@ export const PRDSpecScreen: React.FC = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Header Banner */}
-      <div className="p-6 rounded-[24px] bg-[#ffffff] border border-[#e5e5e5] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 rounded-[24px] bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2.5 mb-1.5">
             <span className="px-2.5 py-0.5 rounded-full bg-[#1a3a3a] text-[#ffffff] text-xs font-semibold">
@@ -133,14 +133,14 @@ export const PRDSpecScreen: React.FC = () => {
             <span className="px-2.5 py-0.5 rounded-full bg-[#ff4d8b]/15 text-[#ff4d8b] text-xs font-semibold">
               29 Sections Complete
             </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-[#faf5e8] text-[#0a0a0a] text-xs font-mono border border-[#e5e5e5]">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] text-xs font-mono border border-[#e5e5e5] dark:border-[#1e293b]">
               v1.0.0-PROD
             </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#0a0a0a]">
+          <h1 className="text-2xl font-bold tracking-tight text-[#0a0a0a] dark:text-[#ffffff]">
             ZK-PACE: Product Requirements Document & Technical Specification
           </h1>
-          <p className="text-sm text-[#6a6a6a] mt-1 max-w-3xl">
+          <p className="text-sm text-[#6a6a6a] dark:text-[#94a3b8] mt-1 max-w-3xl">
             Complete academic and engineering blueprint covering FAIR mathematical formulation, 
             vectorized Monte Carlo simulation, XGBoost + TreeSHAP explainability, Neo4j graph ontology, 
             and Google OR-Tools budget optimization.
@@ -151,9 +151,9 @@ export const PRDSpecScreen: React.FC = () => {
         <div className="flex items-center space-x-2.5 shrink-0">
           <button
             onClick={handleCopy}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-full border border-[#e5e5e5] bg-[#faf5e8] hover:bg-[#f5f0e0] text-[#0a0a0a] text-xs font-medium transition-all cursor-pointer shadow-xs"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-full border border-[#e5e5e5] dark:border-[#1e293b] bg-[#faf5e8] dark:bg-[#1e293b] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] text-xs font-medium transition-all cursor-pointer shadow-xs"
           >
-            {isCopied ? <Check className="w-3.5 h-3.5 text-[#1a3a3a]" /> : <Copy className="w-3.5 h-3.5 text-[#6a6a6a]" />}
+            {isCopied ? <Check className="w-3.5 h-3.5 text-[#1a3a3a]" /> : <Copy className="w-3.5 h-3.5 text-[#6a6a6a] dark:text-[#94a3b8]" />}
             <span>{isCopied ? 'Copied Full Spec' : 'Copy Markdown'}</span>
           </button>
           
@@ -171,16 +171,16 @@ export const PRDSpecScreen: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Interactive Table of Contents & Filter (4 cols) */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="p-4 rounded-[20px] bg-[#ffffff] border border-[#e5e5e5] shadow-xs space-y-3">
+          <div className="p-4 rounded-[20px] bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs space-y-3">
             {/* Search Input */}
             <div className="relative">
-              <Search className="w-4 h-4 text-[#6a6a6a] absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[#6a6a6a] dark:text-[#94a3b8] absolute left-3 top-2.5" />
               <input
                 type="text"
                 placeholder="Search 29 sections, math, schema..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-full bg-[#faf5e8] border border-[#e5e5e5] focus:outline-none focus:ring-1 focus:ring-[#0a0a0a]"
+                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-full bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] focus:outline-none focus:ring-1 focus:ring-[#0a0a0a]"
               />
             </div>
 
@@ -193,7 +193,7 @@ export const PRDSpecScreen: React.FC = () => {
                   className={`px-2.5 py-1 text-[11px] rounded-full transition-all cursor-pointer font-medium ${
                     selectedCategory === cat
                       ? 'bg-[#0a0a0a] text-[#ffffff]'
-                      : 'bg-[#faf5e8] text-[#6a6a6a] hover:text-[#0a0a0a]'
+                      : 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff]'
                   }`}
                 >
                   {cat}
@@ -203,7 +203,7 @@ export const PRDSpecScreen: React.FC = () => {
           </div>
 
           {/* Section List */}
-          <div className="p-2 rounded-[20px] bg-[#ffffff] border border-[#e5e5e5] shadow-xs max-h-[680px] overflow-y-auto space-y-1 divide-y divide-[#f0ede6]">
+          <div className="p-2 rounded-[20px] bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs max-h-[680px] overflow-y-auto space-y-1 divide-y divide-[#f0ede6]">
             {filteredSections.map(sec => {
               const isSelected = sec.id === selectedSectionId;
               return (
@@ -212,36 +212,36 @@ export const PRDSpecScreen: React.FC = () => {
                   onClick={() => setSelectedSectionId(sec.id)}
                   className={`w-full text-left p-3 rounded-[14px] transition-all cursor-pointer flex items-start justify-between group ${
                     isSelected
-                      ? 'bg-[#faf5e8] border border-[#e5e5e5] shadow-xs'
+                      ? 'bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs'
                       : 'hover:bg-[#f5f0e0]/40'
                   }`}
                 >
                   <div className="space-y-1 pr-2">
                     <div className="flex items-center space-x-2">
                       <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold ${
-                        isSelected ? 'bg-[#0a0a0a] text-[#ffffff]' : 'bg-[#e5e5e5] text-[#0a0a0a]'
+                        isSelected ? 'bg-[#0a0a0a] text-[#ffffff]' : 'bg-[#e5e5e5] text-[#0a0a0a] dark:text-[#ffffff]'
                       }`}>
                         {sec.number}
                       </span>
                       <span className={`text-xs font-bold leading-tight ${
-                        isSelected ? 'text-[#0a0a0a]' : 'text-[#333333] group-hover:text-[#0a0a0a]'
+                        isSelected ? 'text-[#0a0a0a] dark:text-[#ffffff]' : 'text-[#333333] group-hover:text-[#0a0a0a] dark:text-[#ffffff]'
                       }`}>
                         {sec.title}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#6a6a6a] line-clamp-1 pl-7">
+                    <p className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8] line-clamp-1 pl-7">
                       {sec.summary}
                     </p>
                   </div>
                   <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${
-                    isSelected ? 'text-[#0a0a0a] translate-x-0.5' : 'text-[#a0a0a0] group-hover:text-[#0a0a0a]'
+                    isSelected ? 'text-[#0a0a0a] dark:text-[#ffffff] translate-x-0.5' : 'text-[#a0a0a0] group-hover:text-[#0a0a0a] dark:text-[#ffffff]'
                   }`} />
                 </button>
               );
             })}
 
             {filteredSections.length === 0 && (
-              <div className="p-6 text-center text-xs text-[#6a6a6a]">
+              <div className="p-6 text-center text-xs text-[#6a6a6a] dark:text-[#94a3b8]">
                 No matching PRD sections found.
               </div>
             )}
@@ -250,7 +250,7 @@ export const PRDSpecScreen: React.FC = () => {
 
         {/* Right Column: Detailed Section Viewer (8 cols) */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="p-6 rounded-[24px] bg-[#ffffff] border border-[#e5e5e5] shadow-xs min-h-[720px] flex flex-col justify-between">
+          <div className="p-6 rounded-[24px] bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs min-h-[720px] flex flex-col justify-between">
             <div className="space-y-6">
               {/* Section Header */}
               <div className="border-b border-[#f0ede6] pb-4 flex items-center justify-between">
@@ -259,11 +259,11 @@ export const PRDSpecScreen: React.FC = () => {
                     <span className="text-xs font-mono text-[#ff4d8b] font-bold">
                       Section {activeSection.number} of 29
                     </span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#faf5e8] text-[#6a6a6a] font-medium border border-[#e5e5e5]">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-[#faf5e8] dark:bg-[#1e293b] text-[#6a6a6a] dark:text-[#94a3b8] font-medium border border-[#e5e5e5] dark:border-[#1e293b]">
                       {activeSection.category}
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold text-[#0a0a0a]">
+                  <h2 className="text-xl font-bold text-[#0a0a0a] dark:text-[#ffffff]">
                     {activeSection.title}
                   </h2>
                 </div>
@@ -271,7 +271,7 @@ export const PRDSpecScreen: React.FC = () => {
                 <div className="flex items-center space-x-1.5">
                   <button
                     onClick={() => setViewMode(viewMode === 'rendered' ? 'raw' : 'rendered')}
-                    className="p-1.5 rounded-full bg-[#faf5e8] hover:bg-[#f5f0e0] text-[#6a6a6a] hover:text-[#0a0a0a] transition-all cursor-pointer text-xs flex items-center space-x-1 px-2.5"
+                    className="p-1.5 rounded-full bg-[#faf5e8] dark:bg-[#1e293b] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff] transition-all cursor-pointer text-xs flex items-center space-x-1 px-2.5"
                   >
                     <Code className="w-3.5 h-3.5" />
                     <span>{viewMode === 'rendered' ? 'Raw Code' : 'Rich View'}</span>
@@ -282,7 +282,7 @@ export const PRDSpecScreen: React.FC = () => {
               {/* Rendered or Raw Content */}
               {viewMode === 'raw' ? (
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between text-[11px] text-[#6a6a6a]">
+                  <div className="flex items-center justify-between text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">
                     <span>Raw Markdown Source (/docs/CYBERPULSE_PRD.md)</span>
                     <span>{fullMarkdown.length.toLocaleString()} characters</span>
                   </div>
@@ -298,11 +298,11 @@ export const PRDSpecScreen: React.FC = () => {
             </div>
 
             {/* Section Footer Navigation */}
-            <div className="border-t border-[#f0ede6] pt-4 mt-8 flex items-center justify-between text-xs text-[#6a6a6a]">
+            <div className="border-t border-[#f0ede6] pt-4 mt-8 flex items-center justify-between text-xs text-[#6a6a6a] dark:text-[#94a3b8]">
               <button
                 disabled={activeSection.number === 1}
                 onClick={() => setSelectedSectionId(`sec-${activeSection.number - 1}`)}
-                className="px-3 py-1.5 rounded-full border border-[#e5e5e5] bg-[#faf5e8] hover:bg-[#f5f0e0] text-[#0a0a0a] disabled:opacity-30 cursor-pointer font-medium"
+                className="px-3 py-1.5 rounded-full border border-[#e5e5e5] dark:border-[#1e293b] bg-[#faf5e8] dark:bg-[#1e293b] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] disabled:opacity-30 cursor-pointer font-medium"
               >
                 ← Previous Section
               </button>
@@ -312,7 +312,7 @@ export const PRDSpecScreen: React.FC = () => {
               <button
                 disabled={activeSection.number === 29}
                 onClick={() => setSelectedSectionId(`sec-${activeSection.number + 1}`)}
-                className="px-3 py-1.5 rounded-full border border-[#e5e5e5] bg-[#faf5e8] hover:bg-[#f5f0e0] text-[#0a0a0a] disabled:opacity-30 cursor-pointer font-medium"
+                className="px-3 py-1.5 rounded-full border border-[#e5e5e5] dark:border-[#1e293b] bg-[#faf5e8] dark:bg-[#1e293b] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] disabled:opacity-30 cursor-pointer font-medium"
               >
                 Next Section →
               </button>
@@ -330,22 +330,22 @@ function renderSectionContent(sectionNumber: number) {
     case 1:
       return (
         <div className="space-y-4">
-          <p className="text-sm font-medium text-[#0a0a0a]">
+          <p className="text-sm font-medium text-[#0a0a0a] dark:text-[#ffffff]">
             Enterprise cybersecurity risk management has historically relied on qualitative "heatmaps" (Low, Medium, High). 
             CyberPulse replaces subjective risk matrices with rigorous mathematical financial engineering:
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-3">
-            <div className="p-3.5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] space-y-1">
-              <div className="font-bold text-[#0a0a0a] text-xs">Probabilistic Valuation</div>
-              <p className="text-[11px] text-[#6a6a6a]">Transforms CVSS scores and threat intelligence into Expected Annual Loss (EAL) and 95% Value at Risk (VaR).</p>
+            <div className="p-3.5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] space-y-1">
+              <div className="font-bold text-[#0a0a0a] dark:text-[#ffffff] text-xs">Probabilistic Valuation</div>
+              <p className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Transforms CVSS scores and threat intelligence into Expected Annual Loss (EAL) and 95% Value at Risk (VaR).</p>
             </div>
-            <div className="p-3.5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] space-y-1">
-              <div className="font-bold text-[#0a0a0a] text-xs">Explainable ML (TreeSHAP)</div>
-              <p className="text-[11px] text-[#6a6a6a]">XGBoost regressor calibrated on 1,902 real-world incidents, exposing exact risk drivers via Shapley values.</p>
+            <div className="p-3.5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] space-y-1">
+              <div className="font-bold text-[#0a0a0a] dark:text-[#ffffff] text-xs">Explainable ML (TreeSHAP)</div>
+              <p className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">XGBoost regressor calibrated on 1,902 real-world incidents, exposing exact risk drivers via Shapley values.</p>
             </div>
-            <div className="p-3.5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] space-y-1">
-              <div className="font-bold text-[#0a0a0a] text-xs">Exact Optimization</div>
-              <p className="text-[11px] text-[#6a6a6a]">Google OR-Tools Mixed-Integer Linear Programming solves the 0-1 Knapsack to maximize security ROI (ROSI).</p>
+            <div className="p-3.5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] space-y-1">
+              <div className="font-bold text-[#0a0a0a] dark:text-[#ffffff] text-xs">Exact Optimization</div>
+              <p className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Google OR-Tools Mixed-Integer Linear Programming solves the 0-1 Knapsack to maximize security ROI (ROSI).</p>
             </div>
           </div>
           <p>
@@ -369,9 +369,9 @@ function renderSectionContent(sectionNumber: number) {
             <div className="text-[#e8b94a]">VaR_95 = 95th Percentile of Sorted Losses</div>
             <div className="text-[#e8b94a]">CVaR_95 = Mean(Losses | Loss &gt;= VaR_95)</div>
           </div>
-          <div className="p-3.5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] text-xs space-y-1 font-sans">
-            <div className="font-bold text-[#0a0a0a]">Vectorized Parameter Bounds</div>
-            <p className="text-[#6a6a6a] text-[11px]">
+          <div className="p-3.5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] text-xs space-y-1 font-sans">
+            <div className="font-bold text-[#0a0a0a] dark:text-[#ffffff]">Vectorized Parameter Bounds</div>
+            <p className="text-[#6a6a6a] dark:text-[#94a3b8] text-[11px]">
               Monte Carlo sampling is implemented in pure vectorized NumPy array routines, eliminating Python loop bottlenecks 
               and delivering 10,000 to 100,000 iterations in under 1,200 ms.
             </p>
@@ -382,12 +382,12 @@ function renderSectionContent(sectionNumber: number) {
     case 12:
       return (
         <div className="space-y-4">
-          <p className="text-xs text-[#0a0a0a]">
+          <p className="text-xs text-[#0a0a0a] dark:text-[#ffffff]">
             <strong>Model Architecture:</strong> Gradient Boosted Decision Trees via XGBoost (<code className="text-[#ff4d8b]">reg:squarederror</code>). 
             Target variable is logarithmic annualized loss <code className="bg-[#f0ede6] px-1 py-0.5 rounded">log10(AnnualLossUSD + 1)</code>.
           </p>
-          <div className="p-3.5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] space-y-2">
-            <div className="text-xs font-bold text-[#0a0a0a]">14 Engineered Tabular Features</div>
+          <div className="p-3.5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] space-y-2">
+            <div className="text-xs font-bold text-[#0a0a0a] dark:text-[#ffffff]">14 Engineered Tabular Features</div>
             <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-[#444444]">
               <div>• cvss_v3_score [0-10]</div>
               <div>• exploitability_score [0-10]</div>
@@ -403,7 +403,7 @@ function renderSectionContent(sectionNumber: number) {
               <div>• known_ransomware_campaign</div>
             </div>
           </div>
-          <p className="text-[11px] text-[#6a6a6a]">
+          <p className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">
             TreeSHAP computes exact, axiomatic local attribution values. The platform renders waterfall charts proving 
             why a specific asset scenario carries heightened financial exposure.
           </p>
@@ -422,9 +422,9 @@ function renderSectionContent(sectionNumber: number) {
             <div>  x_j in &#123;0, 1&#125; for all candidate controls j</div>
             <div className="text-[#ffb084] pt-2">ROSI = ((Delta_EAL - TotalCost) / TotalCost) * 100%</div>
           </div>
-          <div className="p-3.5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] text-xs space-y-1 font-sans">
-            <div className="font-bold text-[#0a0a0a]">Exact Optimality Guarantee</div>
-            <p className="text-[#6a6a6a] text-[11px]">
+          <div className="p-3.5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] text-xs space-y-1 font-sans">
+            <div className="font-bold text-[#0a0a0a] dark:text-[#ffffff]">Exact Optimality Guarantee</div>
+            <p className="text-[#6a6a6a] dark:text-[#94a3b8] text-[11px]">
               Unlike greedy heuristics or genetic algorithms, Google OR-Tools executes a branch-and-bound simplex algorithm 
               with an optimality gap of exactly 0.00% in under 200 ms.
             </p>
@@ -435,29 +435,29 @@ function renderSectionContent(sectionNumber: number) {
     case 26:
       return (
         <div className="space-y-3 font-sans">
-          <div className="p-3 rounded-[14px] bg-[#faf5e8] border border-[#e5e5e5] flex items-center justify-between">
+          <div className="p-3 rounded-[14px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 1 - 4</span>
-            <span className="text-[11px] text-[#6a6a6a]">Literature Review, Real Data Ingestion (CISA/NVD/Kaggle)</span>
+            <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Literature Review, Real Data Ingestion (CISA/NVD/Kaggle)</span>
           </div>
-          <div className="p-3 rounded-[14px] bg-[#faf5e8] border border-[#e5e5e5] flex items-center justify-between">
+          <div className="p-3 rounded-[14px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 5 - 8</span>
-            <span className="text-[11px] text-[#6a6a6a]">Database Schemas (PostgreSQL DDL) & Graph Modeling (Neo4j)</span>
+            <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Database Schemas (PostgreSQL DDL) & Graph Modeling (Neo4j)</span>
           </div>
-          <div className="p-3 rounded-[14px] bg-[#faf5e8] border border-[#e5e5e5] flex items-center justify-between">
+          <div className="p-3 rounded-[14px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 9 - 12</span>
-            <span className="text-[11px] text-[#6a6a6a]">Vectorized FAIR Monte Carlo Math Engine & Convergence Proofs</span>
+            <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Vectorized FAIR Monte Carlo Math Engine & Convergence Proofs</span>
           </div>
-          <div className="p-3 rounded-[14px] bg-[#faf5e8] border border-[#e5e5e5] flex items-center justify-between">
+          <div className="p-3 rounded-[14px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 13 - 16</span>
-            <span className="text-[11px] text-[#6a6a6a]">XGBoost Regression Pipeline & TreeSHAP Waterfall Generator</span>
+            <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">XGBoost Regression Pipeline & TreeSHAP Waterfall Generator</span>
           </div>
-          <div className="p-3 rounded-[14px] bg-[#faf5e8] border border-[#e5e5e5] flex items-center justify-between">
+          <div className="p-3 rounded-[14px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 17 - 19</span>
-            <span className="text-[11px] text-[#6a6a6a]">Google OR-Tools MILP Budget Optimizer & ROSI Pareto Curve</span>
+            <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Google OR-Tools MILP Budget Optimizer & ROSI Pareto Curve</span>
           </div>
-          <div className="p-3 rounded-[14px] bg-[#faf5e8] border border-[#e5e5e5] flex items-center justify-between">
+          <div className="p-3 rounded-[14px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 20 - 22</span>
-            <span className="text-[11px] text-[#6a6a6a]">Next.js Interactive Dashboard, Recharts, and What-If Levers</span>
+            <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">Next.js Interactive Dashboard, Recharts, and What-If Levers</span>
           </div>
           <div className="p-3 rounded-[14px] bg-[#1a3a3a] text-[#ffffff] flex items-center justify-between">
             <span className="font-bold text-xs">Weeks 23 - 24</span>
@@ -469,13 +469,13 @@ function renderSectionContent(sectionNumber: number) {
     default:
       return (
         <div className="space-y-4">
-          <p className="text-xs text-[#0a0a0a]">
+          <p className="text-xs text-[#0a0a0a] dark:text-[#ffffff]">
             This section is fully specified in the project master documentation. Click <strong>"Download Master PRD (.md)"</strong> 
             or <strong>"Copy Markdown"</strong> in the top-right toolbar to view the complete unabridged text and LaTeX formulas for Section {sectionNumber}.
           </p>
-          <div className="p-4 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] text-xs space-y-2">
-            <div className="font-bold text-[#0a0a0a]">Key Architectural Highlights for Section {sectionNumber}</div>
-            <ul className="list-disc list-inside space-y-1 text-[#6a6a6a] text-[11px]">
+          <div className="p-4 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] text-xs space-y-2">
+            <div className="font-bold text-[#0a0a0a] dark:text-[#ffffff]">Key Architectural Highlights for Section {sectionNumber}</div>
+            <ul className="list-disc list-inside space-y-1 text-[#6a6a6a] dark:text-[#94a3b8] text-[11px]">
               <li>Guarantees strict separation of concerns between raw threat data and normalized models.</li>
               <li>Maintains cryptographic SHA-256 data provenance from NVD and CISA sources.</li>
               <li>Complies with Indian DPDP Act 2023, RBI Cyber Security Framework, and SEC Disclosure Rules.</li>

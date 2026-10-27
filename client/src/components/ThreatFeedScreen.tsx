@@ -350,7 +350,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                 id="btn-scrape-all-now"
                 onClick={() => handleScrapeAll(false)}
                 disabled={isScrapingAll}
-                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#ffffff] hover:bg-[#faf5e8] text-[#0a0a0a] font-semibold rounded-[12px] shadow-xs transition-all active:scale-95 disabled:opacity-50 text-xs cursor-pointer"
+                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#ffffff] dark:bg-[#0c121e] hover:bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] font-semibold rounded-[12px] shadow-xs transition-all active:scale-95 disabled:opacity-50 text-xs cursor-pointer"
                 title="Trigger real-time parallel scrape across all configured intelligence endpoints"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${isScrapingAll ? 'animate-spin' : ''}`} />
@@ -390,14 +390,14 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
 
       {/* Success Notification Alert */}
       {ingestSuccessMessage && (
-        <div className="bg-[#22c55e]/10 border border-[#22c55e]/25 rounded-[16px] px-5 py-3 flex items-center justify-between text-xs text-[#0a0a0a] animate-fadeIn">
+        <div className="bg-[#22c55e]/10 border border-[#22c55e]/25 rounded-[16px] px-5 py-3 flex items-center justify-between text-xs text-[#0a0a0a] dark:text-[#ffffff] animate-fadeIn">
           <div className="flex items-center space-x-2.5">
             <CheckCircle2 className="w-4 h-4 text-[#22c55e] shrink-0" />
             <span className="font-semibold">{ingestSuccessMessage}</span>
           </div>
           <button
             onClick={() => setIngestSuccessMessage(null)}
-            className="text-[#6a6a6a] hover:text-[#0a0a0a] font-bold ml-4 cursor-pointer"
+            className="text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff] font-bold ml-4 cursor-pointer"
           >
             ✕
           </button>
@@ -405,13 +405,13 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
       )}
 
       {/* Navigation Sub-Tabs (Clay category-tab pill style) */}
-      <div className="flex items-center space-x-2 bg-[#faf5e8] p-1.5 rounded-full border border-[#e5e5e5] overflow-x-auto">
+      <div className="flex items-center space-x-2 bg-[#faf5e8] dark:bg-[#1e293b] p-1.5 rounded-full border border-[#e5e5e5] dark:border-[#1e293b] overflow-x-auto">
         <button
           onClick={() => setActiveSubTab('intel')}
           className={`inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
             activeSubTab === 'intel'
-              ? 'bg-[#ffffff] text-[#0a0a0a] shadow-xs border border-[#e5e5e5]'
-              : 'text-[#6a6a6a] hover:text-[#0a0a0a]'
+              ? 'bg-[#ffffff] dark:bg-[#0c121e] text-[#0a0a0a] dark:text-[#ffffff] shadow-xs border border-[#e5e5e5] dark:border-[#1e293b]'
+              : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff]'
           }`}
         >
           <Activity className="w-3.5 h-3.5 text-[#ff4d8b]" />
@@ -422,13 +422,13 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           onClick={() => setActiveSubTab('custom-scraper')}
           className={`inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
             activeSubTab === 'custom-scraper'
-              ? 'bg-[#ffffff] text-[#0a0a0a] shadow-xs border border-[#e5e5e5]'
-              : 'text-[#6a6a6a] hover:text-[#0a0a0a]'
+              ? 'bg-[#ffffff] dark:bg-[#0c121e] text-[#0a0a0a] dark:text-[#ffffff] shadow-xs border border-[#e5e5e5] dark:border-[#1e293b]'
+              : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff]'
           }`}
         >
           <Globe className="w-3.5 h-3.5 text-[#1a3a3a]" />
           <span>Custom URL Web Scraper</span>
-          <span className="text-[10px] bg-[#ffb084]/30 text-[#0a0a0a] px-2 py-0.2 rounded-full font-semibold">
+          <span className="text-[10px] bg-[#ffb084]/30 text-[#0a0a0a] dark:text-[#ffffff] px-2 py-0.2 rounded-full font-semibold">
             Interactive
           </span>
         </button>
@@ -437,8 +437,8 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           onClick={() => setActiveSubTab('sources')}
           className={`inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
             activeSubTab === 'sources'
-              ? 'bg-[#ffffff] text-[#0a0a0a] shadow-xs border border-[#e5e5e5]'
-              : 'text-[#6a6a6a] hover:text-[#0a0a0a]'
+              ? 'bg-[#ffffff] dark:bg-[#0c121e] text-[#0a0a0a] dark:text-[#ffffff] shadow-xs border border-[#e5e5e5] dark:border-[#1e293b]'
+              : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff]'
           }`}
         >
           <Server className="w-3.5 h-3.5 text-[#e8b94a]" />
@@ -449,8 +449,8 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           onClick={() => setActiveSubTab('cisa-catalog')}
           className={`inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
             activeSubTab === 'cisa-catalog'
-              ? 'bg-[#ffffff] text-[#0a0a0a] shadow-xs border border-[#e5e5e5]'
-              : 'text-[#6a6a6a] hover:text-[#0a0a0a]'
+              ? 'bg-[#ffffff] dark:bg-[#0c121e] text-[#0a0a0a] dark:text-[#ffffff] shadow-xs border border-[#e5e5e5] dark:border-[#1e293b]'
+              : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff]'
           }`}
         >
           <Radio className="w-3.5 h-3.5 text-[#ff4d8b]" />
@@ -464,7 +464,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
       {activeSubTab === 'intel' && (
         <div className="space-y-4">
           {/* Filter Bar */}
-          <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[20px] p-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 text-xs shadow-xs">
+          <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px] p-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 text-xs shadow-xs">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
               <Search className="w-4 h-4 text-[#9a9a9a] absolute left-3 top-3" />
@@ -473,19 +473,19 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                 placeholder="Search CVE, malware family, vendor, or keywords..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#faf5e8] border border-[#e5e5e5] rounded-[12px] pl-9 pr-3 py-2 text-xs text-[#0a0a0a] placeholder-[#9a9a9a] focus:outline-none focus:border-[#0a0a0a]"
+                className="w-full bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[12px] pl-9 pr-3 py-2 text-xs text-[#0a0a0a] dark:text-[#ffffff] placeholder-[#9a9a9a] focus:outline-none focus:border-[#0a0a0a]"
               />
             </div>
 
             {/* Dropdown Filters */}
             <div className="flex items-center space-x-2 flex-wrap gap-y-2">
-              <div className="flex items-center space-x-1.5 bg-[#faf5e8] border border-[#e5e5e5] rounded-full px-3 py-1.5">
-                <Filter className="w-3 h-3 text-[#6a6a6a]" />
-                <span className="text-[#6a6a6a]">Source:</span>
+              <div className="flex items-center space-x-1.5 bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-full px-3 py-1.5">
+                <Filter className="w-3 h-3 text-[#6a6a6a] dark:text-[#94a3b8]" />
+                <span className="text-[#6a6a6a] dark:text-[#94a3b8]">Source:</span>
                 <select
                   value={sourceFilter}
                   onChange={(e) => setSourceFilter(e.target.value)}
-                  className="bg-transparent text-[#0a0a0a] focus:outline-none cursor-pointer font-medium"
+                  className="bg-transparent text-[#0a0a0a] dark:text-[#ffffff] focus:outline-none cursor-pointer font-medium"
                 >
                   <option value="all">All Sources</option>
                   <option value="cisa-kev">CISA KEV</option>
@@ -497,12 +497,12 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                 </select>
               </div>
 
-              <div className="flex items-center space-x-1.5 bg-[#faf5e8] border border-[#e5e5e5] rounded-full px-3 py-1.5">
-                <span className="text-[#6a6a6a]">Severity:</span>
+              <div className="flex items-center space-x-1.5 bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-full px-3 py-1.5">
+                <span className="text-[#6a6a6a] dark:text-[#94a3b8]">Severity:</span>
                 <select
                   value={severityFilter}
                   onChange={(e) => setSeverityFilter(e.target.value)}
-                  className="bg-transparent text-[#0a0a0a] focus:outline-none cursor-pointer font-medium"
+                  className="bg-transparent text-[#0a0a0a] dark:text-[#ffffff] focus:outline-none cursor-pointer font-medium"
                 >
                   <option value="all">All Levels</option>
                   <option value="CRITICAL">Critical (&gt;9.0)</option>
@@ -511,12 +511,12 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                 </select>
               </div>
 
-              <div className="flex items-center space-x-1.5 bg-[#faf5e8] border border-[#e5e5e5] rounded-full px-3 py-1.5">
-                <span className="text-[#6a6a6a]">Scenario:</span>
+              <div className="flex items-center space-x-1.5 bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-full px-3 py-1.5">
+                <span className="text-[#6a6a6a] dark:text-[#94a3b8]">Scenario:</span>
                 <select
                   value={scenarioFilter}
                   onChange={(e) => setScenarioFilter(e.target.value)}
-                  className="bg-transparent text-[#0a0a0a] focus:outline-none cursor-pointer font-medium"
+                  className="bg-transparent text-[#0a0a0a] dark:text-[#ffffff] focus:outline-none cursor-pointer font-medium"
                 >
                   <option value="all">All Scenarios</option>
                   <option value="scen-01">Ransomware (SCEN-01)</option>
@@ -537,7 +537,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
               return (
                 <div
                   key={item.id}
-                  className="bg-[#ffffff] border border-[#e5e5e5] hover:border-[#0a0a0a] rounded-[20px] p-6 shadow-xs transition-all flex flex-col justify-between space-y-4"
+                  className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] hover:border-[#0a0a0a] rounded-[20px] p-6 shadow-xs transition-all flex flex-col justify-between space-y-4"
                 >
                   {/* Top: Source & Severity */}
                   <div>
@@ -556,12 +556,12 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                           {item.severity} {item.cvssScore ? `(CVSS ${item.cvssScore})` : ''}
                         </span>
                       </div>
-                      <span className="text-[11px] font-medium bg-[#faf5e8] text-[#3a3a3a] border border-[#e5e5e5] px-2.5 py-0.5 rounded-full">
+                      <span className="text-[11px] font-medium bg-[#faf5e8] dark:bg-[#1e293b] text-[#3a3a3a] border border-[#e5e5e5] dark:border-[#1e293b] px-2.5 py-0.5 rounded-full">
                         {item.sourceName}
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-semibold text-[#0a0a0a] mt-2 leading-snug">
+                    <h3 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff] mt-2 leading-snug">
                       {item.title}
                     </h3>
 
@@ -571,10 +571,10 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                   </div>
 
                   {/* Metadata & Ingestion */}
-                  <div className="space-y-3 pt-3 border-t border-[#e5e5e5] text-[11px]">
-                    <div className="flex items-center justify-between text-[#6a6a6a] flex-wrap gap-1">
-                      <span>Vendor: <strong className="text-[#0a0a0a]">{item.vendor}</strong></span>
-                      <span>Discovered: <strong className="text-[#0a0a0a] font-mono">{item.discoveredDate}</strong></span>
+                  <div className="space-y-3 pt-3 border-t border-[#e5e5e5] dark:border-[#1e293b] text-[11px]">
+                    <div className="flex items-center justify-between text-[#6a6a6a] dark:text-[#94a3b8] flex-wrap gap-1">
+                      <span>Vendor: <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{item.vendor}</strong></span>
+                      <span>Discovered: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{item.discoveredDate}</strong></span>
                     </div>
 
                     {/* Tags */}
@@ -583,7 +583,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                         {item.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="text-[10px] px-2 py-0.5 rounded-full bg-[#faf5e8] text-[#6a6a6a] border border-[#e5e5e5] font-mono"
+                            className="text-[10px] px-2 py-0.5 rounded-full bg-[#faf5e8] dark:bg-[#1e293b] text-[#6a6a6a] dark:text-[#94a3b8] border border-[#e5e5e5] dark:border-[#1e293b] font-mono"
                           >
                             #{tag}
                           </span>
@@ -597,7 +597,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                         href={item.extractedUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[#0a0a0a] hover:text-[#ff4d8b] inline-flex items-center space-x-1 text-xs font-medium cursor-pointer"
+                        className="text-[#0a0a0a] dark:text-[#ffffff] hover:text-[#ff4d8b] inline-flex items-center space-x-1 text-xs font-medium cursor-pointer"
                       >
                         <span>View Raw Advisory</span>
                         <ExternalLink className="w-3 h-3" />
@@ -620,8 +620,8 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           </div>
 
           {filteredScrapedItems.length === 0 && (
-            <div className="text-center py-12 bg-[#ffffff] border border-[#e5e5e5] rounded-[20px]">
-              <p className="text-sm text-[#6a6a6a]">No scraped threat records match your filter criteria.</p>
+            <div className="text-center py-12 bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px]">
+              <p className="text-sm text-[#6a6a6a] dark:text-[#94a3b8]">No scraped threat records match your filter criteria.</p>
               <button
                 onClick={() => {
                   setSearchQuery('');
@@ -629,7 +629,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                   setSeverityFilter('all');
                   setScenarioFilter('all');
                 }}
-                className="mt-2 text-xs text-[#0a0a0a] font-semibold hover:underline cursor-pointer"
+                className="mt-2 text-xs text-[#0a0a0a] dark:text-[#ffffff] font-semibold hover:underline cursor-pointer"
               >
                 Clear all filters
               </button>
@@ -643,20 +643,20 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           =================================================================== */}
       {activeSubTab === 'custom-scraper' && (
         <div className="space-y-6">
-          <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-8 shadow-xs space-y-6">
+          <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-8 shadow-xs space-y-6">
             <div>
-              <h2 className="text-xl font-medium text-[#0a0a0a] flex items-center space-x-2 font-display">
+              <h2 className="text-xl font-medium text-[#0a0a0a] dark:text-[#ffffff] flex items-center space-x-2 font-display">
                 <Globe className="w-5 h-5 text-[#1a3a3a]" />
                 <span>Live On-Demand Web Scraper</span>
               </h2>
-              <p className="text-xs text-[#6a6a6a] mt-1 max-w-2xl leading-relaxed">
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-1 max-w-2xl leading-relaxed">
                 Enter any cybersecurity news URL, vendor advisory bulletin, or RSS feed link. CyberPulse will initiate an immediate HTTP fetch, compile the DOM using Cheerio, extract active CVE IDs, CVSS ratings, and threat actors, and correlate them directly with your FAIR risk scenarios.
               </p>
             </div>
 
             {/* Quick URL Presets (Clay pill buttons) */}
             <div>
-              <label className="text-xs font-semibold text-[#0a0a0a] block mb-2">
+              <label className="text-xs font-semibold text-[#0a0a0a] dark:text-[#ffffff] block mb-2">
                 Quick-Select Recommended Threat Intelligence Resources:
               </label>
               <div className="flex items-center space-x-2 flex-wrap gap-y-2">
@@ -670,7 +670,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                   <button
                     key={idx}
                     onClick={() => setCustomUrl(preset.url)}
-                    className="px-3.5 py-1.5 text-xs rounded-full bg-[#faf5e8] hover:bg-[#f5f0e0] text-[#0a0a0a] border border-[#e5e5e5] transition-all cursor-pointer font-medium"
+                    className="px-3.5 py-1.5 text-xs rounded-full bg-[#faf5e8] dark:bg-[#1e293b] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer font-medium"
                   >
                     {preset.label}
                   </button>
@@ -681,7 +681,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
             {/* Target URL & Scenario Input Form */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="md:col-span-3">
-                <label className="text-xs font-semibold text-[#0a0a0a] block mb-1">
+                <label className="text-xs font-semibold text-[#0a0a0a] dark:text-[#ffffff] block mb-1">
                   Target Advisory / Web Page URL:
                 </label>
                 <div className="relative">
@@ -691,19 +691,19 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                     value={customUrl}
                     onChange={(e) => setCustomUrl(e.target.value)}
                     placeholder="https://vendor.com/security/bulletin-cve-2024-xxxx"
-                    className="w-full bg-[#faf5e8] border border-[#e5e5e5] rounded-[12px] pl-10 pr-3 py-2.5 text-xs text-[#0a0a0a] placeholder-[#9a9a9a] focus:outline-none focus:border-[#0a0a0a] font-mono"
+                    className="w-full bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[12px] pl-10 pr-3 py-2.5 text-xs text-[#0a0a0a] dark:text-[#ffffff] placeholder-[#9a9a9a] focus:outline-none focus:border-[#0a0a0a] font-mono"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-[#0a0a0a] block mb-1">
+                <label className="text-xs font-semibold text-[#0a0a0a] dark:text-[#ffffff] block mb-1">
                   Map To Risk Scenario:
                 </label>
                 <select
                   value={targetScenarioForCustom}
                   onChange={(e) => setTargetScenarioForCustom(e.target.value)}
-                  className="w-full bg-[#faf5e8] border border-[#e5e5e5] rounded-[12px] px-3 py-2.5 text-xs text-[#0a0a0a] focus:outline-none focus:border-[#0a0a0a] cursor-pointer font-medium"
+                  className="w-full bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[12px] px-3 py-2.5 text-xs text-[#0a0a0a] dark:text-[#ffffff] focus:outline-none focus:border-[#0a0a0a] cursor-pointer font-medium"
                 >
                   <option value="scen-01">Ransomware Core (SCEN-01)</option>
                   <option value="scen-02">Cloud IAM Misconfig (SCEN-02)</option>
@@ -715,7 +715,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
 
             {/* Trigger Button */}
             <div className="flex items-center justify-between pt-2">
-              <div className="text-xs text-[#6a6a6a] flex items-center space-x-2">
+              <div className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] flex items-center space-x-2">
                 <Terminal className="w-3.5 h-3.5 text-[#1a3a3a]" />
                 <span>Cheerio DOM Regex Extraction Engine Ready</span>
               </div>
@@ -771,28 +771,28 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
 
           {/* Results Display */}
           {lastScrapeResult && lastScrapeResult.newItems.length > 0 && (
-            <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-6 space-y-4 shadow-xs">
+            <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-6 space-y-4 shadow-xs">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-[#0a0a0a] flex items-center space-x-2">
+                <span className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff] flex items-center space-x-2">
                   <CheckCircle2 className="w-4 h-4 text-[#22c55e]" />
                   <span>Extracted {lastScrapeResult.newItems.length} Threat Intelligence Records</span>
                 </span>
-                <span className="text-xs text-[#6a6a6a] font-mono">
+                <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] font-mono">
                   Finished in {lastScrapeResult.latencyMs}ms
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                 {lastScrapeResult.newItems.map((item) => (
-                  <div key={item.id} className="bg-[#faf5e8] p-4 rounded-[14px] border border-[#e5e5e5] text-xs space-y-2">
+                  <div key={item.id} className="bg-[#faf5e8] dark:bg-[#1e293b] p-4 rounded-[14px] border border-[#e5e5e5] dark:border-[#1e293b] text-xs space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-mono font-bold text-[#ff4d8b]">{item.cveID}</span>
                       <span className="text-[10px] bg-[#ef4444]/10 text-[#ef4444] px-2 py-0.5 rounded-full font-bold">
                         {item.severity}
                       </span>
                     </div>
-                    <div className="font-semibold text-[#0a0a0a]">{item.title}</div>
-                    <p className="text-[#6a6a6a] text-[11px] line-clamp-2">{item.summary}</p>
+                    <div className="font-semibold text-[#0a0a0a] dark:text-[#ffffff]">{item.title}</div>
+                    <p className="text-[#6a6a6a] dark:text-[#94a3b8] text-[11px] line-clamp-2">{item.summary}</p>
                     <button
                       onClick={() => handleIngestItem(item, item.correlatedScenarioId || targetScenarioForCustom)}
                       className="w-full mt-2 py-1.5 bg-[#0a0a0a] hover:bg-[#1f1f1f] text-[#ffffff] rounded-[10px] font-semibold text-center cursor-pointer shadow-xs"
@@ -812,10 +812,10 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           =================================================================== */}
       {activeSubTab === 'sources' && (
         <div className="space-y-4">
-          <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[20px] p-5 flex items-center justify-between text-xs shadow-xs">
+          <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px] p-5 flex items-center justify-between text-xs shadow-xs">
             <div>
-              <h3 className="font-semibold text-[#0a0a0a] text-sm">Active Real-Time Threat Intelligence Connectors</h3>
-              <p className="text-[#6a6a6a] text-[12px] mt-0.5">
+              <h3 className="font-semibold text-[#0a0a0a] dark:text-[#ffffff] text-sm">Active Real-Time Threat Intelligence Connectors</h3>
+              <p className="text-[#6a6a6a] dark:text-[#94a3b8] text-[12px] mt-0.5">
                 CyberPulse polls and parses feeds from national CERTs, vulnerability catalogs, and telemetry providers.
               </p>
             </div>
@@ -833,11 +833,11 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
             {sources.map((src) => (
               <div
                 key={src.id}
-                className="bg-[#ffffff] border border-[#e5e5e5] rounded-[20px] p-6 flex flex-col justify-between space-y-4 shadow-xs"
+                className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px] p-6 flex flex-col justify-between space-y-4 shadow-xs"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#faf5e8] text-[#6a6a6a] border border-[#e5e5e5]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#faf5e8] dark:bg-[#1e293b] text-[#6a6a6a] dark:text-[#94a3b8] border border-[#e5e5e5] dark:border-[#1e293b]">
                       {src.category}
                     </span>
                     <span className="inline-flex items-center space-x-1 text-[#22c55e] text-xs font-semibold">
@@ -846,20 +846,20 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                     </span>
                   </div>
 
-                  <h3 className="font-semibold text-[#0a0a0a] text-base mt-3">{src.name}</h3>
-                  <p className="text-xs text-[#6a6a6a] mt-1.5 leading-relaxed">{src.description}</p>
+                  <h3 className="font-semibold text-[#0a0a0a] dark:text-[#ffffff] text-base mt-3">{src.name}</h3>
+                  <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-1.5 leading-relaxed">{src.description}</p>
                 </div>
 
-                <div className="space-y-2 pt-4 border-t border-[#e5e5e5] text-xs">
-                  <div className="flex items-center justify-between text-[#6a6a6a]">
+                <div className="space-y-2 pt-4 border-t border-[#e5e5e5] dark:border-[#1e293b] text-xs">
+                  <div className="flex items-center justify-between text-[#6a6a6a] dark:text-[#94a3b8]">
                     <span>Indexed Items:</span>
-                    <strong className="text-[#0a0a0a] font-mono">{src.itemsFound}</strong>
+                    <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{src.itemsFound}</strong>
                   </div>
-                  <div className="flex items-center justify-between text-[#6a6a6a]">
+                  <div className="flex items-center justify-between text-[#6a6a6a] dark:text-[#94a3b8]">
                     <span>Response Latency:</span>
-                    <strong className="text-[#0a0a0a] font-mono">{src.latencyMs}ms</strong>
+                    <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{src.latencyMs}ms</strong>
                   </div>
-                  <div className="flex items-center justify-between text-[#6a6a6a] text-[11px]">
+                  <div className="flex items-center justify-between text-[#6a6a6a] dark:text-[#94a3b8] text-[11px]">
                     <span>Endpoint:</span>
                     <span className="text-[#9a9a9a] font-mono truncate max-w-[150px]">{src.targetUrl}</span>
                   </div>
@@ -875,15 +875,15 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
           =================================================================== */}
       {activeSubTab === 'cisa-catalog' && (
         <div className="space-y-4">
-          <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[20px] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-xs">
+          <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px] p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-xs">
             <div>
-              <div className="font-semibold text-[#0a0a0a] text-sm flex items-center space-x-2">
+              <div className="font-semibold text-[#0a0a0a] dark:text-[#ffffff] text-sm flex items-center space-x-2">
                 <span>CISA Known Exploited Vulnerabilities (KEV) Catalog</span>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] border border-[#22c55e]/25 text-[10px] font-semibold">
                   BOD 22-01 Mandate
                 </span>
               </div>
-              <p className="text-[#6a6a6a] text-[12px] mt-0.5">
+              <p className="text-[#6a6a6a] dark:text-[#94a3b8] text-[12px] mt-0.5">
                 Official US Cybersecurity and Infrastructure Security Agency catalog of active weaponized CVEs.
               </p>
             </div>
@@ -904,7 +904,7 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
               return (
                 <div
                   key={item.cveID}
-                  className="bg-[#ffffff] border border-[#e5e5e5] hover:border-[#0a0a0a] rounded-[20px] p-6 shadow-xs space-y-3 transition-all"
+                  className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] hover:border-[#0a0a0a] rounded-[20px] p-6 shadow-xs space-y-3 transition-all"
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -914,25 +914,25 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                           Actively Weaponized
                         </span>
                       </div>
-                      <h3 className="text-sm font-semibold text-[#0a0a0a] mt-1.5 leading-snug">{item.vulnerabilityName}</h3>
+                      <h3 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff] mt-1.5 leading-snug">{item.vulnerabilityName}</h3>
                     </div>
                   </div>
 
                   <p className="text-xs text-[#3a3a3a] line-clamp-3 leading-relaxed">{item.shortDescription}</p>
 
-                  <div className="grid grid-cols-2 gap-2 text-[11px] bg-[#faf5e8] p-3 rounded-[12px] border border-[#e5e5e5]">
+                  <div className="grid grid-cols-2 gap-2 text-[11px] bg-[#faf5e8] dark:bg-[#1e293b] p-3 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b]">
                     <div>
-                      <span className="text-[#6a6a6a] block">Vendor & Product:</span>
-                      <span className="text-[#0a0a0a] font-medium">{item.vendorProject} - {item.product}</span>
+                      <span className="text-[#6a6a6a] dark:text-[#94a3b8] block">Vendor & Product:</span>
+                      <span className="text-[#0a0a0a] dark:text-[#ffffff] font-medium">{item.vendorProject} - {item.product}</span>
                     </div>
                     <div>
-                      <span className="text-[#6a6a6a] block">Date Added:</span>
-                      <span className="text-[#0a0a0a] font-mono">{item.dateAdded}</span>
+                      <span className="text-[#6a6a6a] dark:text-[#94a3b8] block">Date Added:</span>
+                      <span className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{item.dateAdded}</span>
                     </div>
                   </div>
 
-                  <div className="text-[11px] text-[#3a3a3a] bg-[#faf5e8] p-3 rounded-[12px] border border-[#e5e5e5]">
-                    <span className="text-[#0a0a0a] font-semibold block text-[10px] uppercase tracking-wider">
+                  <div className="text-[11px] text-[#3a3a3a] bg-[#faf5e8] dark:bg-[#1e293b] p-3 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b]">
+                    <span className="text-[#0a0a0a] dark:text-[#ffffff] font-semibold block text-[10px] uppercase tracking-wider">
                       Mandated Remediation:
                     </span>
                     <p className="text-[#3a3a3a] mt-0.5">{item.requiredAction}</p>
@@ -942,14 +942,14 @@ export const ThreatFeedScreen: React.FC<ThreatFeedScreenProps> = ({
                   </div>
 
                   {matchedScenario && (
-                    <div className="pt-2 border-t border-[#e5e5e5] flex items-center justify-between text-xs">
-                      <span className="text-[#6a6a6a] flex items-center space-x-1.5">
+                    <div className="pt-2 border-t border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between text-xs">
+                      <span className="text-[#6a6a6a] dark:text-[#94a3b8] flex items-center space-x-1.5">
                         <span className="w-2 h-2 rounded-full bg-[#ff4d8b]" />
-                        <span>Impacts: <strong className="text-[#0a0a0a]">{matchedScenario.title}</strong></span>
+                        <span>Impacts: <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{matchedScenario.title}</strong></span>
                       </span>
                       <button
                         onClick={() => onSelectScenario(matchedScenario.id)}
-                        className="text-[#0a0a0a] hover:text-[#ff4d8b] font-semibold cursor-pointer"
+                        className="text-[#0a0a0a] dark:text-[#ffffff] hover:text-[#ff4d8b] font-semibold cursor-pointer"
                       >
                         View Scenario Math →
                       </button>

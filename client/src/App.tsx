@@ -15,7 +15,9 @@ import {
   RealDataScreen,
   PRDSpecScreen,
   ZKPacePaperScreen,
-  ScraperScreen
+  ScraperScreen,
+  AwarenessDashboard,
+  ThreatHubScreen
 } from './components';
 import { RefreshCw, AlertTriangle, CheckCircle, Info } from 'lucide-react';
 
@@ -55,7 +57,7 @@ const AppContent: React.FC = () => {
   } = useRisk();
 
   return (
-    <div className="min-h-screen bg-[#fffaf0] text-[#0a0a0a] selection:bg-[#ff4d8b]/20 selection:text-[#ff4d8b]">
+    <div className="min-h-screen bg-[#fffaf0] dark:bg-[#080c14] text-[#0a0a0a] dark:text-[#ffffff] selection:bg-[#ff4d8b]/20 selection:text-[#ff4d8b]">
 
       {/* Fixed sidebar — 256px wide on lg+, hidden on mobile (drawer instead) */}
       <Sidebar
@@ -76,10 +78,10 @@ const AppContent: React.FC = () => {
           {isLoading && !exposureData ? (
             <div className="flex flex-col items-center justify-center h-96 space-y-4">
               <RefreshCw className="w-8 h-8 text-[#1a3a3a] animate-spin" />
-              <div className="text-sm font-semibold text-[#0a0a0a]">
+              <div className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff]">
                 Evaluating FAIR Loss Models & Live Threat Feeds...
               </div>
-              <p className="text-xs text-[#6a6a6a] font-mono">
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] font-mono">
                 Connecting to live CISA KEV catalog and initializing Knapsack optimization engine
               </p>
             </div>
@@ -109,8 +111,9 @@ const AppContent: React.FC = () => {
                 />
               )}
 
-              {activeTab === 'feed' && exposureData && (
-                <ThreatFeedScreen
+              {(activeTab === 'feed' || activeTab === 'awareness' || activeTab === 'scraper') && exposureData && (
+                <ThreatHubScreen
+                  initialSubTab={activeTab === 'awareness' ? 'awareness' : activeTab === 'scraper' ? 'scraper' : 'feed'}
                   feedItems={feedItems}
                   isRefreshing={isRefreshingFeed}
                   onRefreshFeed={refreshFeed}
@@ -146,10 +149,6 @@ const AppContent: React.FC = () => {
               {activeTab === 'prd' && (
                 <PRDSpecScreen />
               )}
-
-              {activeTab === 'scraper' && (
-                <ScraperScreen />
-              )}
             </>
           )}
         </main>
@@ -163,10 +162,10 @@ const AppContent: React.FC = () => {
           <div
             className={`flex items-center space-x-2.5 px-5 py-3.5 rounded-[16px] border shadow-lg text-xs font-medium max-w-sm ${
               toast.type === 'alert'
-                ? 'bg-[#ffffff] border-[#ffb084] text-[#0a0a0a]'
+                ? 'bg-[#ffffff] dark:bg-[#0c121e] border-[#ffb084] text-[#0a0a0a] dark:text-[#ffffff]'
                 : toast.type === 'info'
-                ? 'bg-[#ffffff] border-[#1a3a3a] text-[#0a0a0a]'
-                : 'bg-[#ffffff] border-[#e5e5e5] text-[#0a0a0a]'
+                ? 'bg-[#ffffff] dark:bg-[#0c121e] border-[#1a3a3a] text-[#0a0a0a] dark:text-[#ffffff]'
+                : 'bg-[#ffffff] dark:bg-[#0c121e] border-[#e5e5e5] dark:border-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff]'
             }`}
           >
             {toast.type === 'alert' ? (

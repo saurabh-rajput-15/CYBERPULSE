@@ -10,8 +10,8 @@ interface CardProps {
 }
 
 const variantStyles = {
-  white: 'bg-[#ffffff] border-[#e5e5e5] text-[#0a0a0a]',
-  cream: 'bg-[#faf5e8] border-[#e5e5e5] text-[#0a0a0a]',
+  white: 'bg-[#ffffff] dark:bg-[#0c121e] border-[#e5e5e5] dark:border-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff]',
+  cream: 'bg-[#faf5e8] dark:bg-[#1e293b] border-[#e5e5e5] dark:border-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff]',
   teal: 'bg-[#1a3a3a] border-transparent text-[#ffffff]',
   dark: 'bg-[#0a0a0a] border-transparent text-[#ffffff]'
 };

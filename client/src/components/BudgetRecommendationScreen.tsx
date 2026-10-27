@@ -24,7 +24,7 @@ import {
   Cell
 } from 'recharts';
 import { RecommendationResult, CandidateControl, RiskScenario } from '../types';
-import { formatINR } from '../services/fairEngine';
+import { formatINR, computeALERange } from '../services/fairEngine';
 
 interface BudgetRecommendationScreenProps {
   currentRecommendation: RecommendationResult | null;
@@ -64,6 +64,10 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
   };
 
   const rec = currentRecommendation;
+
+  // Compute P10/P50/P90 ranges for baseline and post-mitigation
+  const baselineRange = rec ? computeALERange(rec.baselineExposureINR) : null;
+  const residualRange = rec ? computeALERange(rec.postMitigationExposureINR) : null;
 
   // Chart data: Baseline vs Residual
   const comparisonData = rec
@@ -108,7 +112,7 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
             <button
               id="btn-export-board-brief"
               onClick={onOpenBoardBrief}
-              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#ffffff] hover:bg-[#faf5e8] text-[#0a0a0a] text-xs font-semibold rounded-[12px] shadow-xs transition-all active:scale-95 cursor-pointer"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#ffffff] dark:bg-[#0c121e] hover:bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] text-xs font-semibold rounded-[12px] shadow-xs transition-all active:scale-95 cursor-pointer"
             >
               <FileText className="w-4 h-4 text-[#ff4d8b]" />
               <span>Export Board Brief</span>
@@ -118,17 +122,17 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
       </div>
 
       {/* Interactive Budget Slider Control Panel */}
-      <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-8 shadow-xs relative overflow-hidden space-y-4">
+      <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-8 shadow-xs relative overflow-hidden space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="flex items-center space-x-2">
             <Sliders className="w-5 h-5 text-[#1a3a3a]" />
-            <span className="text-sm font-semibold text-[#0a0a0a] uppercase tracking-wider">
+            <span className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff] uppercase tracking-wider">
               Allocated Security Budget Ceiling
             </span>
           </div>
-          <div className="text-3xl sm:text-4xl font-medium tracking-tight text-[#0a0a0a] font-display">
+          <div className="text-3xl sm:text-4xl font-medium tracking-tight text-[#0a0a0a] dark:text-[#ffffff] font-display">
             {formatINR(sliderValue, false)}
-            <span className="text-xs font-normal text-[#6a6a6a] ml-2">
+            <span className="text-xs font-normal text-[#6a6a6a] dark:text-[#94a3b8] ml-2">
               ({formatINR(sliderValue, true)})
             </span>
           </div>
@@ -144,9 +148,9 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
             step="250000" // 2.5 Lakhs increments
             value={sliderValue}
             onChange={handleSliderChange}
-            className="w-full h-2.5 bg-[#faf5e8] rounded-lg appearance-none cursor-pointer accent-[#0a0a0a]"
+            className="w-full h-2.5 bg-[#faf5e8] dark:bg-[#1e293b] rounded-lg appearance-none cursor-pointer accent-[#0a0a0a]"
           />
-          <div className="flex justify-between text-[11px] text-[#6a6a6a] font-mono mt-2 font-medium">
+          <div className="flex justify-between text-[11px] text-[#6a6a6a] dark:text-[#94a3b8] font-mono mt-2 font-medium">
             <span>Min: ₹5.00 L</span>
             <span>₹25.00 L</span>
             <span>₹50.00 L</span>
@@ -155,15 +159,15 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
         </div>
 
         {/* Quick Demo Preset Buttons (Clay pill buttons) */}
-        <div className="mt-4 pt-4 border-t border-[#e5e5e5] flex items-center justify-between flex-wrap gap-3 text-xs">
-          <span className="text-[#6a6a6a] font-semibold">Optimization Presets:</span>
+        <div className="mt-4 pt-4 border-t border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between flex-wrap gap-3 text-xs">
+          <span className="text-[#6a6a6a] dark:text-[#94a3b8] font-semibold">Optimization Presets:</span>
           <div className="flex items-center space-x-2 flex-wrap gap-1.5">
             <button
               onClick={() => handlePresetSelect(1000000)}
               className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
                 sliderValue === 1000000
                   ? 'bg-[#0a0a0a] text-[#ffffff] font-bold shadow-xs'
-                  : 'bg-[#faf5e8] text-[#0a0a0a] hover:bg-[#f5f0e0] border border-[#e5e5e5]'
+                  : 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#f5f0e0] dark:bg-[#2a374a] border border-[#e5e5e5] dark:border-[#1e293b]'
               }`}
             >
               Lean (₹10L)
@@ -173,7 +177,7 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
               className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
                 sliderValue === 2500000
                   ? 'bg-[#0a0a0a] text-[#ffffff] font-bold shadow-xs'
-                  : 'bg-[#faf5e8] text-[#0a0a0a] hover:bg-[#f5f0e0] border border-[#e5e5e5]'
+                  : 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#f5f0e0] dark:bg-[#2a374a] border border-[#e5e5e5] dark:border-[#1e293b]'
               }`}
             >
               Recommended (₹25L)
@@ -183,7 +187,7 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
               className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
                 sliderValue === 4500000
                   ? 'bg-[#0a0a0a] text-[#ffffff] font-bold shadow-xs'
-                  : 'bg-[#faf5e8] text-[#0a0a0a] hover:bg-[#f5f0e0] border border-[#e5e5e5]'
+                  : 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#f5f0e0] dark:bg-[#2a374a] border border-[#e5e5e5] dark:border-[#1e293b]'
               }`}
             >
               Comprehensive (₹45L)
@@ -193,7 +197,7 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
               className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
                 sliderValue === 7000000
                   ? 'bg-[#0a0a0a] text-[#ffffff] font-bold shadow-xs'
-                  : 'bg-[#faf5e8] text-[#0a0a0a] hover:bg-[#f5f0e0] border border-[#e5e5e5]'
+                  : 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#f5f0e0] dark:bg-[#2a374a] border border-[#e5e5e5] dark:border-[#1e293b]'
               }`}
             >
               Max Defense (₹70L)
@@ -247,32 +251,45 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
           </div>
 
           {/* Card 3: Peach - Residual Exposure */}
-          <div className="bg-[#ffb084] text-[#0a0a0a] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
+          <div className="bg-[#ffb084] text-[#0a0a0a] dark:text-[#ffffff] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
             <div>
               <div className="text-[11px] uppercase tracking-[1.5px] font-semibold text-[#0a0a0a]/70 flex items-center justify-between">
                 <span>Residual Exposure</span>
-                <ShieldCheck className="w-4 h-4 text-[#0a0a0a]" />
+                <ShieldCheck className="w-4 h-4 text-[#0a0a0a] dark:text-[#ffffff]" />
               </div>
-              <div className="text-3xl font-medium tracking-tight text-[#0a0a0a] font-display mt-2">
+              {/* P50 headline */}
+              <div className="text-3xl font-medium tracking-tight text-[#0a0a0a] dark:text-[#ffffff] font-display mt-2">
                 {formatINR(rec.postMitigationExposureINR)}
               </div>
-              <p className="text-[13px] text-[#0a0a0a]/80 mt-1.5">
-                Down from {formatINR(rec.baselineExposureINR)}
-              </p>
+              <div className="text-[11px] text-[#0a0a0a]/70 mt-0.5">P50 Median</div>
+              {/* P10–P90 range */}
+              {residualRange && (
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="text-center">
+                    <div className="text-[9px] text-[#1a5c1a] font-bold">P10</div>
+                    <div className="text-[11px] font-mono font-semibold text-[#1a5c1a]">{formatINR(residualRange.p10INR)}</div>
+                  </div>
+                  <div className="flex-1 h-1 rounded-full bg-[#0a0a0a]/20" />
+                  <div className="text-center">
+                    <div className="text-[9px] text-[#8b3c00] font-bold">P90</div>
+                    <div className="text-[11px] font-mono font-semibold text-[#8b3c00]">{formatINR(residualRange.p90INR)}</div>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="mt-4 pt-3 border-t border-[#0a0a0a]/15 text-[12px] text-[#0a0a0a]/80">
-              Retained annualized exposure
+              Retained annualized exposure range
             </div>
           </div>
 
           {/* Card 4: Ochre - Security ROI */}
-          <div className="bg-[#e8b94a] text-[#0a0a0a] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
+          <div className="bg-[#e8b94a] text-[#0a0a0a] dark:text-[#ffffff] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
             <div>
               <div className="text-[11px] uppercase tracking-[1.5px] font-semibold text-[#0a0a0a]/70 flex items-center justify-between">
                 <span>Security ROI</span>
-                <Sparkles className="w-4 h-4 text-[#0a0a0a]" />
+                <Sparkles className="w-4 h-4 text-[#0a0a0a] dark:text-[#ffffff]" />
               </div>
-              <div className="text-3xl font-medium tracking-tight text-[#0a0a0a] font-display mt-2">
+              <div className="text-3xl font-medium tracking-tight text-[#0a0a0a] dark:text-[#ffffff] font-display mt-2">
                 {rec.roiMultiplier}x
               </div>
               <p className="text-[13px] text-[#0a0a0a]/80 mt-1.5">
@@ -290,12 +307,12 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
       {rec && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Chart Card */}
-          <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
+          <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
             <div>
-              <h3 className="text-base font-semibold text-[#0a0a0a] mb-1">
+              <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff] mb-1">
                 Exposure Reduction Comparison
               </h3>
-              <p className="text-xs text-[#6a6a6a] mb-4">
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mb-4">
                 Financial loss exposure before vs after portfolio deployment (₹ Crores)
               </p>
 
@@ -325,33 +342,33 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
               </div>
             </div>
 
-            <div className="mt-4 text-center text-xs text-[#0a0a0a] font-semibold bg-[#faf5e8] p-3 rounded-[12px] border border-[#e5e5e5]">
+            <div className="mt-4 text-center text-xs text-[#0a0a0a] dark:text-[#ffffff] font-semibold bg-[#faf5e8] dark:bg-[#1e293b] p-3 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b]">
               Net Financial Protection: {formatINR(rec.totalRiskReductionINR)}
             </div>
           </div>
 
           {/* Solver Explanation & Executive Narrative */}
-          <div className="lg:col-span-2 bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
+          <div className="lg:col-span-2 bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
             <div>
               <div className="flex items-center space-x-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#1a3a3a]" />
-                <h3 className="text-base font-semibold text-[#0a0a0a] uppercase tracking-wider">
+                <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff] uppercase tracking-wider">
                   Knapsack Solver Execution Summary
                 </h3>
               </div>
               <p className="text-xs text-[#3a3a3a] mt-3 leading-relaxed">
-                With a designated budget ceiling of <strong className="text-[#0a0a0a]">{formatINR(rec.budgetINR)}</strong>, the knapsack optimizer selected <strong className="text-[#0a0a0a]">{rec.selectedControls.length} controls</strong> totaling <strong className="text-[#0a0a0a]">{formatINR(rec.allocatedBudgetINR)}</strong>, retaining an unspent buffer of <strong className="text-[#6a6a6a]">{formatINR(rec.unspentBudgetINR)}</strong>.
+                With a designated budget ceiling of <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{formatINR(rec.budgetINR)}</strong>, the knapsack optimizer selected <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{rec.selectedControls.length} controls</strong> totaling <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{formatINR(rec.allocatedBudgetINR)}</strong>, retaining an unspent buffer of <strong className="text-[#6a6a6a] dark:text-[#94a3b8]">{formatINR(rec.unspentBudgetINR)}</strong>.
               </p>
-              <p className="text-xs text-[#6a6a6a] mt-2.5 leading-relaxed">
-                This configuration mathematically prioritizes the highest marginal risk reduction per rupee invested, shrinking total company risk exposure from <strong className="text-[#ff4d8b]">{formatINR(rec.baselineExposureINR)}</strong> down to <strong className="text-[#1a3a3a]">{formatINR(rec.postMitigationExposureINR)}</strong> — delivering a defensible <strong className="text-[#0a0a0a]">{rec.roiMultiplier}x ROI</strong>.
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-2.5 leading-relaxed">
+                This configuration mathematically prioritizes the highest marginal risk reduction per rupee invested, shrinking total company risk exposure from <strong className="text-[#ff4d8b]">{formatINR(rec.baselineExposureINR)}</strong> down to <strong className="text-[#1a3a3a]">{formatINR(rec.postMitigationExposureINR)}</strong> — delivering a defensible <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{rec.roiMultiplier}x ROI</strong>.
               </p>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#e5e5e5] flex items-center justify-between text-xs">
-              <span className="text-[#6a6a6a] font-mono text-[11px]">Solver state: Optimal global solution found</span>
+            <div className="mt-6 pt-4 border-t border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between text-xs">
+              <span className="text-[#6a6a6a] dark:text-[#94a3b8] font-mono text-[11px]">Solver state: Optimal global solution found</span>
               <button
                 onClick={onOpenBoardBrief}
-                className="text-[#0a0a0a] hover:text-[#ff4d8b] font-semibold inline-flex items-center space-x-1 cursor-pointer"
+                className="text-[#0a0a0a] dark:text-[#ffffff] hover:text-[#ff4d8b] font-semibold inline-flex items-center space-x-1 cursor-pointer"
               >
                 <span>Preview Board of Directors Slides</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -365,10 +382,10 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
       {rec && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-medium tracking-tight text-[#0a0a0a] flex items-center space-x-2 font-display">
+            <h2 className="text-xl font-medium tracking-tight text-[#0a0a0a] dark:text-[#ffffff] flex items-center space-x-2 font-display">
               <span>Portfolio Allocation Breakdown</span>
             </h2>
-            <span className="text-xs text-[#6a6a6a] font-medium bg-[#faf5e8] px-3 py-1 rounded-full border border-[#e5e5e5]">
+            <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] font-medium bg-[#faf5e8] dark:bg-[#1e293b] px-3 py-1 rounded-full border border-[#e5e5e5] dark:border-[#1e293b]">
               {rec.selectedControls.length} Funded, {rec.deferredControls.length} Deferred
             </span>
           </div>
@@ -384,7 +401,7 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
               {rec.selectedControls.map((ctrl) => (
                 <div
                   key={ctrl.id}
-                  className="bg-[#ffffff] border border-[#e5e5e5] hover:border-[#1a3a3a] rounded-[20px] p-6 shadow-xs space-y-3 transition-all"
+                  className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] hover:border-[#1a3a3a] rounded-[20px] p-6 shadow-xs space-y-3 transition-all"
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -392,17 +409,17 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
                         <span className="font-mono text-xs font-bold text-[#1a3a3a] bg-[#1a3a3a]/10 px-2.5 py-0.5 rounded-full">
                           {ctrl.code}
                         </span>
-                        <span className="text-[10px] font-semibold uppercase text-[#6a6a6a]">
+                        <span className="text-[10px] font-semibold uppercase text-[#6a6a6a] dark:text-[#94a3b8]">
                           {ctrl.category}
                         </span>
                       </div>
-                      <h4 className="text-sm font-semibold text-[#0a0a0a] mt-2">{ctrl.name}</h4>
+                      <h4 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff] mt-2">{ctrl.name}</h4>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs font-mono font-bold text-[#0a0a0a] block">
+                      <span className="text-xs font-mono font-bold text-[#0a0a0a] dark:text-[#ffffff] block">
                         {formatINR(ctrl.annualCostINR)}/yr
                       </span>
-                      <span className="text-[11px] text-[#6a6a6a] font-mono">
+                      <span className="text-[11px] text-[#6a6a6a] dark:text-[#94a3b8] font-mono">
                         {ctrl.implementationTimeDays} days deploy
                       </span>
                     </div>
@@ -410,15 +427,15 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
 
                   <p className="text-xs text-[#3a3a3a]">{ctrl.description}</p>
 
-                  <div className="text-xs bg-[#faf5e8] p-3 rounded-[12px] border border-[#e5e5e5] text-[#3a3a3a]">
-                    <span className="text-[10px] text-[#0a0a0a] uppercase font-bold block mb-0.5">
+                  <div className="text-xs bg-[#faf5e8] dark:bg-[#1e293b] p-3 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b] text-[#3a3a3a]">
+                    <span className="text-[10px] text-[#0a0a0a] dark:text-[#ffffff] uppercase font-bold block mb-0.5">
                       Optimization Rationale:
                     </span>
                     {ctrl.justification}
                   </div>
 
-                  <div className="pt-2 border-t border-[#e5e5e5] flex items-center justify-between text-[11px] text-[#6a6a6a]">
-                    <span>Target Scenarios: <strong className="text-[#0a0a0a]">{ctrl.targetScenarioIds.join(', ').toUpperCase()}</strong></span>
+                  <div className="pt-2 border-t border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between text-[11px] text-[#6a6a6a] dark:text-[#94a3b8]">
+                    <span>Target Scenarios: <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{ctrl.targetScenarioIds.join(', ').toUpperCase()}</strong></span>
                     <span className="text-[#1a3a3a] font-semibold font-mono">
                       -{(ctrl.effectivenessPercent * 100).toFixed(0)}% Risk
                     </span>
@@ -431,7 +448,7 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
           {/* Deferred Controls */}
           {rec.deferredControls.length > 0 && (
             <div className="space-y-3 pt-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#6a6a6a] flex items-center space-x-1.5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#6a6a6a] dark:text-[#94a3b8] flex items-center space-x-1.5">
                 <XCircle className="w-4 h-4 text-[#9a9a9a]" />
                 <span>Deferred Candidate Controls ({rec.deferredControls.length})</span>
               </h3>
@@ -440,31 +457,31 @@ export const BudgetRecommendationScreen: React.FC<BudgetRecommendationScreenProp
                 {rec.deferredControls.map((ctrl) => (
                   <div
                     key={ctrl.id}
-                    className="bg-[#faf5e8] border border-[#e5e5e5] rounded-[20px] p-6 shadow-xs space-y-3 opacity-90 hover:opacity-100 transition-opacity"
+                    className="bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px] p-6 shadow-xs space-y-3 opacity-90 hover:opacity-100 transition-opacity"
                   >
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center space-x-2">
-                          <span className="font-mono text-xs font-bold text-[#6a6a6a] bg-[#ffffff] px-2.5 py-0.5 rounded-full border border-[#e5e5e5]">
+                          <span className="font-mono text-xs font-bold text-[#6a6a6a] dark:text-[#94a3b8] bg-[#ffffff] dark:bg-[#0c121e] px-2.5 py-0.5 rounded-full border border-[#e5e5e5] dark:border-[#1e293b]">
                             {ctrl.code}
                           </span>
-                          <span className="text-[10px] font-semibold uppercase text-[#6a6a6a]">
+                          <span className="text-[10px] font-semibold uppercase text-[#6a6a6a] dark:text-[#94a3b8]">
                             {ctrl.category}
                           </span>
                         </div>
-                        <h4 className="text-sm font-semibold text-[#0a0a0a] mt-2">{ctrl.name}</h4>
+                        <h4 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff] mt-2">{ctrl.name}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs font-mono font-semibold text-[#0a0a0a] block">
+                        <span className="text-xs font-mono font-semibold text-[#0a0a0a] dark:text-[#ffffff] block">
                           {formatINR(ctrl.annualCostINR)}/yr
                         </span>
                       </div>
                     </div>
 
-                    <p className="text-xs text-[#6a6a6a]">{ctrl.description}</p>
+                    <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">{ctrl.description}</p>
 
-                    <div className="text-xs bg-[#ffffff] p-3 rounded-[12px] border border-[#e5e5e5] text-[#6a6a6a]">
-                      <span className="text-[10px] text-[#0a0a0a] uppercase font-bold block mb-0.5">
+                    <div className="text-xs bg-[#ffffff] dark:bg-[#0c121e] p-3 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b] text-[#6a6a6a] dark:text-[#94a3b8]">
+                      <span className="text-[10px] text-[#0a0a0a] dark:text-[#ffffff] uppercase font-bold block mb-0.5">
                         Solver Deferral Justification:
                       </span>
                       {ctrl.reasonDeferred}

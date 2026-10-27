@@ -163,7 +163,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Paper Hero Header */}
-      <div className="bg-[#ffffff] rounded-2xl border border-[#e5e5e5] p-6 sm:p-8 shadow-xs relative overflow-hidden">
+      <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-2xl border border-[#e5e5e5] dark:border-[#1e293b] p-6 sm:p-8 shadow-xs relative overflow-hidden">
         <div className="absolute -right-16 -top-16 w-64 h-64 bg-[#ff4d8b]/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -left-16 -bottom-16 w-64 h-64 bg-[#1a3a3a]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -173,11 +173,11 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               <ShieldCheck className="w-3.5 h-3.5 text-[#ffb084]" />
               <span>ZK-PACE Protocol</span>
             </span>
-            <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium bg-[#faf5e8] text-[#0a0a0a] border border-[#e5e5e5]">
+            <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b]">
               <Lock className="w-3 h-3 text-[#ff4d8b]" />
               <span>zk-SNARKs (Groth16 / BN254)</span>
             </span>
-            <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium bg-[#faf5e8] text-[#0a0a0a] border border-[#e5e5e5]">
+            <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b]">
               <Activity className="w-3 h-3 text-[#1a3a3a]" />
               <span>Open FAIR™ Quantitative Engine</span>
             </span>
@@ -186,19 +186,19 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#0a0a0a] tracking-tight font-display">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] tracking-tight font-display">
             ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Risk Evaluation and Optimal Defense Allocation
           </h1>
 
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-[#4a4a4a] pt-1">
             <div>
-              <span className="font-medium text-[#0a0a0a]">Lead Author:</span> Saurabh Girase
+              <span className="font-medium text-[#0a0a0a] dark:text-[#ffffff]">Lead Author:</span> Saurabh Girase
             </div>
             <div>
-              <span className="font-medium text-[#0a0a0a]">Affiliation:</span> Computer Science & Engineering Research Lab
+              <span className="font-medium text-[#0a0a0a] dark:text-[#ffffff]">Affiliation:</span> Computer Science & Engineering Research Lab
             </div>
             <div>
-              <span className="font-medium text-[#0a0a0a]">Document Type:</span> Technical Architecture & Research Monograph
+              <span className="font-medium text-[#0a0a0a] dark:text-[#ffffff]">Document Type:</span> Technical Architecture & Research Monograph
             </div>
           </div>
 
@@ -219,7 +219,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
             <Button
               variant="secondary"
               size="sm"
-              icon={copiedBibtex ? <Check className="w-4 h-4 text-[#137333]" /> : <Copy className="w-4 h-4 text-[#6a6a6a]" />}
+              icon={copiedBibtex ? <Check className="w-4 h-4 text-[#137333]" /> : <Copy className="w-4 h-4 text-[#6a6a6a] dark:text-[#94a3b8]" />}
               onClick={handleCopyBibtex}
             >
               {copiedBibtex ? 'Citation Copied' : 'Copy BibTeX Citation'}
@@ -229,7 +229,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                 const el = document.getElementById('zk-interactive-prover');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#faf5e8] hover:bg-[#f5f0e0] text-[#0a0a0a] border border-[#e5e5e5] transition-all cursor-pointer"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-[#faf5e8] dark:bg-[#1e293b] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5 text-[#ff4d8b]" />
               <span>Launch zk-SNARK Sandbox</span>
@@ -240,37 +240,37 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
       {/* Core Innovation Grid: 3 Pillars of ZK-PACE */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="bg-[#ffffff] rounded-xl border border-[#e5e5e5] p-5 shadow-xs space-y-3">
+        <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] p-5 shadow-xs space-y-3">
           <div className="w-9 h-9 rounded-lg bg-[#1a3a3a] flex items-center justify-center text-[#ffb084]">
             <Lock className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-semibold text-[#0a0a0a]">1. Zero-Knowledge Proofs</h3>
+          <h3 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff]">1. Zero-Knowledge Proofs</h3>
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
             Groth16 zk-SNARK circuit compiled via Circom. Proves polynomial relationships over BN254 elliptic curves so external underwriters verify loss boundaries without seeing raw CVEs.
           </p>
-          <div className="text-[11px] font-mono text-[#ff4d8b] bg-[#faf5e8] px-2.5 py-1 rounded-md border border-[#e5e5e5]">
+          <div className="text-[11px] font-mono text-[#ff4d8b] bg-[#faf5e8] dark:bg-[#1e293b] px-2.5 py-1 rounded-md border border-[#e5e5e5] dark:border-[#1e293b]">
             Proof size: 128 bytes | Verifier: &lt;15 ms
           </div>
         </div>
 
-        <div className="bg-[#ffffff] rounded-xl border border-[#e5e5e5] p-5 shadow-xs space-y-3">
+        <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] p-5 shadow-xs space-y-3">
           <div className="w-9 h-9 rounded-lg bg-[#ff4d8b]/15 flex items-center justify-center text-[#ff4d8b]">
             <Activity className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-semibold text-[#0a0a0a]">2. FAIR™ Quantitative Loss Model</h3>
+          <h3 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff]">2. FAIR™ Quantitative Loss Model</h3>
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
             Replaces arbitrary 5x5 colored heatmaps with defensible financial engineering: $ALE = LEF \times LM$ evaluated in Indian Rupees (₹ Cr) anchored to 1,902 historical breach records.
           </p>
-          <div className="text-[11px] font-mono text-[#1a3a3a] bg-[#faf5e8] px-2.5 py-1 rounded-md border border-[#e5e5e5]">
+          <div className="text-[11px] font-mono text-[#1a3a3a] bg-[#faf5e8] dark:bg-[#1e293b] px-2.5 py-1 rounded-md border border-[#e5e5e5] dark:border-[#1e293b]">
             Primary + DPDP Secondary Fines (₹250 Cr cap)
           </div>
         </div>
 
-        <div className="bg-[#ffffff] rounded-xl border border-[#e5e5e5] p-5 shadow-xs space-y-3">
+        <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] p-5 shadow-xs space-y-3">
           <div className="w-9 h-9 rounded-lg bg-[#e8b94a]/20 flex items-center justify-center text-[#946c00]">
             <Cpu className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-semibold text-[#0a0a0a]">3. MILP Knapsack Optimizer</h3>
+          <h3 className="text-sm font-semibold text-[#0a0a0a] dark:text-[#ffffff]">3. MILP Knapsack Optimizer</h3>
           <p className="text-xs text-[#5a5a5a] leading-relaxed">
             Branch-and-bound 0-1 Integer Linear Programming via Google OR-Tools. Maximizes net risk reduction $\sum \Delta R_j \cdot x_j$ under strict capital budget constraint $\sum c_j x_j \le B$.
           </p>
@@ -281,26 +281,26 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
       </div>
 
       {/* Interactive Cryptographic Prover & Verifier Simulation */}
-      <div id="zk-interactive-prover" className="bg-[#ffffff] rounded-2xl border border-[#e5e5e5] p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#e5e5e5] gap-3">
+      <div id="zk-interactive-prover" className="bg-[#ffffff] dark:bg-[#0c121e] rounded-2xl border border-[#e5e5e5] dark:border-[#1e293b] p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#e5e5e5] dark:border-[#1e293b] gap-3">
           <div>
             <div className="flex items-center space-x-2">
               <Key className="w-5 h-5 text-[#ff4d8b]" />
-              <h2 className="text-lg font-semibold text-[#0a0a0a]">
+              <h2 className="text-lg font-semibold text-[#0a0a0a] dark:text-[#ffffff]">
                 Interactive Cryptographic Prover & Verifier (Groth16 zk-SNARK)
               </h2>
             </div>
-            <p className="text-xs text-[#6a6a6a] mt-1">
+            <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-1">
               Demonstrate the live cryptographic protocol: simulate the enterprise Prover generating a proof $\pi$ and an external Verifier validating it in zero knowledge.
             </p>
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-[#6a6a6a]">Circuit:</span>
+            <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">Circuit:</span>
             <select
               value={selectedCircuit}
               onChange={(e) => setSelectedCircuit(e.target.value as any)}
-              className="text-xs font-medium bg-[#faf5e8] border border-[#e5e5e5] rounded-lg px-2.5 py-1 text-[#0a0a0a]"
+              className="text-xs font-medium bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-lg px-2.5 py-1 text-[#0a0a0a] dark:text-[#ffffff]"
             >
               <option value="fair-loss">FairLossVerification.circom</option>
               <option value="attack-path">AttackPathReachability.circom</option>
@@ -312,11 +312,11 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
         {/* Dual Panels: Prover Witness vs. Verifier Public Inputs */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left: Private Prover Witness (Hidden from external eyes) */}
-          <div className="bg-[#faf5e8]/70 rounded-xl border border-[#e5e5e5] p-5 space-y-4">
+          <div className="bg-[#faf5e8]/70 rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] p-5 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#d93025]" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a]">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a] dark:text-[#ffffff]">
                   Private Prover Witness (Secret / Encrypted)
                 </span>
               </div>
@@ -324,13 +324,13 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                 NEVER DISCLOSED
               </span>
             </div>
-            <p className="text-xs text-[#6a6a6a]">
+            <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">
               These confidential attributes remain strictly on-premise inside the enterprise boundary:
             </p>
 
             <div className="space-y-3 pt-2">
               <div>
-                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] mb-1">
+                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] dark:text-[#ffffff] mb-1">
                   <span>Target Assets Monitored ($N$)</span>
                   <span className="font-mono text-[#1a3a3a]">{privateAssetCount} internal nodes</span>
                 </div>
@@ -346,7 +346,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               </div>
 
               <div>
-                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] mb-1">
+                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] dark:text-[#ffffff] mb-1">
                   <span>Secret Threat Capability ($TCap$)</span>
                   <span className="font-mono text-[#ff4d8b]">{privateThreatCap.toFixed(2)}</span>
                 </div>
@@ -362,7 +362,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               </div>
 
               <div>
-                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] mb-1">
+                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] dark:text-[#ffffff] mb-1">
                   <span>Allocated Defense Cost</span>
                   <span className="font-mono text-[#137333]">₹{privateDefenseCostLakh} Lakhs</span>
                 </div>
@@ -378,8 +378,8 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#e5e5e5] flex items-center justify-between">
-              <span className="text-xs text-[#6a6a6a]">
+            <div className="pt-3 border-t border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
+              <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">
                 Witness size: <strong>32 private variables</strong>
               </span>
               <Button
@@ -395,11 +395,11 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
           </div>
 
           {/* Right: Public Signals & Verifier Inputs */}
-          <div className="bg-[#ffffff] rounded-xl border border-[#e5e5e5] p-5 space-y-4">
+          <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] p-5 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#137333]" />
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a]">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#0a0a0a] dark:text-[#ffffff]">
                   Public Signals (Visible to Auditor / Insurer)
                 </span>
               </div>
@@ -407,15 +407,15 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                 PUBLIC INPUTS
               </span>
             </div>
-            <p className="text-xs text-[#6a6a6a]">
+            <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">
               The public constraints that the external party checks against:
             </p>
 
             <div className="space-y-3 pt-2">
               <div>
-                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] mb-1">
+                <div className="flex justify-between text-xs font-medium text-[#0a0a0a] dark:text-[#ffffff] mb-1">
                   <span>Guaranteed Maximum Loss Threshold ($\tau$)</span>
-                  <span className="font-mono text-[#0a0a0a] font-semibold">₹{lossBoundCr.toFixed(2)} Cr</span>
+                  <span className="font-mono text-[#0a0a0a] dark:text-[#ffffff] font-semibold">₹{lossBoundCr.toFixed(2)} Cr</span>
                 </div>
                 <input
                   type="range"
@@ -431,24 +431,24 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                 </span>
               </div>
 
-              <div className="bg-[#faf5e8] p-3 rounded-lg border border-[#e5e5e5] text-xs space-y-1 font-mono">
+              <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-3 rounded-lg border border-[#e5e5e5] dark:border-[#1e293b] text-xs space-y-1 font-mono">
                 <div className="flex justify-between">
-                  <span className="text-[#6a6a6a]">Target Confidence:</span>
-                  <span className="font-semibold text-[#0a0a0a]">95.0% VaR</span>
+                  <span className="text-[#6a6a6a] dark:text-[#94a3b8]">Target Confidence:</span>
+                  <span className="font-semibold text-[#0a0a0a] dark:text-[#ffffff]">95.0% VaR</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6a6a6a]">CISA KEV Merkle Root:</span>
+                  <span className="text-[#6a6a6a] dark:text-[#94a3b8]">CISA KEV Merkle Root:</span>
                   <span className="font-semibold text-[#1a3a3a] truncate max-w-[150px]">0x9b4a...f721</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#6a6a6a]">Statutory Penalty Cap:</span>
+                  <span className="text-[#6a6a6a] dark:text-[#94a3b8]">Statutory Penalty Cap:</span>
                   <span className="font-semibold text-[#1a3a3a]">₹250 Cr (DPDP Act)</span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#e5e5e5] flex items-center justify-between">
-              <span className="text-xs text-[#6a6a6a]">
+            <div className="pt-3 border-t border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
+              <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">
                 Pairing Check: <strong>e(A, B) = e(α, β) · e(xγ, δ)</strong>
               </span>
               <Button
@@ -547,9 +547,9 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
       </div>
 
       {/* Paper Sections Navigation & Content */}
-      <div className="bg-[#ffffff] rounded-2xl border border-[#e5e5e5] shadow-xs overflow-hidden">
+      <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-2xl border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs overflow-hidden">
         {/* Navigation Tabs for Paper Sections */}
-        <div className="flex border-b border-[#e5e5e5] overflow-x-auto bg-[#faf5e8]">
+        <div className="flex border-b border-[#e5e5e5] dark:border-[#1e293b] overflow-x-auto bg-[#faf5e8] dark:bg-[#1e293b]">
           {[
             { id: 'abstract', label: 'I. Abstract & Problem' },
             { id: 'math', label: 'II. Mathematical Formulation' },
@@ -564,8 +564,8 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               onClick={() => setActiveSection(tab.id)}
               className={`px-4 py-3 text-xs font-semibold whitespace-nowrap border-b-2 transition-all cursor-pointer ${
                 activeSection === tab.id
-                  ? 'border-[#ff4d8b] text-[#0a0a0a] bg-[#ffffff]'
-                  : 'border-transparent text-[#6a6a6a] hover:text-[#0a0a0a] hover:bg-[#f5f0e0]/50'
+                  ? 'border-[#ff4d8b] text-[#0a0a0a] dark:text-[#ffffff] bg-[#ffffff] dark:bg-[#0c121e]'
+                  : 'border-transparent text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#f5f0e0]/50'
               }`}
             >
               {tab.label}
@@ -577,22 +577,22 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
         <div className="p-6 sm:p-8 space-y-6 text-sm text-[#2a2a2a] leading-relaxed">
           {activeSection === 'abstract' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section I: Abstract & The Cyber Audit Paradox
               </h2>
-              <div className="bg-[#faf5e8] border-l-4 border-[#ff4d8b] p-4 rounded-r-lg">
+              <div className="bg-[#faf5e8] dark:bg-[#1e293b] border-l-4 border-[#ff4d8b] p-4 rounded-r-lg">
                 <p className="italic text-xs text-[#3a3a3a] leading-relaxed">
                   "Traditional cyber risk assessment methods rely either on subjective qualitative heatmaps or require invasive disclosure of sensitive network topology and unpatched vulnerabilities. This creates an irreconcilable conflict between external transparency (demanded by cyber insurers, regulators, and supply chain partners) and internal operational secrecy. ZK-PACE resolves this paradox through non-interactive zero-knowledge proofs over bilinear pairings."
                 </p>
               </div>
 
               <div className="space-y-3">
-                <h3 className="text-base font-semibold text-[#0a0a0a]">1.1 The Dual-Paradox Formulation</h3>
+                <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff]">1.1 The Dual-Paradox Formulation</h3>
                 <p>
                   Let <span className="font-mono">O</span> be the target enterprise operating an IT/OT infrastructure with <span className="font-mono">N</span> digital assets <span className="font-mono">{'A = {a_1, a_2, ..., a_N}'}</span> and an active vulnerability vector <span className="font-mono">v in R^N</span>. Let <span className="font-mono">V</span> be an external auditor, statutory regulator (e.g., CERT-In, RBI, SEBI), or cyber insurance underwriter.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                  <div className="bg-[#ffffff] p-4 rounded-xl border border-[#e5e5e5] space-y-2">
+                  <div className="bg-[#ffffff] dark:bg-[#0c121e] p-4 rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] space-y-2">
                     <span className="text-xs font-semibold text-[#d93025] uppercase tracking-wider">
                       Auditor's Requirement
                     </span>
@@ -600,7 +600,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                       Verify that total exposure satisfies <span className="font-mono font-semibold">{'VaR_95%(O) <= tau'}</span> and that the enterprise has deployed necessary controls to prevent systemic propagation.
                     </p>
                   </div>
-                  <div className="bg-[#ffffff] p-4 rounded-xl border border-[#e5e5e5] space-y-2">
+                  <div className="bg-[#ffffff] dark:bg-[#0c121e] p-4 rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] space-y-2">
                     <span className="text-xs font-semibold text-[#1a3a3a] uppercase tracking-wider">
                       Enterprise Constraint
                     </span>
@@ -615,17 +615,17 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
           {activeSection === 'math' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section II: Quantitative FAIR™ Mathematical Modeling
               </h2>
               <p>
                 ZK-PACE formalizes the Open FAIR™ framework into an algebraic arithmetic circuit suitable for finite field representation over scalar fields of BN254.
               </p>
 
-              <div className="bg-[#faf5e8] p-5 rounded-xl border border-[#e5e5e5] space-y-4 font-mono text-xs">
+              <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-5 rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] space-y-4 font-mono text-xs">
                 <div>
                   <div className="text-[#888888]">// Equation 1: Loss Event Frequency (LEF)</div>
-                  <div className="text-[#0a0a0a] font-semibold text-sm">
+                  <div className="text-[#0a0a0a] dark:text-[#ffffff] font-semibold text-sm">
                     LEF = TEF * P(TCap &gt; CS)
                   </div>
                   <div className="text-[#5a5a5a] text-[11px] mt-0.5">
@@ -633,9 +633,9 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                   </div>
                 </div>
 
-                <div className="border-t border-[#e5e5e5] pt-3">
+                <div className="border-t border-[#e5e5e5] dark:border-[#1e293b] pt-3">
                   <div className="text-[#888888]">// Equation 2: Loss Magnitude Decomposition (INR ₹)</div>
-                  <div className="text-[#0a0a0a] font-semibold text-sm">
+                  <div className="text-[#0a0a0a] dark:text-[#ffffff] font-semibold text-sm">
                     {'LM = (C_IR + C_BI + C_Recovery) + min(C_Fines, 250 Cr) + C_Reputation'}
                   </div>
                   <div className="text-[#5a5a5a] text-[11px] mt-0.5">
@@ -643,9 +643,9 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                   </div>
                 </div>
 
-                <div className="border-t border-[#e5e5e5] pt-3">
+                <div className="border-t border-[#e5e5e5] dark:border-[#1e293b] pt-3">
                   <div className="text-[#888888]">// Equation 3: Annualized Loss Expectancy (ALE)</div>
-                  <div className="text-[#0a0a0a] font-semibold text-sm">
+                  <div className="text-[#0a0a0a] dark:text-[#ffffff] font-semibold text-sm">
                     {'ALE = integral(L * f(L) dL) ~ (1/M) * sum_{k=1}^M [ sum_{s} LEF_s^(k) * LM_s^(k) ]'}
                   </div>
                 </div>
@@ -655,7 +655,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
           {activeSection === 'zk-circuit' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section III: Circom Circuit Architecture & zk-SNARK Constraints
               </h2>
               <p>
@@ -696,15 +696,15 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
           {activeSection === 'milp' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section IV: Optimal Defense Allocation via Google OR-Tools MILP
               </h2>
               <p>
                 Heuristic greedy algorithms for security budgeting frequently get trapped in sub-optimal local extrema when controls exhibit high indivisible fixed costs or mutually exclusive vendor constraints. ZK-PACE formulates defense selection as a 0-1 Mixed-Integer Linear Program solved via branch-and-bound:
               </p>
 
-              <div className="bg-[#faf5e8] p-5 rounded-xl border border-[#e5e5e5] font-mono text-xs space-y-3">
-                <div className="font-semibold text-sm text-[#0a0a0a]">
+              <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-5 rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] font-mono text-xs space-y-3">
+                <div className="font-semibold text-sm text-[#0a0a0a] dark:text-[#ffffff]">
                   {'max_x sum_{j=1}^m [ sum_{s} Delta_R_{s,j} ] * x_j - lambda * sum_{j=1}^m c_j * x_j'}
                 </div>
                 <div className="text-[#4a4a4a]">
@@ -721,7 +721,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
           {activeSection === 'results' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section V: Experimental Evaluation & Empirical Benchmarks
               </h2>
               <p>
@@ -729,8 +729,8 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               </p>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left border border-[#e5e5e5] rounded-lg overflow-hidden">
-                  <thead className="bg-[#faf5e8] text-[#0a0a0a] font-semibold border-b border-[#e5e5e5]">
+                <table className="w-full text-xs text-left border border-[#e5e5e5] dark:border-[#1e293b] rounded-lg overflow-hidden">
+                  <thead className="bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] font-semibold border-b border-[#e5e5e5] dark:border-[#1e293b]">
                     <tr>
                       <th className="p-3">Scenario Scale ($N$)</th>
                       <th className="p-3">R1CS Constraints</th>
@@ -773,7 +773,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
           {activeSection === 'statutory' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section VI: Indian Regulatory & Statutory Compliance Integration
               </h2>
               <p>
@@ -781,7 +781,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
               </p>
 
               <div className="space-y-4">
-                <div className="p-4 bg-[#ffffff] border border-[#e5e5e5] rounded-xl space-y-2">
+                <div className="p-4 bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-[#1a3a3a]">
                       Digital Personal Data Protection (DPDP) Act 2023 — Section 8(5) & Section 33
@@ -793,7 +793,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                   </p>
                 </div>
 
-                <div className="p-4 bg-[#ffffff] border border-[#e5e5e5] rounded-xl space-y-2">
+                <div className="p-4 bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-[#1a3a3a]">
                       RBI Master Direction on Information Technology Governance & Cyber Security (2023)
@@ -805,7 +805,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                   </p>
                 </div>
 
-                <div className="p-4 bg-[#ffffff] border border-[#e5e5e5] rounded-xl space-y-2">
+                <div className="p-4 bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-[#1a3a3a]">
                       CERT-In Cyber Security Directions (April 2022)
@@ -822,16 +822,16 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
 
           {activeSection === 'citation' && (
             <div className="space-y-5">
-              <h2 className="text-xl font-semibold text-[#0a0a0a] font-display">
+              <h2 className="text-xl font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Section VII: Research Authorship & Citation
               </h2>
               <p>
                 To cite this research project in academic dissertations, viva examinations, or conference submissions, please use the standard IEEE citation format below:
               </p>
 
-              <div className="bg-[#faf5e8] p-5 rounded-xl border border-[#e5e5e5] font-mono text-xs space-y-2">
+              <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-5 rounded-xl border border-[#e5e5e5] dark:border-[#1e293b] font-mono text-xs space-y-2">
                 <div className="text-[#888888]">// IEEE Reference Format</div>
-                <div className="text-[#0a0a0a] font-medium leading-relaxed">
+                <div className="text-[#0a0a0a] dark:text-[#ffffff] font-medium leading-relaxed">
                   S. Girase et al., "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Risk Evaluation and Optimal Defense Allocation," <i>IEEE Transactions on Information Forensics and Security</i>, vol. 18, pp. 1–16, 2025.
                 </div>
               </div>
@@ -848,7 +848,7 @@ Girase, S., et al. "ZK-PACE: Zero-Knowledge Privacy-Preserving Cyber-Economic Ri
                 <Button
                   variant="secondary"
                   size="sm"
-                  icon={<Download className="w-4 h-4 text-[#6a6a6a]" />}
+                  icon={<Download className="w-4 h-4 text-[#6a6a6a] dark:text-[#94a3b8]" />}
                   onClick={handleDownloadPaperSummary}
                 >
                   Download Summary Document

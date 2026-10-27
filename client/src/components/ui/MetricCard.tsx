@@ -30,21 +30,21 @@ const variantStyles: Record<MetricVariant, { bg: string; text: string; subtext: 
   },
   peach: {
     bg: 'bg-[#ffb084]',
-    text: 'text-[#0a0a0a]',
+    text: 'text-[#0a0a0a] dark:text-[#ffffff]',
     subtext: 'text-[#0a0a0a]/70',
     border: 'border-transparent'
   },
   ochre: {
     bg: 'bg-[#e8b94a]',
-    text: 'text-[#0a0a0a]',
+    text: 'text-[#0a0a0a] dark:text-[#ffffff]',
     subtext: 'text-[#0a0a0a]/70',
     border: 'border-transparent'
   },
   white: {
-    bg: 'bg-[#ffffff]',
-    text: 'text-[#0a0a0a]',
-    subtext: 'text-[#6a6a6a]',
-    border: 'border-[#e5e5e5]'
+    bg: 'bg-[#ffffff] dark:bg-[#0c121e]',
+    text: 'text-[#0a0a0a] dark:text-[#ffffff]',
+    subtext: 'text-[#6a6a6a] dark:text-[#94a3b8]',
+    border: 'border-[#e5e5e5] dark:border-[#1e293b]'
   },
   dark: {
     bg: 'bg-[#0a0a0a]',
@@ -96,7 +96,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       </div>
 
       {(footer || badge) && (
-        <div className={`mt-5 pt-3 border-t ${variant === 'white' ? 'border-[#e5e5e5]' : 'border-white/15'} flex items-center justify-between text-[12px] ${styles.subtext}`}>
+        <div className={`mt-5 pt-3 border-t ${variant === 'white' ? 'border-[#e5e5e5] dark:border-[#1e293b]' : 'border-white/15'} flex items-center justify-between text-[12px] ${styles.subtext}`}>
           {footer && <span>{footer}</span>}
           {badge && <div>{badge}</div>}
         </div>

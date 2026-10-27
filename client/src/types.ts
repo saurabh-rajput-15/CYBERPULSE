@@ -54,7 +54,7 @@ export interface LinkedCVE {
 export interface RiskScenario {
   id: string;
   title: string;
-  category: 'Ransomware' | 'Cloud Misconfiguration' | 'Credential Stuffing' | 'Supply Chain';
+  category: 'Ransomware' | 'Cloud Misconfiguration' | 'Credential Stuffing' | 'Supply Chain' | 'Availability' | 'Insider Threat';
   threatActor: string;
   targetedAsset: string;
   description: string;
@@ -200,6 +200,10 @@ export interface HistoricalIncident {
   validatingSource: string;
   incidentClosureDate: string;
   lessonsLearned: string;
+  detectedIndustry?: string;
+  mitreTechniqueId?: string;
+  mitreTechniqueName?: string;
+  mitigatingControlCodes?: string[];
 }
 
 export interface AttackVectorStats {
@@ -225,6 +229,13 @@ export interface HistoricalDatasetStats {
   p90LossUSD: number;
   maxLossUSD: number;
   attackVectorDistribution: AttackVectorStats[];
+  industryDistribution?: {
+    industry: string;
+    count: number;
+    totalLossUSD: number;
+    medianLossUSD: number;
+    avgLossUSD: number;
+  }[];
   topBreaches: HistoricalIncident[];
 }
 
@@ -256,11 +267,163 @@ export interface RealDataSummary {
   medianHistoricalLossUSD: number;
   nvdCriticalCount: number;
   nvdHighCount: number;
+  cveV5TotalCount?: number;
+  cveV5ActiveExploits?: number;
+  cveV5CriticalCount?: number;
   activeApiKeys: {
     nvd: boolean;
     abuseCh: boolean;
   };
 }
+
+export interface MonteCarloPMLMetrics {
+  p50: { usd: number; inr: number };
+  p90_10yr: { usd: number; inr: number };
+  p98_50yr: { usd: number; inr: number };
+  p99_100yr: { usd: number; inr: number };
+  p996_250yr: { usd: number; inr: number };
+  maxSimulated: { usd: number; inr: number };
+  riskAppetiteExceedance: {
+    thresholdINR: number;
+    inherentProbPct: number;
+    residualProbPct: number;
+  };
+}
+
+export interface LossExceedancePoint {
+  lossUSD: number;
+  lossINR: number;
+  lossLabelINR: string;
+  inherentProb: number;
+  residualProb: number;
+}
+
+export interface MonteCarloSimulationResult {
+  iterations: number;
+  sector: string;
+  sourceDescription: string;
+  inherentPML: MonteCarloPMLMetrics;
+  residualPML: MonteCarloPMLMetrics;
+  curveData: LossExceedancePoint[];
+  empiricalSampleSize: number;
+  riskAppetiteINR: number;
+}
+
+// CVE v5 types for cvelistV5 dataset
+export interface CveV5Record {
+  cveId: string;
+  year: number;
+  assigner: string;
+  title: string;
+  description: string;
+  vendor: string;
+  product: string;
+  cvssScore: number | null;
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'UNKNOWN';
+  attackVector: string;
+  cweId: string;
+  cweName: string;
+  exploitation: 'active' | 'poc' | 'none';
+  automatable: 'yes' | 'no';
+  technicalImpact: 'total' | 'partial';
+  datePublished: string;
+  dateUpdated: string;
+  relPath: string;
+}
+
+export interface CveV5Detail extends CveV5Record {
+  fullDescription: string;
+  cpeList: string[];
+  affectedVersions: {
+    vendor: string;
+    product: string;
+    versions: { version: string; status: string; lessThan?: string }[];
+  }[];
+  cvssMetrics?: {
+    version: string;
+    vectorString: string;
+    baseScore: number;
+    baseSeverity: string;
+    attackVector: string;
+    attackComplexity: string;
+    privilegesRequired: string;
+    userInteraction: string;
+    scope: string;
+    confidentialityImpact: string;
+    integrityImpact: string;
+    availabilityImpact: string;
+  };
+  references: { url: string; name?: string; tags?: string[] }[];
+  solutions: string[];
+  ssvcDetails?: {
+    exploitation: string;
+    automatable: string;
+    technicalImpact: string;
+  };
+}
+
+export interface CveV5Stats {
+  totalIndexed: number;
+  totalOnDisk: number;
+  uniqueVendors: number;
+  criticalCount: number;
+  highCount: number;
+  activeExploitsCount: number;
+  pocExploitsCount: number;
+  topVendors: { vendor: string; count: number }[];
+  topCwes: { cweId: string; count: number }[];
+  recentCriticals: CveV5Record[];
+}
+
+export interface RealWorldBreachRecord {
+  cveId: string;
+  incidentName: string;
+  year: number;
+  documentedLossUSD: number; // Actual documented loss in USD
+  documentedLossINR: number; // Converted to INR
+  source: string;            // e.g. "IBM Cost of Data Breach 2024"
+  victimOrg?: string;
+  attackType: string;
+  notes: string;
+}
+
+export interface LossComponentBreakdown {
+  incidentResponse: number;   // IR / forensics in INR
+  businessInterruption: number; // Downtime losses in INR
+  dataRecovery: number;       // Restoration costs in INR
+  regulatoryFines: number;    // DPDP / RBI / SEBI penalties in INR
+  reputationalChurn: number;  // Customer attrition losses in INR
+  legalNotification: number;  // Legal fees + notification costs in INR
+  ransomwarePayment?: number; // Only if applicable
+  totalINR: number;
+}
+
+export interface CveV5RiskSimulation {
+  cveId: string;
+  title: string;
+  vendor: string;
+  product: string;
+  cvssScore: number;
+  severity: string;
+  attackVector: string;
+  exploitationStatus: string;
+  estimatedTef: number;
+  estimatedVulnerability: number;
+  estimatedLef: number;
+  lossMagnitudeUSD: number;
+  lossMagnitudeINR: number;
+  annualRiskUSD: number;
+  annualRiskINR: number;
+  lossRangeINR: LossRange;
+  lossComponents: LossComponentBreakdown;   // Itemised loss categories
+  sectorBenchmarkUSD: number;               // IBM 2024 sector average breach cost
+  sectorBenchmarkSource: string;            // Citation string
+  realWorldBreaches: RealWorldBreachRecord[]; // Documented real incidents for this CVE
+  ibmBenchmarkSector: string;               // Which IBM sector was applied
+  recommendedControls: string[];
+  justification: string;
+}
+
 
 // P10/P50/P90 range for any financial figure
 export interface LossRange {
@@ -331,6 +494,106 @@ export interface SynthesizedEvent {
   outcome: string;
   industry: string;
   responseTimeMin: number;
+  dataCompromisedGB?: number;
+  attackDurationMin?: number;
+  securityToolsUsed?: string;
+  mitigationMethod?: string;
+}
+
+// Containment Velocity & MTTR / Dwell Time Simulator Types
+export interface ContainmentVelocityPreset {
+  id: string;
+  name: string;
+  tier: string;
+  dwellDays: number;
+  containmentHours: number;
+  description: string;
+  securityControls: string[];
+  mitreSeveredStage: string;
+}
+
+export interface ContainmentVelocityPoint {
+  dwellDays: number;
+  dwellHours: number;
+  label: string;
+  projectedCostUSD: number;
+  projectedCostINR: number;
+  dataExfiltratedGB: number;
+  regulatoryRiskSeverity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  isCurrentPoint?: boolean;
+}
+
+export interface ContainmentVelocityResult {
+  currentDwellDays: number;
+  currentDwellHours: number;
+  baselineDwellDays: number;
+  projectedCostUSD: number;
+  projectedCostINR: number;
+  baselineCostUSD: number;
+  baselineCostINR: number;
+  netSavingsUSD: number;
+  netSavingsINR: number;
+  costReductionPct: number;
+  dataExfiltratedGB: number;
+  baselineDataExfiltratedGB: number;
+  dataMitigatedGB: number;
+  regulatoryFineRiskINR: number;
+  dpdpPenaltyCapINR: number;
+  mitreStageSevered: {
+    stage: string;
+    techniqueId: string;
+    description: string;
+  };
+  empiricalCurvePoints: ContainmentVelocityPoint[];
+  empiricalToolStats: {
+    tool: string;
+    avgResponseMin: number;
+    avgExfiltrationGB: number;
+    eventCount: number;
+  }[];
+  industryMultiplier: {
+    industry: string;
+    multiplier: number;
+    baselineAverageCostUSD: number;
+  };
+}
+// Blast Radius & Data Exposure Types
+export type DataClassificationTier = 'HEALTHCARE_PHI' | 'FINANCIAL_PCI' | 'CUSTOMER_PII' | 'SOURCE_CODE_IP' | 'CREDENTIALS_AUTH';
+
+export interface DataClassificationProfile {
+  id: DataClassificationTier;
+  name: string;
+  costPerRecordUSD: number;
+  costPerRecordINR: number;
+  regulatoryFramework: string;
+  typicalSizeBytes: number;
+  description: string;
+}
+
+export interface BlastRadiusResult {
+  recordsExposed: number;
+  dataVolumeGB: number;
+  classification: DataClassificationProfile;
+  directRemediationLossUSD: number;
+  directRemediationLossINR: number;
+  dpdpPenaltyINR: number;
+  notificationCostINR: number;
+  legalAndForensicsINR: number;
+  churnLossINR: number;
+  totalInherentBreachLossUSD: number;
+  totalInherentBreachLossINR: number;
+  residualBreachLossUSD: number;
+  residualBreachLossINR: number;
+  capitalPreservedINR: number;
+  riskReductionPct: number;
+  databaseExposedPct: number;
+  dpdpPenaltyTier: 'COMPLIANT_SAFE_HARBOR' | 'MODERATE_VIOLATION' | 'AGGRAVATED_BREACH' | 'MAXIMUM_STATUTORY_PENALTY';
+  costBreakdown: {
+    category: string;
+    inherentINR: number;
+    residualINR: number;
+    pctOfTotal: number;
+  }[];
 }
 
 

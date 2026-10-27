@@ -23,3 +23,5 @@ export { RealDataScreen } from './RealDataScreen';
 export { PRDSpecScreen } from './PRDSpecScreen';
 export { ZKPacePaperScreen } from './ZKPacePaperScreen';
 export { ScraperScreen } from './ScraperScreen';
+export { AwarenessDashboard } from './AwarenessDashboard';
+export { ThreatHubScreen } from './ThreatHubScreen';
