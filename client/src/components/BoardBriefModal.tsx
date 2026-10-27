@@ -68,21 +68,21 @@ ${
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0a0a0a]/50 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] w-full max-w-3xl max-h-[90vh] flex flex-col shadow-xl overflow-hidden">
+      <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] w-full max-w-3xl max-h-[90vh] flex flex-col shadow-xl overflow-hidden">
         {/* Modal Header */}
-        <div className="p-6 border-b border-[#e5e5e5] bg-[#faf5e8] flex items-center justify-between">
+        <div className="p-6 border-b border-[#e5e5e5] dark:border-[#1e293b] bg-[#faf5e8] dark:bg-[#1e293b] flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-[12px] bg-[#0a0a0a] flex items-center justify-center text-[#ffb084]">
               <Building2 className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-[#0a0a0a] font-display">Executive Cyber Risk Brief (Board of Directors)</h2>
-              <p className="text-xs text-[#6a6a6a]">Financial loss exposure, CISA threat activity, and budget ROI</p>
+              <h2 className="text-lg font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">Executive Cyber Risk Brief (Board of Directors)</h2>
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8]">Financial loss exposure, CISA threat activity, and budget ROI</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-[#6a6a6a] hover:text-[#0a0a0a] hover:bg-[#e5e5e5] transition-colors cursor-pointer"
+            className="p-2 rounded-full text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#e5e5e5] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -91,42 +91,42 @@ ${
         {/* Modal Content */}
         <div className="p-6 overflow-y-auto space-y-6 text-xs text-[#3a3a3a]">
           {/* Org meta card */}
-          <div className="bg-[#faf5e8] p-4 rounded-[16px] border border-[#e5e5e5] flex flex-wrap justify-between gap-3">
+          <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-4 rounded-[16px] border border-[#e5e5e5] dark:border-[#1e293b] flex flex-wrap justify-between gap-3">
             <div>
-              <span className="text-[#6a6a6a] block">Target Organization:</span>
-              <strong className="text-[#0a0a0a] text-sm">{data.organization.name}</strong>
+              <span className="text-[#6a6a6a] dark:text-[#94a3b8] block">Target Organization:</span>
+              <strong className="text-[#0a0a0a] dark:text-[#ffffff] text-sm">{data.organization.name}</strong>
             </div>
             <div>
-              <span className="text-[#6a6a6a] block">Compliance Standard:</span>
-              <strong className="text-[#0a0a0a]">{data.organization.complianceFramework}</strong>
+              <span className="text-[#6a6a6a] dark:text-[#94a3b8] block">Compliance Standard:</span>
+              <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{data.organization.complianceFramework}</strong>
             </div>
             <div>
-              <span className="text-[#6a6a6a] block">Methodology:</span>
+              <span className="text-[#6a6a6a] dark:text-[#94a3b8] block">Methodology:</span>
               <strong className="text-[#1a3a3a] font-mono">Open FAIR™ Standard (ISO 27005)</strong>
             </div>
           </div>
 
           {/* Section 1: Financial Loss Exposure */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#0a0a0a] mb-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#0a0a0a] dark:text-[#ffffff] mb-2.5">
               1. Current Financial Loss Exposure
             </h3>
             <div className="grid grid-cols-3 gap-3 text-center">
-              <div className="p-4 bg-[#faf5e8] rounded-[14px] border border-[#e5e5e5]">
-                <span className="text-[10px] text-[#6a6a6a] uppercase font-medium block">Total Annual Exposure</span>
+              <div className="p-4 bg-[#faf5e8] dark:bg-[#1e293b] rounded-[14px] border border-[#e5e5e5] dark:border-[#1e293b]">
+                <span className="text-[10px] text-[#6a6a6a] dark:text-[#94a3b8] uppercase font-medium block">Total Annual Exposure</span>
                 <span className="text-xl font-bold text-[#ff4d8b] font-mono mt-1 block">
                   {data.formattedTotalINR}
                 </span>
               </div>
-              <div className="p-4 bg-[#faf5e8] rounded-[14px] border border-[#e5e5e5]">
-                <span className="text-[10px] text-[#6a6a6a] uppercase font-medium block">Expected Loss Frequency</span>
-                <span className="text-xl font-bold text-[#0a0a0a] font-mono mt-1 block">
+              <div className="p-4 bg-[#faf5e8] dark:bg-[#1e293b] rounded-[14px] border border-[#e5e5e5] dark:border-[#1e293b]">
+                <span className="text-[10px] text-[#6a6a6a] dark:text-[#94a3b8] uppercase font-medium block">Expected Loss Frequency</span>
+                <span className="text-xl font-bold text-[#0a0a0a] dark:text-[#ffffff] font-mono mt-1 block">
                   {(data.scenarios.reduce((acc, s) => acc + s.fair.lef, 0)).toFixed(2)}/yr
                 </span>
               </div>
-              <div className="p-4 bg-[#faf5e8] rounded-[14px] border border-[#e5e5e5]">
-                <span className="text-[10px] text-[#6a6a6a] uppercase font-medium block">CISA Weaponized</span>
-                <span className="text-xl font-bold text-[#0a0a0a] font-mono mt-1 block">
+              <div className="p-4 bg-[#faf5e8] dark:bg-[#1e293b] rounded-[14px] border border-[#e5e5e5] dark:border-[#1e293b]">
+                <span className="text-[10px] text-[#6a6a6a] dark:text-[#94a3b8] uppercase font-medium block">CISA Weaponized</span>
+                <span className="text-xl font-bold text-[#0a0a0a] dark:text-[#ffffff] font-mono mt-1 block">
                   {data.activeExploitedCount} Active
                 </span>
               </div>
@@ -136,13 +136,13 @@ ${
           {/* Section 2: Recommended Security Budget Allocation */}
           {recommendation && (
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#0a0a0a] mb-2.5">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#0a0a0a] dark:text-[#ffffff] mb-2.5">
                 2. Recommended Security Budget Allocation (Knapsack Solver Optimal)
               </h3>
-              <div className="p-5 rounded-[16px] bg-[#faf5e8] border border-[#e5e5e5] space-y-3">
+              <div className="p-5 rounded-[16px] bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] space-y-3">
                 <div className="flex items-center justify-between text-[#3a3a3a]">
                   <span>Proposed Security Investment:</span>
-                  <strong className="font-mono text-[#0a0a0a] text-sm">{formatINR(recommendation.allocatedBudgetINR)}</strong>
+                  <strong className="font-mono text-[#0a0a0a] dark:text-[#ffffff] text-sm">{formatINR(recommendation.allocatedBudgetINR)}</strong>
                 </div>
                 <div className="flex items-center justify-between text-[#3a3a3a]">
                   <span>Expected Annual Risk Reduction:</span>
@@ -150,23 +150,23 @@ ${
                 </div>
                 <div className="flex items-center justify-between text-[#3a3a3a]">
                   <span>Residual Financial Exposure:</span>
-                  <strong className="font-mono text-[#0a0a0a] text-sm">{formatINR(recommendation.postMitigationExposureINR)}</strong>
+                  <strong className="font-mono text-[#0a0a0a] dark:text-[#ffffff] text-sm">{formatINR(recommendation.postMitigationExposureINR)}</strong>
                 </div>
-                <div className="flex items-center justify-between text-[#3a3a3a] pt-2 border-t border-[#e5e5e5]">
+                <div className="flex items-center justify-between text-[#3a3a3a] pt-2 border-t border-[#e5e5e5] dark:border-[#1e293b]">
                   <span>Net Portfolio Return on Investment:</span>
                   <strong className="font-mono text-[#ff4d8b] text-sm">{recommendation.roiMultiplier}x ROI</strong>
                 </div>
               </div>
 
               <div className="mt-4 space-y-2">
-                <span className="text-[11px] font-semibold text-[#6a6a6a] uppercase">Funded Controls Portfolio:</span>
+                <span className="text-[11px] font-semibold text-[#6a6a6a] dark:text-[#94a3b8] uppercase">Funded Controls Portfolio:</span>
                 {recommendation.selectedControls.map((c) => (
-                  <div key={c.id} className="p-3 rounded-[12px] bg-[#ffffff] border border-[#e5e5e5] text-xs flex justify-between items-center">
+                  <div key={c.id} className="p-3 rounded-[12px] bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] text-xs flex justify-between items-center">
                     <div>
                       <strong className="text-[#1a3a3a] font-mono mr-2">{c.code}</strong>
-                      <span className="text-[#0a0a0a] font-medium">{c.name}</span>
+                      <span className="text-[#0a0a0a] dark:text-[#ffffff] font-medium">{c.name}</span>
                     </div>
-                    <span className="text-[#6a6a6a] font-mono font-medium">{formatINR(c.annualCostINR)}/yr</span>
+                    <span className="text-[#6a6a6a] dark:text-[#94a3b8] font-mono font-medium">{formatINR(c.annualCostINR)}/yr</span>
                   </div>
                 ))}
               </div>
@@ -175,12 +175,12 @@ ${
         </div>
 
         {/* Modal Actions */}
-        <div className="p-4 border-t border-[#e5e5e5] bg-[#faf5e8] flex items-center justify-between">
-          <span className="text-xs text-[#6a6a6a] font-mono">Generated by ZK-PACE Zero-Knowledge & FAIR Engine</span>
+        <div className="p-4 border-t border-[#e5e5e5] dark:border-[#1e293b] bg-[#faf5e8] dark:bg-[#1e293b] flex items-center justify-between">
+          <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] font-mono">Generated by ZK-PACE Zero-Knowledge & FAIR Engine</span>
           <div className="flex items-center space-x-2">
             <button
               onClick={handleCopyText}
-              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-[12px] bg-[#ffffff] hover:bg-[#f5f0e0] text-[#0a0a0a] text-xs font-semibold border border-[#e5e5e5] transition-all cursor-pointer shadow-xs"
+              className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-[12px] bg-[#ffffff] dark:bg-[#0c121e] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] text-xs font-semibold border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer shadow-xs"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-[#22c55e]" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied to Clipboard' : 'Copy Text'}</span>

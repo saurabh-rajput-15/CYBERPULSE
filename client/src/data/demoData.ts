@@ -120,6 +120,102 @@ export const initialCandidateControls: CandidateControl[] = [
       'Eliminates persistent VPN access vulnerabilities',
       'Enforces mTLS across internal microservice communication'
     ]
+  },
+  {
+    id: 'ctrl-07',
+    code: 'CTRL-07',
+    name: 'Privileged Access Management (PAM) & Just-In-Time IAM',
+    category: 'Governance',
+    annualCostINR: 1100000, 
+    description: 'Vaults administrative credentials, enforces MFA for root access, and issues temporary, zero-standing-privilege access tokens.',
+    targetScenarioIds: ['scen-02', 'scen-06'],
+    effectivenessPercent: 0.80, 
+    implementationTimeDays: 25,
+    keyBenefits: [
+      'Eliminates long-lived AWS IAM access keys from developer machines',
+      'Requires dual-authorization for modifying core routing tables',
+      'Full session recording for all SSH/RDP sessions into production'
+    ]
+  },
+  {
+    id: 'ctrl-08',
+    code: 'CTRL-08',
+    name: 'Volumetric DDoS Mitigation & Edge CDN',
+    category: 'Protection',
+    annualCostINR: 2200000, 
+    description: 'Always-on BGP routing through global scrubbing centers to absorb L3/L4 volumetric attacks and L7 HTTP floods.',
+    targetScenarioIds: ['scen-05'],
+    effectivenessPercent: 0.95, 
+    implementationTimeDays: 7,
+    keyBenefits: [
+      'Absorbs up to 2.5 Tbps of synthetic amplification traffic',
+      'Zero latency penalty via global anycast network',
+      'Automated failover of API endpoints during sustained barrages'
+    ]
+  },
+  {
+    id: 'ctrl-09',
+    code: 'CTRL-09',
+    name: 'Database Activity Monitoring (DAM) & Data Tokenization',
+    category: 'Protection',
+    annualCostINR: 1950000, 
+    description: 'Intercepts SQL queries for anomalous bulk extractions and tokenizes PII/PCI data before it hits the database engine.',
+    targetScenarioIds: ['scen-01', 'scen-06'],
+    effectivenessPercent: 0.70, 
+    implementationTimeDays: 45,
+    keyBenefits: [
+      'Renders stolen database snapshots entirely useless without the token vault',
+      'Triggers immediate SOC alerts on SELECT * FROM users queries by admins',
+      'Achieves compliance with PCI-DSS 4.0 strict masking requirements'
+    ]
+  },
+  {
+    id: 'ctrl-10',
+    code: 'CTRL-10',
+    name: 'User & Entity Behavior Analytics (UEBA)',
+    category: 'Detection',
+    annualCostINR: 1400000, 
+    description: 'Machine learning algorithms establishing baselines for employee behavior, flagging unusual data hoards or off-hour access.',
+    targetScenarioIds: ['scen-06'],
+    effectivenessPercent: 0.60, 
+    implementationTimeDays: 21,
+    keyBenefits: [
+      'Identifies slow-drip data exfiltration over several months',
+      'Detects compromised credentials being used from impossible travel locations',
+      'Integrates directly with HR systems for termination-date risk spikes'
+    ]
+  },
+  {
+    id: 'ctrl-11',
+    code: 'CTRL-11',
+    name: 'API Security Gateway & Schema Validation',
+    category: 'Protection',
+    annualCostINR: 1650000, 
+    description: 'Strict OpenAPI/Swagger schema enforcement at the edge, blocking undocumented endpoints, malformed JSON, and BOLA/IDOR attempts.',
+    targetScenarioIds: ['scen-03', 'scen-04'],
+    effectivenessPercent: 0.75, 
+    implementationTimeDays: 14,
+    keyBenefits: [
+      'Prevents Broken Object Level Authorization (BOLA) exploitation natively',
+      'Drops payloads with unexpected injection characters before reaching the application',
+      'Provides shadow API discovery to find forgotten v1 endpoints'
+    ]
+  },
+  {
+    id: 'ctrl-12',
+    code: 'CTRL-12',
+    name: 'Continuous Red Teaming & Bug Bounty Program',
+    category: 'Governance',
+    annualCostINR: 3000000, 
+    description: 'Crowdsourced offensive security testing combined with monthly purple-team exercises mimicking APTs.',
+    targetScenarioIds: ['scen-01', 'scen-02', 'scen-03', 'scen-04'],
+    effectivenessPercent: 0.40, 
+    implementationTimeDays: 30,
+    keyBenefits: [
+      'Discovers business logic flaws that automated scanners miss',
+      'Validates the actual efficacy of the SOC and MDR teams (MTTD/MTTR)',
+      'Financially incentivizes ethical hackers over dark-web brokers'
+    ]
   }
 ];
 
@@ -332,6 +428,95 @@ export const initialFintechScenarios: RiskScenario[] = [
       lossMagnitudeINR: 0,
       annualRiskINR: 0,
       benchmarkSource: 'Fallback demo — real data unavailable'
+    }
+  },
+  {
+    id: 'scen-05',
+    title: 'Volumetric DDoS Attack on Core Payment Gateway',
+    category: 'Availability',
+    threatActor: 'Hacktivist Collective / State-Sponsored Disruption',
+    targetedAsset: 'Edge Network & API Gateway',
+    description: 'A sustained 500 Gbps UDP reflection and HTTPS GET flood exhausts edge bandwidth and compute resources, rendering the payment gateway inaccessible to customers for 12 hours.',
+    activelyExploitedInWild: true,
+    statusSeverity: 'HIGH',
+    mitigationControlIds: ['ctrl-08'],
+    linkedCVEs: [
+      {
+        cveId: 'CVE-2023-44487',
+        vulnerabilityName: 'HTTP/2 Rapid Reset Vulnerability',
+        vendorProject: 'IETF (Various Web Servers)',
+        product: 'HTTP/2 Implementations',
+        dateAdded: '2023-10-10',
+        shortDescription: 'Flaw in HTTP/2 protocol allows malicious actors to launch unprecedented volumetric DDoS attacks via stream cancellation.',
+        isActivelyExploited: true,
+        cvssScore: 7.5
+      }
+    ],
+    fair: {
+      tef: 6.0, 
+      tefSource: 'NETSCOUT Threat Intelligence Report 2024 (Financial Sector)',
+      threatCapability: 0.70,
+      threatCapabilitySource: 'Commodity botnet-for-hire services (Stressers) & IoT botnets',
+      controlStrength: 0.30,
+      controlStrengthSource: 'Current ISP-level basic volumetric filtering',
+      vulnerability: 0.85, 
+      lef: 5.10, 
+      primaryLoss: {
+        incidentResponseINR: 0,
+        businessInterruptionINR: 0,
+        systemRecoveryINR: 0,
+        totalINR: 0,
+        breakdownDetails: 'Pending real data load'
+      },
+      secondaryLoss: {
+        regulatoryFinesINR: 0,
+        reputationalChurnINR: 0,
+        legalAndNotificationINR: 0,
+        totalINR: 0,
+        breakdownDetails: 'Pending real data load'
+      },
+      lossMagnitudeINR: 0,
+      annualRiskINR: 0,
+      benchmarkSource: 'Fallback demo'
+    }
+  },
+  {
+    id: 'scen-06',
+    title: 'Internal Sabotage & Database Extortion',
+    category: 'Insider Threat',
+    threatActor: 'Disgruntled Senior Database Administrator',
+    targetedAsset: 'Primary Customer Data Lake',
+    description: 'A highly privileged insider downloads a mass export of the customer KYC and transaction database before resigning, later attempting to extort the company anonymously.',
+    activelyExploitedInWild: false,
+    statusSeverity: 'MEDIUM',
+    mitigationControlIds: ['ctrl-07', 'ctrl-09', 'ctrl-10'],
+    linkedCVEs: [],
+    fair: {
+      tef: 0.5, 
+      tefSource: 'Ponemon Insider Threat Report (0.5 severe insider incidents/yr for mid-size tech)',
+      threatCapability: 0.95,
+      threatCapabilitySource: 'Administrator holds keys to the kingdom; bypasses perimeter controls natively',
+      controlStrength: 0.20,
+      controlStrengthSource: 'Lack of DLP and zero-standing-privilege architecture',
+      vulnerability: 0.90, 
+      lef: 0.45, 
+      primaryLoss: {
+        incidentResponseINR: 0,
+        businessInterruptionINR: 0,
+        systemRecoveryINR: 0,
+        totalINR: 0,
+        breakdownDetails: 'Pending real data load'
+      },
+      secondaryLoss: {
+        regulatoryFinesINR: 0,
+        reputationalChurnINR: 0,
+        legalAndNotificationINR: 0,
+        totalINR: 0,
+        breakdownDetails: 'Pending real data load'
+      },
+      lossMagnitudeINR: 0,
+      annualRiskINR: 0,
+      benchmarkSource: 'Fallback demo'
     }
   }
 ];

@@ -28,7 +28,7 @@ import {
 } from 'recharts';
 import { useRisk } from '../hooks/useRisk';
 import { ExposureResponse, RiskScenario } from '../types';
-import { formatINR } from '../services/fairEngine';
+import { formatINR, formatRange, computeTotalExposureRange } from '../services/fairEngine';
 
 interface OverviewScreenProps {
   data: ExposureResponse;
@@ -54,6 +54,9 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
   const totalPrimaryLoss = data.scenarios.reduce((sum, s) => sum + s.fair.primaryLoss.totalINR, 0);
   const totalSecondaryLoss = data.scenarios.reduce((sum, s) => sum + s.fair.secondaryLoss.totalINR, 0);
 
+  // Portfolio-level P10/P50/P90 range
+  const portfolioRange = computeTotalExposureRange(data.scenarios);
+
   // Prepare chart data for Scenario comparison
   const scenarioBarData = data.scenarios.map((s) => ({
     name: s.id.toUpperCase(),
@@ -75,24 +78,24 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
   return (
     <div id="overview-screen" className="space-y-8 pb-16">
       {/* Target Organization Customization Bar */}
-      <div className="bg-[#faf5e8] border border-[#e5e5e5] rounded-[16px] px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs shadow-xs">
+      <div className="bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[16px] px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs shadow-xs">
         <div className="flex items-center space-x-3.5">
           <div className="w-10 h-10 rounded-[12px] bg-[#0a0a0a] flex items-center justify-center text-[#ffb084] shrink-0">
             <Building2 className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-semibold text-[#0a0a0a] text-sm tracking-tight">{data.organization.name}</span>
-              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#f5f0e0] text-[#0a0a0a] border border-[#e5e5e5] font-medium">
+              <span className="font-semibold text-[#0a0a0a] dark:text-[#ffffff] text-sm tracking-tight">{data.organization.name}</span>
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b] font-medium">
                 {data.organization.industry}
               </span>
             </div>
-            <div className="text-[12px] text-[#6a6a6a] mt-0.5 flex items-center flex-wrap gap-x-3 gap-y-1">
-              <span>Annual Revenue: <strong className="text-[#0a0a0a] font-mono">{formatINR(data.organization.annualRevenueINR)}</strong></span>
+            <div className="text-[12px] text-[#6a6a6a] dark:text-[#94a3b8] mt-0.5 flex items-center flex-wrap gap-x-3 gap-y-1">
+              <span>Annual Revenue: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{formatINR(data.organization.annualRevenueINR)}</strong></span>
               <span>•</span>
-              <span>Compliance: <strong className="text-[#0a0a0a]">{data.organization.complianceFramework}</strong></span>
+              <span>Compliance: <strong className="text-[#0a0a0a] dark:text-[#ffffff]">{data.organization.complianceFramework}</strong></span>
               <span>•</span>
-              <span>Infra: <strong className="text-[#0a0a0a] font-mono">{data.organization.criticalDatabases}</strong> Core DBs, <strong className="text-[#0a0a0a] font-mono">{data.organization.cloudWorkloads}</strong> Workloads</span>
+              <span>Infra: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{data.organization.criticalDatabases}</strong> Core DBs, <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{data.organization.cloudWorkloads}</strong> Workloads</span>
             </div>
           </div>
         </div>
@@ -100,7 +103,7 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
         {onOpenOrgConfig && (
           <button
             onClick={onOpenOrgConfig}
-            className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-[12px] text-[13px] font-semibold bg-[#ffffff] hover:bg-[#faf5e8] text-[#0a0a0a] border border-[#e5e5e5] transition-all shrink-0 active:scale-95 cursor-pointer shadow-xs"
+            className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-[12px] text-[13px] font-semibold bg-[#ffffff] dark:bg-[#0c121e] hover:bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-[#ffffff] border border-[#e5e5e5] dark:border-[#1e293b] transition-all shrink-0 active:scale-95 cursor-pointer shadow-xs"
             title="Configure ZK-PACE for your company or switch enterprise presets"
           >
             <Building2 className="w-3.5 h-3.5 text-[#ff4d8b]" />
@@ -110,14 +113,14 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
       </div>
 
       {/* Real Datasets & Historical Breaches Banner */}
-      <div className="bg-[#ffffff] rounded-[24px] p-6 border border-[#e5e5e5] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-[#ffffff] dark:bg-[#0c121e] rounded-[24px] p-6 border border-[#e5e5e5] dark:border-[#1e293b] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 rounded-[16px] bg-[#1a3a3a] flex items-center justify-center text-[#ffb084] shrink-0 shadow-xs">
             <Database className="w-6 h-6" />
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-base font-semibold text-[#0a0a0a] font-display">
+              <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-display">
                 Powered by 1,902 Real Historical Breaches & CISA KEV
               </h3>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#ff4d8b]/15 text-[#ff4d8b]">
@@ -127,8 +130,8 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
                 $142.8B Tracked Losses
               </span>
             </div>
-            <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed">
-              Every financial risk figure is calibrated against verified enterprise incident losses from <code className="bg-[#faf5e8] px-1 py-0.5 rounded font-mono">Financial Data Set.csv</code>, 1,709 active CISA KEV vulnerabilities, and 2,000 scored NVD CVE records.
+            <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-1 leading-relaxed">
+              Every financial risk figure is calibrated against verified enterprise incident losses from <code className="bg-[#faf5e8] dark:bg-[#1e293b] px-1 py-0.5 rounded font-mono">Financial Data Set.csv</code>, 1,709 active CISA KEV vulnerabilities, and 2,000 scored NVD CVE records.
             </p>
           </div>
         </div>
@@ -154,11 +157,20 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
                 FAIR Model
               </span>
             </div>
+            {/* P50 (median / point estimate) is the headline */}
             <div className="text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-[#ffffff] font-display mt-2">
-              {data.formattedTotalINR}
+              {formatINR(portfolioRange.p50INR)}
             </div>
-            <p className="text-[13px] text-[#a4d4c5] mt-2 leading-relaxed">
-              Annualized financial risk across {data.totalScenarios} active threat scenarios.
+            {/* P10–P90 range pill */}
+            <div className="mt-2 inline-flex items-center gap-1.5 bg-[#ffffff]/10 border border-[#ffffff]/15 rounded-full px-3 py-1">
+              <span className="text-[10px] font-mono text-[#a4d4c5] uppercase tracking-wide">P10</span>
+              <span className="text-[11px] font-semibold text-[#ffffff] font-mono">{formatINR(portfolioRange.p10INR)}</span>
+              <span className="text-[#ffffff]/40 mx-0.5">–</span>
+              <span className="text-[11px] font-semibold text-[#ffb084] font-mono">{formatINR(portfolioRange.p90INR)}</span>
+              <span className="text-[10px] font-mono text-[#a4d4c5] uppercase tracking-wide">P90</span>
+            </div>
+            <p className="text-[12px] text-[#a4d4c5] mt-2 leading-relaxed">
+              Annualized financial risk across {data.totalScenarios} scenarios. Median shown; tail risk at P90.
             </p>
           </div>
 
@@ -182,13 +194,13 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
         </div>
 
         {/* Card 2: Warm Peach Card - Annual Breach Events */}
-        <div id="card-annual-frequency" className="bg-[#ffb084] text-[#0a0a0a] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
+        <div id="card-annual-frequency" className="bg-[#ffb084] text-[#0a0a0a] dark:text-[#ffffff] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between text-[11px] text-[#0a0a0a]/70 mb-2">
-              <span className="font-semibold uppercase tracking-[1.5px] text-[#0a0a0a]">Breach Events</span>
-              <Zap className="w-4 h-4 text-[#0a0a0a]" />
+              <span className="font-semibold uppercase tracking-[1.5px] text-[#0a0a0a] dark:text-[#ffffff]">Breach Events</span>
+              <Zap className="w-4 h-4 text-[#0a0a0a] dark:text-[#ffffff]" />
             </div>
-            <div className="text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-[#0a0a0a] font-display mt-2">
+            <div className="text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-[#0a0a0a] dark:text-[#ffffff] font-display mt-2">
               {totalLef.toFixed(2)} <span className="text-sm font-normal text-[#0a0a0a]/70">/ year</span>
             </div>
             <p className="text-[13px] text-[#0a0a0a]/80 mt-2 leading-relaxed">
@@ -198,7 +210,7 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
 
           <div className="mt-5 pt-4 border-t border-[#0a0a0a]/15 text-[12px] flex items-center justify-between">
             <span className="font-medium text-[#0a0a0a]/80">Live Telemetry Calibrated</span>
-            <span className="px-2 py-0.5 rounded-full bg-[#0a0a0a]/10 text-[#0a0a0a] text-[10px] font-semibold">
+            <span className="px-2 py-0.5 rounded-full bg-[#0a0a0a]/10 text-[#0a0a0a] dark:text-[#ffffff] text-[10px] font-semibold">
               High Probability
             </span>
           </div>
@@ -232,13 +244,13 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
         </div>
 
         {/* Card 4: Ochre Card - Mitigation Capacity */}
-        <div id="card-optimizer-teaser" className="bg-[#e8b94a] text-[#0a0a0a] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
+        <div id="card-optimizer-teaser" className="bg-[#e8b94a] text-[#0a0a0a] dark:text-[#ffffff] rounded-[24px] p-7 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between text-[11px] text-[#0a0a0a]/70 mb-2">
-              <span className="font-semibold uppercase tracking-[1.5px] text-[#0a0a0a]">Mitigation ROI</span>
-              <ShieldCheck className="w-4 h-4 text-[#0a0a0a]" />
+              <span className="font-semibold uppercase tracking-[1.5px] text-[#0a0a0a] dark:text-[#ffffff]">Mitigation ROI</span>
+              <ShieldCheck className="w-4 h-4 text-[#0a0a0a] dark:text-[#ffffff]" />
             </div>
-            <div className="text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-[#0a0a0a] font-display mt-2">
+            <div className="text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-[#0a0a0a] dark:text-[#ffffff] font-display mt-2">
               Up to 65%
             </div>
             <p className="text-[13px] text-[#0a0a0a]/80 mt-2 leading-relaxed">
@@ -250,7 +262,7 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
             <span className="text-[#0a0a0a]/80 font-medium">6 Candidate Controls</span>
             <button
               onClick={onGoToOptimizer}
-              className="text-[#0a0a0a] hover:underline font-semibold inline-flex items-center space-x-1 cursor-pointer"
+              className="text-[#0a0a0a] dark:text-[#ffffff] hover:underline font-semibold inline-flex items-center space-x-1 cursor-pointer"
             >
               <span>Solve Knapsack</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -263,14 +275,14 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-medium tracking-tight text-[#0a0a0a] flex items-center space-x-2 font-display">
+            <h2 className="text-xl font-medium tracking-tight text-[#0a0a0a] dark:text-[#ffffff] flex items-center space-x-2 font-display">
               <span>Risk Scenarios Breakdown</span>
             </h2>
-            <p className="text-xs text-[#6a6a6a] mt-0.5">
+            <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-0.5">
               Click any scenario to audit FAIR mathematical parameters, Monte Carlo curves, and mitigation controls.
             </p>
           </div>
-          <span className="text-xs text-[#6a6a6a] font-medium bg-[#faf5e8] px-3 py-1 rounded-full border border-[#e5e5e5]">
+          <span className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] font-medium bg-[#faf5e8] dark:bg-[#1e293b] px-3 py-1 rounded-full border border-[#e5e5e5] dark:border-[#1e293b]">
             4 Evaluated Scenarios
           </span>
         </div>
@@ -304,7 +316,7 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
                 key={scenario.id}
                 id={`scenario-card-${scenario.id}`}
                 onClick={() => onSelectScenario(scenario.id)}
-                className={`group bg-[#ffffff] hover:bg-[#faf5e8] border border-[#e5e5e5] rounded-[20px] p-6 cursor-pointer transition-all duration-200 shadow-xs relative flex flex-col justify-between ${accentBg}`}
+                className={`group bg-[#ffffff] dark:bg-[#0c121e] hover:bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[20px] p-6 cursor-pointer transition-all duration-200 shadow-xs relative flex flex-col justify-between ${accentBg}`}
               >
                 <div>
                   <div className="flex items-center justify-between">
@@ -312,7 +324,7 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
                       <span className={`text-[11px] font-semibold uppercase px-2.5 py-0.5 rounded-full ${badgeBg}`}>
                         {scenario.category}
                       </span>
-                      <span className="text-[11px] font-mono text-[#6a6a6a] uppercase">
+                      <span className="text-[11px] font-mono text-[#6a6a6a] dark:text-[#94a3b8] uppercase">
                         {scenario.id}
                       </span>
                     </div>
@@ -325,7 +337,7 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
                     )}
                   </div>
 
-                  <h3 className="text-base font-semibold text-[#0a0a0a] mt-3 group-hover:text-[#ff4d8b] transition-colors leading-snug">
+                  <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff] mt-3 group-hover:text-[#ff4d8b] transition-colors leading-snug">
                     {scenario.title}
                   </h3>
 
@@ -333,44 +345,59 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
                     {scenario.description}
                   </p>
 
-                  <div className="mt-3 text-[12px] text-[#6a6a6a] bg-[#faf5e8] px-3 py-1.5 rounded-[10px] border border-[#e5e5e5] flex items-center justify-between">
-                    <span>Target: <strong className="text-[#0a0a0a] font-medium">{scenario.targetedAsset}</strong></span>
-                    <span className="text-[11px] font-mono text-[#6a6a6a]">{scenario.mitigationControlIds.length} controls</span>
+                  <div className="mt-3 text-[12px] text-[#6a6a6a] dark:text-[#94a3b8] bg-[#faf5e8] dark:bg-[#1e293b] px-3 py-1.5 rounded-[10px] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
+                    <span>Target: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-medium">{scenario.targetedAsset}</strong></span>
+                    <span className="text-[11px] font-mono text-[#6a6a6a] dark:text-[#94a3b8]">{scenario.mitigationControlIds.length} controls</span>
                   </div>
                 </div>
 
                 {/* Embedded Mini FAIR Metrics Table */}
-                <div className="mt-4 pt-3 border-t border-[#e5e5e5]">
+                <div className="mt-4 pt-3 border-t border-[#e5e5e5] dark:border-[#1e293b]">
                   <div className="grid grid-cols-3 gap-2 text-center">
-                    <div className="bg-[#faf5e8] p-2.5 rounded-[12px] border border-[#e5e5e5]">
-                      <span className="text-[10px] text-[#6a6a6a] block uppercase font-medium">LEF (Freq)</span>
-                      <span className="text-xs font-semibold text-[#0a0a0a] font-mono">
+                    <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-2.5 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b]">
+                      <span className="text-[10px] text-[#6a6a6a] dark:text-[#94a3b8] block uppercase font-medium">LEF (Freq)</span>
+                      <span className="text-xs font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-mono">
                         {fair.lef.toFixed(2)}/yr
                       </span>
                     </div>
-                    <div className="bg-[#faf5e8] p-2.5 rounded-[12px] border border-[#e5e5e5]">
-                      <span className="text-[10px] text-[#6a6a6a] block uppercase font-medium">Loss Mag (LM)</span>
-                      <span className="text-xs font-semibold text-[#0a0a0a] font-mono">
+                    <div className="bg-[#faf5e8] dark:bg-[#1e293b] p-2.5 rounded-[12px] border border-[#e5e5e5] dark:border-[#1e293b]">
+                      <span className="text-[10px] text-[#6a6a6a] dark:text-[#94a3b8] block uppercase font-medium">Loss Mag (LM)</span>
+                      <span className="text-xs font-semibold text-[#0a0a0a] dark:text-[#ffffff] font-mono">
                         {formatINR(fair.lossMagnitudeINR)}
                       </span>
                     </div>
                     <div className="bg-[#ff4d8b]/10 p-2.5 rounded-[12px] border border-[#ff4d8b]/20">
-                      <span className="text-[10px] text-[#ff4d8b] block uppercase font-bold">Annual Risk</span>
+                      <span className="text-[10px] text-[#ff4d8b] block uppercase font-bold">ALE (P50)</span>
                       <span className="text-xs font-bold text-[#ff4d8b] font-mono">
                         {formatINR(fair.annualRiskINR)}
                       </span>
                     </div>
                   </div>
 
+                  {/* P10–P90 range band */}
+                  {fair.annualRiskRange && (
+                    <div className="mt-2.5 px-3 py-2 rounded-[10px] bg-gradient-to-r from-[#e8f5e9] via-[#fff8e1] to-[#fdecea] border border-[#e5e5e5] dark:border-[#1e293b] flex items-center justify-between">
+                      <div className="text-center">
+                        <span className="text-[9px] text-[#388e3c] font-bold uppercase block">P10</span>
+                        <span className="text-[11px] font-mono font-semibold text-[#388e3c]">{formatINR(fair.annualRiskRange.p10INR)}</span>
+                      </div>
+                      <div className="flex-1 mx-2 h-1.5 rounded-full bg-gradient-to-r from-[#388e3c]/40 via-[#e8b94a]/60 to-[#ef4444]/40" />
+                      <div className="text-center">
+                        <span className="text-[9px] text-[#ef4444] font-bold uppercase block">P90</span>
+                        <span className="text-[11px] font-mono font-semibold text-[#ef4444]">{formatINR(fair.annualRiskRange.p90INR)}</span>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Formula Proof Pill */}
-                  <div className="mt-2.5 px-3 py-1.5 rounded-[10px] bg-[#fffaf0] border border-[#e5e5e5] text-[11px] font-mono text-[#6a6a6a] flex items-center justify-between">
+                  <div className="mt-2 px-3 py-1.5 rounded-[10px] bg-[#fffaf0] border border-[#e5e5e5] dark:border-[#1e293b] text-[11px] font-mono text-[#6a6a6a] dark:text-[#94a3b8] flex items-center justify-between">
                     <span>Formula:</span>
-                    <span className="text-[#0a0a0a] font-semibold">
+                    <span className="text-[#0a0a0a] dark:text-[#ffffff] font-semibold">
                       {fair.lef.toFixed(2)} × {formatINR(fair.lossMagnitudeINR)} = {formatINR(fair.annualRiskINR)}
                     </span>
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between text-[12px] text-[#6a6a6a] group-hover:text-[#0a0a0a] transition-colors">
+                  <div className="mt-3 flex items-center justify-between text-[12px] text-[#6a6a6a] dark:text-[#94a3b8] group-hover:text-[#0a0a0a] dark:text-[#ffffff] transition-colors">
                     <span className="font-medium">Inspect Lineage & Monte Carlo curves →</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#ff4d8b]" />
                   </div>
@@ -384,14 +411,14 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
       {/* Visual Analytics: FAIR Loss Composition & 12-Month Predictive Exposure */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Loss Magnitude Breakdown (Primary vs Secondary) */}
-        <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-6 shadow-xs">
+        <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-6 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-base font-semibold text-[#0a0a0a] flex items-center space-x-2">
+              <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff] flex items-center space-x-2">
                 <Layers className="w-4 h-4 text-[#1a3a3a]" />
                 <span>Primary vs. Secondary Loss Magnitude</span>
               </h3>
-              <p className="text-xs text-[#6a6a6a] mt-0.5">
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-0.5">
                 Direct incident response costs vs statutory fines (DPDP/RBI) and reputational churn (₹ Crores)
               </p>
             </div>
@@ -426,21 +453,21 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-[#e5e5e5] text-xs text-[#6a6a6a] flex items-center justify-between">
-            <span>Total Direct Primary: <strong className="text-[#0a0a0a] font-mono">{formatINR(totalPrimaryLoss)}</strong></span>
-            <span>Total Secondary: <strong className="text-[#0a0a0a] font-mono">{formatINR(totalSecondaryLoss)}</strong></span>
+          <div className="mt-4 pt-3 border-t border-[#e5e5e5] dark:border-[#1e293b] text-xs text-[#6a6a6a] dark:text-[#94a3b8] flex items-center justify-between">
+            <span>Total Direct Primary: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{formatINR(totalPrimaryLoss)}</strong></span>
+            <span>Total Secondary: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">{formatINR(totalSecondaryLoss)}</strong></span>
           </div>
         </div>
 
         {/* Right: 12-Month Predictive Exposure Forecast (Unmitigated vs Mitigated) */}
-        <div className="bg-[#ffffff] border border-[#e5e5e5] rounded-[24px] p-6 shadow-xs">
+        <div className="bg-[#ffffff] dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-[24px] p-6 shadow-xs">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-base font-semibold text-[#0a0a0a] flex items-center space-x-2">
+              <h3 className="text-base font-semibold text-[#0a0a0a] dark:text-[#ffffff] flex items-center space-x-2">
                 <TrendingUp className="w-4 h-4 text-[#ff4d8b]" />
                 <span>12-Month Annual Loss Exposure Trajectory</span>
               </h3>
-              <p className="text-xs text-[#6a6a6a] mt-0.5">
+              <p className="text-xs text-[#6a6a6a] dark:text-[#94a3b8] mt-0.5">
                 Baseline exposure trend vs projected exposure post-Knapsack control allocation (₹ Crores)
               </p>
             </div>
@@ -502,14 +529,14 @@ export const OverviewScreen: React.FC<OverviewScreenProps> = ({
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-[#e5e5e5] text-xs text-[#6a6a6a] flex items-center justify-between">
+          <div className="mt-4 pt-3 border-t border-[#e5e5e5] dark:border-[#1e293b] text-xs text-[#6a6a6a] dark:text-[#94a3b8] flex items-center justify-between">
             <span className="flex items-center space-x-1.5">
               <span className="w-2 h-2 rounded-full bg-[#1a3a3a]" />
-              <span>Projected Savings: <strong className="text-[#0a0a0a] font-mono">₹4.80 Cr+</strong></span>
+              <span>Projected Savings: <strong className="text-[#0a0a0a] dark:text-[#ffffff] font-mono">₹4.80 Cr+</strong></span>
             </span>
             <button
               onClick={onGoToOptimizer}
-              className="text-[#0a0a0a] font-semibold hover:text-[#ff4d8b] cursor-pointer flex items-center space-x-1"
+              className="text-[#0a0a0a] dark:text-[#ffffff] font-semibold hover:text-[#ff4d8b] cursor-pointer flex items-center space-x-1"
             >
               <span>Explore Budget Optimizer →</span>
             </button>

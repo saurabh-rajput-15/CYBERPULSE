@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Menu,
   RefreshCw,
@@ -8,9 +8,11 @@ import {
   Sun,
   Moon,
   ChevronRight,
+  ChevronDown,
   ShieldCheck,
   Activity
 } from 'lucide-react';
+
 import { useRisk } from '../../hooks/useRisk';
 import { useTheme } from '../../context/ThemeContext';
 import { Button } from '../ui/Button';
@@ -29,16 +31,20 @@ const TAB_TITLES: Record<string, { title: string; subtitle: string }> = {
     subtitle: 'Threat event frequencies, vulnerability, and loss magnitude analysis'
   },
   feed: {
-    title: 'Threat Intelligence Feeds & Scraper',
-    subtitle: 'Real-time CVE telemetry from CISA KEV, CERT-In, and NIST NVD'
+    title: 'Threat Intelligence & Scraper Hub',
+    subtitle: 'Consolidated CISA KEV feeds, real-time Cheerio scraper, and threat awareness metrics'
+  },
+  awareness: {
+    title: 'Threat Awareness & Security Metrics',
+    subtitle: 'CVSS severity distributions, weaponized exploit analytics, and executive brief'
   },
   budget: {
     title: 'Security Budget & Capital Optimizer',
-    subtitle: 'Google OR-Tools MILP branch-and-bound defense allocation'
+    subtitle: '0-1 Knapsack branch-and-bound defense resource allocation'
   },
   'real-data': {
-    title: 'Empirical Breach Datasets',
-    subtitle: '1,902 verified enterprise security breaches & loss benchmarks'
+    title: 'Empirical Breach Datasets & Simulators',
+    subtitle: '1,902 verified enterprise security breaches, loss benchmarks, and Monte Carlo models'
   },
   'zk-pace': {
     title: 'Zero-Knowledge Protocol & Proofs',
@@ -49,8 +55,8 @@ const TAB_TITLES: Record<string, { title: string; subtitle: string }> = {
     subtitle: '29-section academic and technical engineering specification'
   },
   scraper: {
-    title: 'Intelligence Data Scraper',
-    subtitle: 'Collect, store, and export threat intelligence in .toon format'
+    title: 'Live Threat Intelligence Scraper',
+    subtitle: 'Multi-source automated scraper console and on-demand web advisory ingestor'
   }
 };
 
@@ -76,6 +82,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
     subtitle: 'Enterprise security engineering platform'
   };
 
+
+
   return (
     <header className="bg-[#ffffff]/90 dark:bg-[#0c121e]/90 backdrop-blur-md border-b border-[#e5e5e5] dark:border-[#1e293b] sticky top-0 z-20">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -85,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
             {onOpenMobileSidebar && (
               <button
                 onClick={onOpenMobileSidebar}
-                className="lg:hidden p-2 rounded-xl text-[#6a6a6a] hover:text-[#0a0a0a] hover:bg-[#faf5e8] dark:hover:bg-[#172033] border border-[#e5e5e5] dark:border-[#1e293b] transition-all shrink-0 cursor-pointer"
+                className="lg:hidden p-2 rounded-xl text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a] dark:text-[#ffffff] hover:bg-[#faf5e8] dark:hover:bg-[#172033] border border-[#e5e5e5] dark:border-[#1e293b] transition-all shrink-0 cursor-pointer"
                 aria-label="Open sidebar menu"
               >
                 <Menu className="w-5 h-5" />
@@ -110,35 +118,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
 
           {/* Right: Sector Toggle, Sync Button, Theme Toggle & Board Brief */}
           <div className="flex items-center space-x-2.5 shrink-0">
-            {/* Sector Quick Toggle */}
-            <div className="hidden sm:flex items-center p-0.5 rounded-lg bg-[#faf5e8] dark:bg-[#172033] border border-[#e5e5e5] dark:border-[#1e293b]">
-              <button
-                onClick={() => toggleSector('fintech')}
-                className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                  sector === 'fintech'
-                    ? 'bg-[#1a3a3a] text-white shadow-xs'
-                    : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a]'
-                }`}
-              >
-                FinTech
-              </button>
-              <button
-                onClick={() => toggleSector('healthcare')}
-                className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
-                  sector === 'healthcare'
-                    ? 'bg-[#1a3a3a] text-white shadow-xs'
-                    : 'text-[#6a6a6a] dark:text-[#94a3b8] hover:text-[#0a0a0a]'
-                }`}
-              >
-                Healthcare
-              </button>
-            </div>
+
 
             {/* Target Org Badge Trigger */}
             <button
               onClick={() => setIsOrgConfigOpen(true)}
               title={org ? `${org.name} (${org.industry})` : 'Target Organization'}
-              className="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#faf5e8] dark:bg-[#172033] hover:bg-[#f5f0e0] text-[#0a0a0a] dark:text-[#f8fafc] text-xs font-medium border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
+              className="hidden md:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#faf5e8] dark:bg-[#172033] hover:bg-[#f5f0e0] dark:bg-[#2a374a] text-[#0a0a0a] dark:text-[#f8fafc] text-xs font-medium border border-[#e5e5e5] dark:border-[#1e293b] transition-all cursor-pointer"
             >
               <Building2 className="w-3.5 h-3.5 text-[#ff4d8b]" />
               <span className="max-w-[100px] truncate font-medium">

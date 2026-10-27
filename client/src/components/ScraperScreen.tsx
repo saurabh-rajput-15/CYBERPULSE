@@ -498,7 +498,7 @@ export const ScraperScreen: React.FC = () => {
             <button
               onClick={handleRunAll}
               disabled={isScraping || scraperOnline === false}
-              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white hover:bg-[#faf5e8] text-[#0a0a0a] font-semibold text-xs rounded-xl shadow-xs transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white dark:bg-[#0c121e] hover:bg-[#faf5e8] dark:bg-[#1e293b] text-[#0a0a0a] dark:text-white font-semibold text-xs rounded-xl shadow-xs transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
             >
               {isScraping
                 ? <RefreshCw className="w-4 h-4 animate-spin" />
@@ -509,7 +509,7 @@ export const ScraperScreen: React.FC = () => {
             <button
               onClick={() => downloadSelected('toon')}
               disabled={filteredItems.length === 0}
-              className="inline-flex items-center space-x-2 px-4 py-2.5 bg-[#ffb084] hover:bg-[#ffa070] text-[#0a0a0a] font-semibold text-xs rounded-xl shadow-xs transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+              className="inline-flex items-center space-x-2 px-4 py-2.5 bg-[#ffb084] hover:bg-[#ffa070] text-[#0a0a0a] dark:text-white font-semibold text-xs rounded-xl shadow-xs transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
               title="Download as .toon"
             >
               <FileDown className="w-4 h-4" />
@@ -522,15 +522,15 @@ export const ScraperScreen: React.FC = () => {
       {offlineBanner}
 
       {/* ── Tabs ─────────────────────────────────────────────────────────────── */}
-      <div className="flex items-center space-x-1.5 bg-[#faf5e8] p-1.5 rounded-full border border-[#e5e5e5] w-fit">
+      <div className="flex items-center space-x-1.5 bg-[#faf5e8] dark:bg-[#1e293b] p-1.5 rounded-full border border-[#e5e5e5] dark:border-[#1e293b] w-fit">
         {(['run', 'results', 'sources', 'custom'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer capitalize ${
               activeTab === tab
-                ? 'bg-[#ffffff] text-[#0a0a0a] shadow-xs border border-[#e5e5e5]'
-                : 'text-[#6a6a6a] hover:text-[#0a0a0a]'
+                ? 'bg-[#ffffff] dark:bg-[#0c121e] text-[#0a0a0a] dark:text-white shadow-xs border border-[#e5e5e5] dark:border-[#1e293b]'
+                : 'text-[#6a6a6a] dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white dark:text-white dark:text-white'
             }`}
           >
             {tab === 'run' && 'Run & Schedule'}
@@ -548,10 +548,10 @@ export const ScraperScreen: React.FC = () => {
         <div className="space-y-5">
 
           {/* Schedule control */}
-          <div className="bg-white border border-[#e5e5e5] rounded-2xl p-6 shadow-xs">
+          <div className="bg-white dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-2xl p-6 shadow-xs">
             <div className="flex items-center space-x-3 mb-4">
               <Clock className="w-5 h-5 text-[#1a3a3a]" />
-              <h2 className="text-sm font-semibold text-[#0a0a0a]">Auto-Scrape Schedule</h2>
+              <h2 className="text-sm font-semibold text-[#0a0a0a] dark:text-white">Auto-Scrape Schedule</h2>
             </div>
 
             <div className="flex items-center space-x-2 flex-wrap gap-y-2">
@@ -563,7 +563,7 @@ export const ScraperScreen: React.FC = () => {
                   className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer border disabled:opacity-40 ${
                     cadence === opt.value
                       ? 'bg-[#1a3a3a] text-white border-[#1a3a3a]'
-                      : 'bg-[#faf5e8] text-[#3a3a3a] border-[#e5e5e5] hover:border-[#1a3a3a]'
+                      : 'bg-[#faf5e8] dark:bg-[#1e293b] text-[#3a3a3a] dark:text-gray-300 border-[#e5e5e5] dark:border-[#1e293b] hover:border-[#1a3a3a] dark:hover:border-white'
                   }`}
                 >
                   {opt.label}
@@ -572,10 +572,10 @@ export const ScraperScreen: React.FC = () => {
             </div>
 
             {schedule && schedule.cadence !== 'off' && (
-              <div className="mt-4 pt-4 border-t border-[#f0f0f0] flex items-center justify-between text-xs text-[#6a6a6a]">
-                <span>Last run: <strong className="text-[#0a0a0a] font-mono">{schedule.lastRunAt ? new Date(schedule.lastRunAt).toLocaleTimeString() : '—'}</strong></span>
-                <span>Next run: <strong className="text-[#0a0a0a] font-mono">{schedule.nextRunAt ? new Date(schedule.nextRunAt).toLocaleTimeString() : '—'}</strong></span>
-                <span>Total runs: <strong className="text-[#0a0a0a]">{schedule.runCount}</strong></span>
+              <div className="mt-4 pt-4 border-t border-[#f0f0f0] dark:border-[#2a374a] flex items-center justify-between text-xs text-[#6a6a6a] dark:text-gray-400">
+                <span>Last run: <strong className="text-[#0a0a0a] dark:text-white font-mono">{schedule.lastRunAt ? new Date(schedule.lastRunAt).toLocaleTimeString() : '—'}</strong></span>
+                <span>Next run: <strong className="text-[#0a0a0a] dark:text-white font-mono">{schedule.nextRunAt ? new Date(schedule.nextRunAt).toLocaleTimeString() : '—'}</strong></span>
+                <span>Total runs: <strong className="text-[#0a0a0a] dark:text-white">{schedule.runCount}</strong></span>
               </div>
             )}
           </div>
@@ -585,27 +585,27 @@ export const ScraperScreen: React.FC = () => {
             {sources.filter(s => s.id !== 'custom-url').map((src) => {
               const result = lastResults.find(r => r.sourceId === src.id);
               return (
-                <div key={src.id} className="bg-white border border-[#e5e5e5] rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4">
+                <div key={src.id} className="bg-white dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4">
                   <div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2 min-w-0">
                         <Server className="w-4 h-4 text-[#1a3a3a] shrink-0" />
-                        <span className="text-xs font-semibold text-[#0a0a0a] truncate">{src.name}</span>
+                        <span className="text-xs font-semibold text-[#0a0a0a] dark:text-white truncate">{src.name}</span>
                       </div>
                       <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                         src.status === 'ONLINE'   ? 'bg-green-50 text-green-700 border-green-200'
                         : src.status === 'SCRAPING' ? 'bg-blue-50 text-blue-700 border-blue-200'
                         : src.status === 'ERROR'    ? 'bg-red-50 text-red-700 border-red-200'
-                        : 'bg-gray-50 text-gray-600 border-gray-200'
+                        : 'bg-gray-50 dark:bg-[#1e293b] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-[#2a374a]'
                       }`}>
                         {src.status}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#6a6a6a] mt-2 leading-relaxed line-clamp-2">{src.description}</p>
+                    <p className="text-[11px] text-[#6a6a6a] dark:text-gray-400 mt-2 leading-relaxed line-clamp-2">{src.description}</p>
                   </div>
 
-                  <div className="pt-3 border-t border-[#f0f0f0] space-y-2">
-                    <div className="flex items-center justify-between text-[11px] text-[#6a6a6a] font-mono">
+                  <div className="pt-3 border-t border-[#f0f0f0] dark:border-[#2a374a] space-y-2">
+                    <div className="flex items-center justify-between text-[11px] text-[#6a6a6a] dark:text-gray-400 font-mono">
                       <span>{src.itemsFound} items • {src.latencyMs}ms</span>
                       <span>{new Date(src.lastScraped).toLocaleTimeString()}</span>
                     </div>
@@ -652,7 +652,7 @@ export const ScraperScreen: React.FC = () => {
                   <Activity className="w-4 h-4 text-[#a4d4c5]" />
                   <span className="text-xs font-semibold text-[#a4d4c5]">Scrape Logs</span>
                 </div>
-                <button onClick={() => setRunLogs([])} className="text-[#6a6a6a] hover:text-white text-[11px] cursor-pointer">Clear</button>
+                <button onClick={() => setRunLogs([])} className="text-[#6a6a6a] dark:text-gray-400 hover:text-white text-[11px] cursor-pointer">Clear</button>
               </div>
               <div className="max-h-52 overflow-y-auto space-y-0.5 no-scrollbar">
                 {runLogs.map((line, i) => (
@@ -671,7 +671,7 @@ export const ScraperScreen: React.FC = () => {
         <div className="space-y-4">
 
           {/* Toolbar */}
-          <div className="bg-white border border-[#e5e5e5] rounded-2xl p-4 flex flex-col lg:flex-row items-stretch lg:items-center gap-3 shadow-xs">
+          <div className="bg-white dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-2xl p-4 flex flex-col lg:flex-row items-stretch lg:items-center gap-3 shadow-xs">
             {/* Search */}
             <div className="relative flex-1 max-w-sm">
               <Search className="w-4 h-4 text-[#9a9a9a] absolute left-3 top-2.5" />
@@ -680,14 +680,14 @@ export const ScraperScreen: React.FC = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search CVE, vendor, summary…"
-                className="w-full bg-[#faf5e8] border border-[#e5e5e5] rounded-xl pl-9 pr-3 py-2 text-xs text-[#0a0a0a] placeholder-[#9a9a9a] focus:outline-none focus:border-[#1a3a3a]"
+                className="w-full bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl pl-9 pr-3 py-2 text-xs text-[#0a0a0a] dark:text-white placeholder-[#9a9a9a] focus:outline-none focus:border-[#1a3a3a]"
               />
             </div>
 
             {/* Filters */}
             <div className="flex items-center space-x-2 flex-wrap gap-y-2 text-xs">
               <select value={filterSeverity} onChange={e => setFilterSeverity(e.target.value)}
-                className="bg-[#faf5e8] border border-[#e5e5e5] rounded-full px-3 py-1.5 focus:outline-none cursor-pointer text-[#0a0a0a]">
+                className="bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-full px-3 py-1.5 focus:outline-none cursor-pointer text-[#0a0a0a] dark:text-white">
                 <option value="all">All Severity</option>
                 <option value="CRITICAL">Critical</option>
                 <option value="HIGH">High</option>
@@ -695,7 +695,7 @@ export const ScraperScreen: React.FC = () => {
                 <option value="LOW">Low</option>
               </select>
               <select value={filterSource} onChange={e => setFilterSource(e.target.value)}
-                className="bg-[#faf5e8] border border-[#e5e5e5] rounded-full px-3 py-1.5 focus:outline-none cursor-pointer text-[#0a0a0a]">
+                className="bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-full px-3 py-1.5 focus:outline-none cursor-pointer text-[#0a0a0a] dark:text-white">
                 <option value="all">All Sources</option>
                 <option value="cisa-kev">CISA KEV</option>
                 <option value="cert-in">CERT-In</option>
@@ -705,7 +705,7 @@ export const ScraperScreen: React.FC = () => {
                 <option value="custom-url">Custom URL</option>
               </select>
               <select value={filterScenario} onChange={e => setFilterScenario(e.target.value)}
-                className="bg-[#faf5e8] border border-[#e5e5e5] rounded-full px-3 py-1.5 focus:outline-none cursor-pointer text-[#0a0a0a]">
+                className="bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-full px-3 py-1.5 focus:outline-none cursor-pointer text-[#0a0a0a] dark:text-white">
                 <option value="all">All Scenarios</option>
                 <option value="scen-01">Ransomware</option>
                 <option value="scen-02">Cloud IAM</option>
@@ -718,21 +718,21 @@ export const ScraperScreen: React.FC = () => {
             <div className="flex items-center space-x-2 ml-auto shrink-0">
               {selectedIds.size > 0 ? (
                 <>
-                  <span className="text-xs text-[#6a6a6a]">{selectedIds.size} selected</span>
-                  <button onClick={clearSelection} className="text-xs text-[#6a6a6a] hover:text-[#0a0a0a] cursor-pointer">Clear</button>
+                  <span className="text-xs text-[#6a6a6a] dark:text-gray-400">{selectedIds.size} selected</span>
+                  <button onClick={clearSelection} className="text-xs text-[#6a6a6a] dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white dark:text-white dark:text-white cursor-pointer">Clear</button>
                 </>
               ) : (
-                <button onClick={selectAll} className="text-xs text-[#6a6a6a] hover:text-[#0a0a0a] cursor-pointer">Select all</button>
+                <button onClick={selectAll} className="text-xs text-[#6a6a6a] dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white dark:text-white dark:text-white cursor-pointer">Select all</button>
               )}
               <button onClick={() => downloadSelected('toon')}
                 disabled={filteredItems.length === 0}
-                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#ffb084] hover:bg-[#ffa070] text-[#0a0a0a] text-xs font-semibold transition-all cursor-pointer disabled:opacity-40">
+                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#ffb084] hover:bg-[#ffa070] text-[#0a0a0a] dark:text-white text-xs font-semibold transition-all cursor-pointer disabled:opacity-40">
                 <FileDown className="w-3.5 h-3.5" />
                 <span>.toon {selectedIds.size > 0 ? `(${selectedIds.size})` : `(${filteredItems.length})`}</span>
               </button>
               <button onClick={() => downloadSelected('json')}
                 disabled={filteredItems.length === 0}
-                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#faf5e8] border border-[#e5e5e5] text-[#0a0a0a] text-xs font-semibold transition-all cursor-pointer disabled:opacity-40">
+                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] text-[#0a0a0a] dark:text-white text-xs font-semibold transition-all cursor-pointer disabled:opacity-40">
                 <Download className="w-3.5 h-3.5" />
                 <span>JSON</span>
               </button>
@@ -747,9 +747,9 @@ export const ScraperScreen: React.FC = () => {
           {/* Items list */}
           <div className="space-y-2">
             {filteredItems.length === 0 && (
-              <div className="text-center py-16 bg-white border border-[#e5e5e5] rounded-2xl">
+              <div className="text-center py-16 bg-white dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-2xl">
                 <Bug className="w-8 h-8 text-[#c0c0c0] mx-auto mb-3" />
-                <p className="text-sm text-[#6a6a6a]">No records yet. Run the scraper to collect intelligence.</p>
+                <p className="text-sm text-[#6a6a6a] dark:text-gray-400">No records yet. Run the scraper to collect intelligence.</p>
               </div>
             )}
             {filteredItems.map((item) => {
@@ -757,7 +757,7 @@ export const ScraperScreen: React.FC = () => {
               const isSelected = selectedIds.has(item.id);
               return (
                 <div key={item.id}
-                  className={`bg-white border rounded-2xl transition-all shadow-xs ${isSelected ? 'border-[#1a3a3a]' : 'border-[#e5e5e5]'}`}>
+                  className={`bg-white dark:bg-[#0c121e] border rounded-2xl transition-all shadow-xs ${isSelected ? 'border-[#1a3a3a]' : 'border-[#e5e5e5] dark:border-[#1e293b]'}`}>
                   <div className="p-5">
                     <div className="flex items-start gap-3">
                       {/* Checkbox */}
@@ -781,17 +781,17 @@ export const ScraperScreen: React.FC = () => {
                           {item.ransomwareLinked && (
                             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-50 text-orange-600 border border-orange-200">Ransomware</span>
                           )}
-                          <span className="text-[10px] text-[#6a6a6a] bg-[#faf5e8] px-2 py-0.5 rounded-full border border-[#e5e5e5]">{item.sourceName}</span>
-                          <span className="text-[10px] text-[#6a6a6a] font-mono ml-auto">{item.discoveredDate}</span>
+                          <span className="text-[10px] text-[#6a6a6a] dark:text-gray-400 bg-[#faf5e8] dark:bg-[#1e293b] px-2 py-0.5 rounded-full border border-[#e5e5e5] dark:border-[#1e293b]">{item.sourceName}</span>
+                          <span className="text-[10px] text-[#6a6a6a] dark:text-gray-400 font-mono ml-auto">{item.discoveredDate}</span>
                         </div>
 
-                        <h3 className="text-sm font-semibold text-[#0a0a0a] leading-snug mb-1">{item.title}</h3>
+                        <h3 className="text-sm font-semibold text-[#0a0a0a] dark:text-white leading-snug mb-1">{item.title}</h3>
                         <p className="text-xs text-[#5a5a5a] leading-relaxed line-clamp-2">{item.summary}</p>
 
                         {/* Tags */}
                         <div className="flex items-center space-x-1.5 flex-wrap gap-y-1 mt-2">
                           {item.tags.slice(0, 6).map((tag, i) => (
-                            <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-[#faf5e8] text-[#6a6a6a] border border-[#e5e5e5] font-mono">#{tag}</span>
+                            <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-[#faf5e8] dark:bg-[#1e293b] text-[#6a6a6a] dark:text-gray-400 border border-[#e5e5e5] dark:border-[#1e293b] font-mono">#{tag}</span>
                           ))}
                         </div>
                       </div>
@@ -808,7 +808,7 @@ export const ScraperScreen: React.FC = () => {
                         </button>
                         <button
                           onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                          className="text-[11px] text-[#6a6a6a] hover:text-[#0a0a0a] flex items-center space-x-1 cursor-pointer"
+                          className="text-[11px] text-[#6a6a6a] dark:text-gray-400 hover:text-[#0a0a0a] dark:hover:text-white dark:text-white dark:text-white flex items-center space-x-1 cursor-pointer"
                         >
                           {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                           <span>{isExpanded ? 'Less' : 'More'}</span>
@@ -818,23 +818,23 @@ export const ScraperScreen: React.FC = () => {
 
                     {/* Expanded details */}
                     {isExpanded && (
-                      <div className="mt-4 pt-4 border-t border-[#f0f0f0] space-y-3">
+                      <div className="mt-4 pt-4 border-t border-[#f0f0f0] dark:border-[#2a374a] space-y-3">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-[11px]">
-                          <div className="bg-[#faf5e8] rounded-xl p-3">
-                            <p className="text-[#6a6a6a] uppercase font-semibold tracking-wide mb-1">Vendor</p>
-                            <p className="text-[#0a0a0a] font-mono">{item.vendor}</p>
+                          <div className="bg-[#faf5e8] dark:bg-[#1e293b] rounded-xl p-3">
+                            <p className="text-[#6a6a6a] dark:text-gray-400 uppercase font-semibold tracking-wide mb-1">Vendor</p>
+                            <p className="text-[#0a0a0a] dark:text-white font-mono">{item.vendor}</p>
                           </div>
-                          <div className="bg-[#faf5e8] rounded-xl p-3">
-                            <p className="text-[#6a6a6a] uppercase font-semibold tracking-wide mb-1">Product</p>
-                            <p className="text-[#0a0a0a] font-mono">{item.product}</p>
+                          <div className="bg-[#faf5e8] dark:bg-[#1e293b] rounded-xl p-3">
+                            <p className="text-[#6a6a6a] dark:text-gray-400 uppercase font-semibold tracking-wide mb-1">Product</p>
+                            <p className="text-[#0a0a0a] dark:text-white font-mono">{item.product}</p>
                           </div>
-                          <div className="bg-[#faf5e8] rounded-xl p-3">
-                            <p className="text-[#6a6a6a] uppercase font-semibold tracking-wide mb-1">Attack Vector</p>
-                            <p className="text-[#0a0a0a]">{item.attackVector || '—'}</p>
+                          <div className="bg-[#faf5e8] dark:bg-[#1e293b] rounded-xl p-3">
+                            <p className="text-[#6a6a6a] dark:text-gray-400 uppercase font-semibold tracking-wide mb-1">Attack Vector</p>
+                            <p className="text-[#0a0a0a] dark:text-white">{item.attackVector || '—'}</p>
                           </div>
-                          <div className="bg-[#faf5e8] rounded-xl p-3">
-                            <p className="text-[#6a6a6a] uppercase font-semibold tracking-wide mb-1">Scenario</p>
-                            <p className="text-[#0a0a0a] font-mono">{item.correlatedScenarioId || '—'}</p>
+                          <div className="bg-[#faf5e8] dark:bg-[#1e293b] rounded-xl p-3">
+                            <p className="text-[#6a6a6a] dark:text-gray-400 uppercase font-semibold tracking-wide mb-1">Scenario</p>
+                            <p className="text-[#0a0a0a] dark:text-white font-mono">{item.correlatedScenarioId || '—'}</p>
                           </div>
                         </div>
 
@@ -878,14 +878,14 @@ export const ScraperScreen: React.FC = () => {
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {sources.map((src) => (
-              <div key={src.id} className="bg-white border border-[#e5e5e5] rounded-2xl p-6 shadow-xs">
+              <div key={src.id} className="bg-white dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-2xl p-6 shadow-xs">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <div className="flex items-center space-x-2 mb-1">
                       <Globe className="w-4 h-4 text-[#1a3a3a] shrink-0" />
-                      <span className="text-sm font-semibold text-[#0a0a0a]">{src.name}</span>
+                      <span className="text-sm font-semibold text-[#0a0a0a] dark:text-white">{src.name}</span>
                     </div>
-                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#faf5e8] text-[#6a6a6a] border border-[#e5e5e5]">{src.category}</span>
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#faf5e8] dark:bg-[#1e293b] text-[#6a6a6a] dark:text-gray-400 border border-[#e5e5e5] dark:border-[#1e293b]">{src.category}</span>
                     <p className="text-xs text-[#5a5a5a] mt-2 leading-relaxed">{src.description}</p>
                     {src.targetUrl && (
                       <a href={src.targetUrl} target="_blank" rel="noreferrer"
@@ -899,7 +899,7 @@ export const ScraperScreen: React.FC = () => {
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                       src.status === 'ONLINE'   ? 'bg-green-50 text-green-700 border-green-200'
                       : src.status === 'ERROR'    ? 'bg-red-50 text-red-700 border-red-200'
-                      : 'bg-gray-50 text-gray-600 border-gray-200'
+                      : 'bg-gray-50 dark:bg-[#1e293b] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-[#2a374a]'
                     }`}>{src.status}</span>
                     <button onClick={() => handleToggleSource(src.id, !src.enabled)}
                       className="flex items-center space-x-1.5 text-xs font-medium cursor-pointer">
@@ -910,7 +910,7 @@ export const ScraperScreen: React.FC = () => {
                     </button>
                   </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-[#f0f0f0] flex items-center justify-between text-[11px] text-[#6a6a6a] font-mono">
+                <div className="mt-4 pt-3 border-t border-[#f0f0f0] dark:border-[#2a374a] flex items-center justify-between text-[11px] text-[#6a6a6a] dark:text-gray-400 font-mono">
                   <span>{src.itemsFound} items found</span>
                   <span>{src.latencyMs}ms</span>
                   <span>Last: {new Date(src.lastScraped).toLocaleTimeString()}</span>
@@ -926,20 +926,20 @@ export const ScraperScreen: React.FC = () => {
           ══════════════════════════════════════════════════════════════════════ */}
       {activeTab === 'custom' && (
         <div className="space-y-5">
-          <div className="bg-white border border-[#e5e5e5] rounded-2xl p-8 shadow-xs space-y-6">
+          <div className="bg-white dark:bg-[#0c121e] border border-[#e5e5e5] dark:border-[#1e293b] rounded-2xl p-8 shadow-xs space-y-6">
             <div>
-              <h2 className="text-base font-semibold text-[#0a0a0a] flex items-center space-x-2">
+              <h2 className="text-base font-semibold text-[#0a0a0a] dark:text-white flex items-center space-x-2">
                 <Globe className="w-5 h-5 text-[#1a3a3a]" />
                 <span>Scrape Any URL</span>
               </h2>
-              <p className="text-xs text-[#6a6a6a] mt-1 leading-relaxed">
+              <p className="text-xs text-[#6a6a6a] dark:text-gray-400 mt-1 leading-relaxed">
                 Paste any security news page, vendor advisory, or CERT bulletin. The scraper will extract CVE IDs, threat actors, and vendor names, then save results in .toon format.
               </p>
             </div>
 
             {/* Quick presets */}
             <div>
-              <p className="text-xs font-semibold text-[#0a0a0a] mb-2">Quick presets:</p>
+              <p className="text-xs font-semibold text-[#0a0a0a] dark:text-white mb-2">Quick presets:</p>
               <div className="flex flex-wrap gap-2">
                 {[
                   { label: 'The Hacker News', url: 'https://thehackernews.com/' },
@@ -949,7 +949,7 @@ export const ScraperScreen: React.FC = () => {
                   { label: 'NIST NVD Recent', url: 'https://nvd.nist.gov/vuln/search' }
                 ].map((p) => (
                   <button key={p.url} onClick={() => setCustomUrl(p.url)}
-                    className="px-3 py-1.5 rounded-full text-xs bg-[#faf5e8] border border-[#e5e5e5] hover:border-[#1a3a3a] text-[#3a3a3a] font-medium cursor-pointer transition-all">
+                    className="px-3 py-1.5 rounded-full text-xs bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] hover:border-[#1a3a3a] dark:hover:border-white text-[#3a3a3a] dark:text-gray-300 font-medium cursor-pointer transition-all">
                     {p.label}
                   </button>
                 ))}
@@ -965,11 +965,11 @@ export const ScraperScreen: React.FC = () => {
                   value={customUrl}
                   onChange={(e) => setCustomUrl(e.target.value)}
                   placeholder="https://example.com/security-advisory"
-                  className="w-full bg-[#faf5e8] border border-[#e5e5e5] rounded-xl pl-9 pr-4 py-2.5 text-sm text-[#0a0a0a] focus:outline-none focus:border-[#1a3a3a]"
+                  className="w-full bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl pl-9 pr-4 py-2.5 text-sm text-[#0a0a0a] dark:text-white focus:outline-none focus:border-[#1a3a3a]"
                 />
               </div>
               <select value={customScenario} onChange={e => setCustomScenario(e.target.value)}
-                className="bg-[#faf5e8] border border-[#e5e5e5] rounded-xl px-3 py-2.5 text-xs focus:outline-none cursor-pointer text-[#0a0a0a]">
+                className="bg-[#faf5e8] dark:bg-[#1e293b] border border-[#e5e5e5] dark:border-[#1e293b] rounded-xl px-3 py-2.5 text-xs focus:outline-none cursor-pointer text-[#0a0a0a] dark:text-white">
                 <option value="scen-01">Ransomware</option>
                 <option value="scen-02">Cloud IAM</option>
                 <option value="scen-03">API Gateway</option>
@@ -1001,7 +1001,7 @@ export const ScraperScreen: React.FC = () => {
                       <button
                         onClick={() => downloadFile(toToon(customResult.newItems), `custom-${timestamp()}.toon`, 'text/plain;charset=utf-8')}
                         disabled={customResult.newItems.length === 0}
-                        className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#ffb084] text-[#0a0a0a] text-xs font-semibold cursor-pointer disabled:opacity-40 transition-all"
+                        className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#ffb084] text-[#0a0a0a] dark:text-white text-xs font-semibold cursor-pointer disabled:opacity-40 transition-all"
                       >
                         <FileDown className="w-3.5 h-3.5" />
                         <span>Download .toon</span>
@@ -1021,12 +1021,12 @@ export const ScraperScreen: React.FC = () => {
                     {customResult.newItems.length > 0 && (
                       <div className="space-y-2">
                         {customResult.newItems.map((item) => (
-                          <div key={item.id} className="bg-white rounded-xl p-4 border border-green-100">
+                          <div key={item.id} className="bg-white dark:bg-[#0c121e] rounded-xl p-4 border border-green-100">
                             <div className="flex items-center space-x-2 mb-1">
                               <span className="font-mono text-xs font-bold text-[#ff4d8b]">{item.cveID}</span>
                               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${SEVERITY_COLORS[item.severity] || ''}`}>{item.severity}</span>
                             </div>
-                            <p className="text-xs font-semibold text-[#0a0a0a]">{item.title}</p>
+                            <p className="text-xs font-semibold text-[#0a0a0a] dark:text-white">{item.title}</p>
                             <p className="text-[11px] text-[#5a5a5a] mt-1 line-clamp-2">{item.summary}</p>
                           </div>
                         ))}

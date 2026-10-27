@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build and production
+dist/
+build/
+coverage/
+.vite/
+
+# Environment and keys
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Big Datasets & Embedded Databases (Exceeds GitHub limits or should not be version controlled)
+cvelistV5/
+cvelistV5-main/
+cvelistV5
+client/data/cvelist_index.sqlite*
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

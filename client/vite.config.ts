@@ -13,15 +13,7 @@ export default defineConfig(() => {
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
-      proxy: {
-        // Route /scraper-api/* to the standalone scraper server on port 3001
-        '/scraper-api': {
-          target: 'http://localhost:3001',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/scraper-api/, '')
-        }
-      }
+      watch: process.env.DISABLE_HMR === 'true' ? null : {}
     },
   };
 });

@@ -1,10 +1,11 @@
-# CyberPulse — Standalone Scraper Server
+# CyberPulse — Standalone Scraper Server (Deprecated / Integrated)
 
-A dedicated Express server (port **3001**) that handles all threat intelligence scraping independently from the main app server.
+> [!NOTE]
+> **Architecture Update (P4 Consolidation)**:
+> This standalone server on port 3001 has been **fully consolidated** into `client/server.ts` on port **3000**.
+> Both `/scraper-api/*` and `/api/scraper/*` are served directly by the unified server in `client/`.
+> You no longer need to run this server in a separate terminal. Simply run `cd client && npm run dev`.
 
-## Why separate?
-
-Scraping is I/O-heavy, slow, and can block. Running it on its own process keeps the main FAIR engine and UI completely responsive.
 
 ## Setup
 
