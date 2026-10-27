@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { DatabaseSync } from 'node:sqlite';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import {
   CveV5Record,
   CveV5Detail,
@@ -257,9 +258,29 @@ function getDbPath(): string {
   return p1;
 }
 
-// Singleton database instance
+// Singleton database instances
 let dbInstance: DatabaseSync | null = null;
+let supabaseInstance: SupabaseClient | null = null;
 let cachedStats: CveV5Stats | null = null;
+
+export function getSupabaseClient(): SupabaseClient | null {
+  if (supabaseInstance) return supabaseInstance;
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY;
+
+  if (url && key) {
+    try {
+      supabaseInstance = createClient(url, key, { auth: { persistSession: false } });
+      return supabaseInstance;
+    } catch (err) {
+      console.warn('[CveV5Service] Could not initialize Supabase client:', err);
+    }
+  }
+  return null;
+}
 
 export function getCveDatabase(): DatabaseSync | null {
   if (dbInstance) return dbInstance;
@@ -297,9 +318,111 @@ export function resolveCveFilePath(cveId: string): string | null {
 }
 
 /**
- * Searches CVE records with full text search and multi-attribute filters
+ * Supabase Cloud PostgreSQL Search Implementation
  */
-export function searchCveRecords(params: {
+async function searchCveRecordsSupabase(
+  supabase: SupabaseClient,
+  params: {
+    query?: string;
+    year?: string | number;
+    severity?: string;
+    minScore?: number;
+    maxScore?: number;
+    vendor?: string;
+    exploitation?: string;
+    limit?: number;
+    offset?: number;
+    sortBy?: string;
+    sortDir?: 'asc' | 'desc';
+  }
+): Promise<{ total: number; limit: number; offset: number; items: CveV5Record[] }> {
+  const limit = Math.min(params.limit || 50, 100);
+  const offset = Math.max(params.offset || 0, 0);
+
+  let queryBuilder = supabase.from('cves').select(
+    `cve_id, year, assigner, title, description, vendor, product, cvss_score, severity, attack_vector, cwe_id, cwe_name, exploitation, automatable, technical_impact, date_published, date_updated`,
+    { count: 'estimated' }
+  );
+
+  const rawQuery = (params.query || '').trim();
+  const isDirectCveMatch = /^CVE-\d{4}-\d+$/i.test(rawQuery);
+
+  if (isDirectCveMatch) {
+    queryBuilder = queryBuilder.eq('cve_id', rawQuery.toUpperCase());
+  } else if (rawQuery.length > 0) {
+    const words = rawQuery.replace(/[^a-zA-Z0-9_-]/g, ' ').trim().split(/\s+/).filter(Boolean);
+    if (words.length > 0) {
+      queryBuilder = queryBuilder.textSearch('fts', words.join(' & '), { type: 'websearch' });
+    }
+  }
+
+  if (params.year && params.year !== 'ALL') {
+    queryBuilder = queryBuilder.eq('year', Number(params.year));
+  }
+  if (params.severity && params.severity !== 'ALL') {
+    queryBuilder = queryBuilder.eq('severity', params.severity.toUpperCase());
+  }
+  if (params.minScore !== undefined && !isNaN(params.minScore)) {
+    queryBuilder = queryBuilder.gte('cvss_score', params.minScore);
+  }
+  if (params.maxScore !== undefined && !isNaN(params.maxScore)) {
+    queryBuilder = queryBuilder.lte('cvss_score', params.maxScore);
+  }
+  if (params.vendor && params.vendor.trim()) {
+    queryBuilder = queryBuilder.ilike('vendor', `%${params.vendor.trim()}%`);
+  }
+  if (params.exploitation && params.exploitation !== 'ALL') {
+    queryBuilder = queryBuilder.eq('exploitation', params.exploitation);
+  }
+
+  const sortCol =
+    params.sortBy === 'score'
+      ? 'cvss_score'
+      : params.sortBy === 'year'
+      ? 'year'
+      : 'date_published';
+  queryBuilder = queryBuilder.order(sortCol, {
+    ascending: params.sortDir === 'asc',
+    nullsFirst: false
+  });
+  queryBuilder = queryBuilder.range(offset, offset + limit - 1);
+
+  const { data, count, error } = await queryBuilder;
+  if (error) throw error;
+
+  const items: CveV5Record[] = (data || []).map((r: any) => ({
+    cveId: r.cve_id,
+    year: r.year,
+    assigner: r.assigner,
+    title: r.title,
+    description: r.description,
+    vendor: r.vendor,
+    product: r.product,
+    cvssScore: r.cvss_score,
+    severity: r.severity || 'UNKNOWN',
+    attackVector: r.attack_vector || 'NETWORK',
+    cweId: r.cwe_id,
+    cweName: r.cwe_name,
+    exploitation: r.exploitation || 'none',
+    automatable: r.automatable || 'no',
+    technicalImpact: r.technical_impact || 'partial',
+    datePublished: r.date_published,
+    dateUpdated: r.date_updated,
+    relPath: ''
+  }));
+
+  return {
+    total: count || offset + items.length,
+    limit,
+    offset,
+    items
+  };
+}
+
+/**
+ * Local SQLite Search Implementation (Fallback)
+ */
+function searchCveRecordsSqlite(params: {
   query?: string;
   year?: string | number;
   severity?: string;
@@ -435,7 +558,7 @@ export function searchCveRecords(params: {
 
   // Fallback: if user searched for a specific CVE from an earlier year (e.g. CVE-2017-0144) not in indexed years
   if (rows.length === 0 && isDirectCveMatch) {
-    const detail = getCveDetail(rawQuery.toUpperCase());
+    const detail = getCveDetailFromDisk(rawQuery.toUpperCase()) || getCveDetailFromSqlite(rawQuery.toUpperCase());
     if (detail) {
       return {
         total: 1,
@@ -455,9 +578,41 @@ export function searchCveRecords(params: {
 }
 
 /**
+ * Searches CVE records: Queries Supabase Cloud first, with local SQLite fallback
+ */
+export async function searchCveRecords(params: {
+  query?: string;
+  year?: string | number;
+  severity?: string;
+  minScore?: number;
+  maxScore?: number;
+  vendor?: string;
+  exploitation?: string;
+  limit?: number;
+  offset?: number;
+  sortBy?: string;
+  sortDir?: 'asc' | 'desc';
+}): Promise<{
+  total: number;
+  limit: number;
+  offset: number;
+  items: CveV5Record[];
+}> {
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    try {
+      return await searchCveRecordsSupabase(supabase, params);
+    } catch (err) {
+      console.warn('[CveV5Service] Supabase search error, falling back to SQLite:', err);
+    }
+  }
+  return searchCveRecordsSqlite(params);
+}
+
+/**
  * Returns deep-dive detail for a specific CVE by reading its exact JSON file
  */
-export function getCveDetail(cveId: string): CveV5Detail | null {
+function getCveDetailFromDisk(cveId: string): CveV5Detail | null {
   const filePath = resolveCveFilePath(cveId);
   if (!filePath || !fs.existsSync(filePath)) {
     return null;
@@ -665,9 +820,143 @@ export function getCveDetail(cveId: string): CveV5Detail | null {
 }
 
 /**
+ * Query Supabase Cloud database for complete CVE detail
+ */
+async function getCveDetailSupabase(
+  supabase: SupabaseClient,
+  cveId: string
+): Promise<CveV5Detail | null> {
+  const { data, error } = await supabase
+    .from('cves')
+    .select('*')
+    .eq('cve_id', cveId)
+    .maybeSingle();
+
+  if (error || !data) return null;
+
+  const r = data;
+  const parts = r.cve_id.split('-');
+  const year = parts.length > 1 && !isNaN(Number(parts[1])) ? Number(parts[1]) : 2024;
+
+  return {
+    cveId: r.cve_id,
+    year,
+    assigner: r.assigner || '',
+    datePublished: r.date_published || '',
+    dateUpdated: r.date_updated || '',
+    title: r.title || '',
+    description: r.description || '',
+    fullDescription: r.description || '',
+    relPath: '',
+    vendor: r.vendor || '',
+    product: r.product || '',
+    affectedVersions: [
+      {
+        vendor: r.vendor || '',
+        product: r.product || '',
+        versions: [{ version: 'all', status: 'affected' }]
+      }
+    ],
+    cpeList: [],
+    cvssScore: r.cvss_score,
+    severity: r.severity || 'UNKNOWN',
+    attackVector: r.attack_vector || 'NETWORK',
+    cweId: r.cwe_id || '',
+    cweName: r.cwe_name || '',
+    exploitation: r.exploitation || 'none',
+    automatable: r.automatable || 'no',
+    technicalImpact: r.technical_impact || 'partial',
+    references: [],
+    solutions: [],
+    ssvcDetails: {
+      exploitation: r.exploitation || 'none',
+      automatable: r.automatable || 'no',
+      technicalImpact: r.technical_impact || 'partial'
+    }
+  };
+}
+
+/**
+ * Fallback detail query from local SQLite index
+ */
+function getCveDetailFromSqlite(cveId: string): CveV5Detail | null {
+  const db = getCveDatabase();
+  if (!db) return null;
+  try {
+    const r: any = db.prepare('SELECT * FROM cves WHERE cve_id = ?').get(cveId);
+    if (!r) return null;
+    const parts = r.cve_id.split('-');
+    const year = parts.length > 1 && !isNaN(Number(parts[1])) ? Number(parts[1]) : 2024;
+    return {
+      cveId: r.cve_id,
+      year,
+      assigner: r.assigner || '',
+      datePublished: r.date_published || '',
+      dateUpdated: r.date_updated || '',
+      title: r.title || '',
+      description: r.description || '',
+      fullDescription: r.description || '',
+      relPath: '',
+      vendor: r.vendor || '',
+      product: r.product || '',
+      affectedVersions: [
+        {
+          vendor: r.vendor || '',
+          product: r.product || '',
+          versions: [{ version: 'all', status: 'affected' }]
+        }
+      ],
+      cpeList: [],
+      cvssScore: r.cvss_score,
+      severity: r.severity || 'UNKNOWN',
+      attackVector: r.attack_vector || 'NETWORK',
+      cweId: r.cwe_id || '',
+      cweName: r.cwe_name || '',
+      exploitation: r.exploitation || 'none',
+      automatable: r.automatable || 'no',
+      technicalImpact: r.technical_impact || 'partial',
+      references: [],
+      solutions: [],
+      ssvcDetails: {
+        exploitation: r.exploitation || 'none',
+        automatable: r.automatable || 'no',
+        technicalImpact: r.technical_impact || 'partial'
+      }
+    };
+  } catch (err) {
+    return null;
+  }
+}
+
+/**
+ * Returns deep-dive detail for a specific CVE (checks local disk, then Supabase, then SQLite)
+ */
+export async function getCveDetail(cveId: string): Promise<CveV5Detail | null> {
+  const normalizedId = cveId.trim().toUpperCase();
+
+  // 1. Try local disk JSON if available (gives full raw version matrix)
+  const localDetail = getCveDetailFromDisk(normalizedId);
+  if (localDetail) return localDetail;
+
+  // 2. Query Supabase cloud database
+  const supabase = getSupabaseClient();
+  if (supabase) {
+    try {
+      const dbDetail = await getCveDetailSupabase(supabase, normalizedId);
+      if (dbDetail) return dbDetail;
+    } catch (err) {
+      console.warn('[CveV5Service] Supabase getCveDetail error:', err);
+    }
+  }
+
+  // 3. Fallback to local SQLite index
+  return getCveDetailFromSqlite(normalizedId);
+}
+
+/**
  * Computes aggregated statistics across the CVE v5 dataset
  */
-export function getCveStats(): CveV5Stats {
+export function getCveStatsSync(): CveV5Stats {
   if (cachedStats) return cachedStats;
 
   const db = getCveDatabase();
@@ -770,11 +1059,18 @@ export function getCveStats(): CveV5Stats {
   }
 }
 
+export async function getCveStats(): Promise<CveV5Stats> {
+  return getCveStatsSync();
+}
+
 /**
  * Simulates FAIR financial risk quantification for any CVE in cvelistV5
  */
-export function simulateCveRisk(cveId: string, orgSector: string = 'fintech'): CveV5RiskSimulation {
-  const detail = getCveDetail(cveId);
+export async function simulateCveRisk(
+  cveId: string,
+  orgSector: string = 'fintech'
+): Promise<CveV5RiskSimulation> {
+  const detail = await getCveDetail(cveId);
   const score = detail?.cvssScore ?? 8.5;
   const isCritical = score >= 9.0;
   const isNetwork = (detail?.attackVector || 'NETWORK') === 'NETWORK';

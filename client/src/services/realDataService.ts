@@ -20,7 +20,7 @@ import {
   computeVulnerability
 } from './fairEngine';
 import { initialFintechScenarios } from '../data/demoData';
-import { getCveStats } from './cveV5Service';
+import { getCveStatsSync } from './cveV5Service';
 
 const USD_TO_INR_RATE = 85.0; // Standard 2024-2026 exchange rate
 
@@ -545,7 +545,7 @@ export function getRealDataSummary(): RealDataSummary {
   const nvdCritical = nvdCveItems.filter((v) => v.baseSeverity === 'CRITICAL').length;
   const nvdHigh = nvdCveItems.filter((v) => v.baseSeverity === 'HIGH').length;
 
-  const cveStats = getCveStats();
+  const cveStats = getCveStatsSync();
 
   return {
     historicalIncidentsCount: historicalIncidents.length,

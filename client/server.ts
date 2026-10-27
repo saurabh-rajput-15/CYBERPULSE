@@ -653,17 +653,17 @@ async function startServer() {
   // --- CVE v5 Massive Catalog Endpoints (383,000+ CVEs from cvelistV5) ---
 
   // 18. GET /api/cve-v5/stats - Statistics on cvelistV5 indexed catalog
-  app.get('/api/cve-v5/stats', (req, res) => {
+  app.get('/api/cve-v5/stats', async (req, res) => {
     try {
-      const stats = getCveStats();
+      const stats = await getCveStats();
       res.json(stats);
     } catch (err: any) {
       res.status(500).json({ error: err.message || 'Failed to fetch CVE v5 stats' });
     }
   });
 
-  // 19. GET /api/cve-v5/search - Fast FTS5 search & multi-attribute filter
-  app.get('/api/cve-v5/search', (req, res) => {
+  // 19. GET /api/cve-v5/search - Fast search & multi-attribute filter
+  app.get('/api/cve-v5/search', async (req, res) => {
     try {
       const query = req.query.query as string;
       const year = req.query.year as string;
@@ -677,7 +677,7 @@ async function startServer() {
       const sortBy = req.query.sortBy as string;
       const sortDir = req.query.sortDir as 'asc' | 'desc';
 
-      const result = searchCveRecords({
+      const result = await searchCveRecords({
         query,
         year,
         severity,
@@ -698,12 +698,12 @@ async function startServer() {
   });
 
   // 20. GET /api/cve-v5/detail/:cveId - Full parsed CVE v5 record with SSVC & affected software
-  app.get('/api/cve-v5/detail/:cveId', (req, res) => {
+  app.get('/api/cve-v5/detail/:cveId', async (req, res) => {
     try {
       const { cveId } = req.params;
-      const detail = getCveDetail(cveId);
+      const detail = await getCveDetail(cveId);
       if (!detail) {
-        return res.status(404).json({ error: `CVE ${cveId} not found in local catalog` });
+        return res.status(404).json({ error: `CVE ${cveId} not found in catalog` });
       }
       res.json(detail);
     } catch (err: any) {
@@ -712,13 +712,13 @@ async function startServer() {
   });
 
   // 21. POST /api/cve-v5/simulate-risk - FAIR financial risk simulation for any CVE
-  app.post('/api/cve-v5/simulate-risk', (req, res) => {
+  app.post('/api/cve-v5/simulate-risk', async (req, res) => {
     try {
       const { cveId, sector = 'fintech' } = req.body;
       if (!cveId) {
         return res.status(400).json({ error: 'cveId is required' });
       }
-      const simulation = simulateCveRisk(cveId, sector);
+      const simulation = await simulateCveRisk(cveId, sector);
       res.json(simulation);
     } catch (err: any) {
       res.status(500).json({ error: err.message || 'Failed to simulate CVE risk' });
